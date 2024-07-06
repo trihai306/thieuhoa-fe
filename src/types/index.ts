@@ -8,3 +8,9 @@ export type NextPageWithLayout = NextPage & {
 export type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+
+export interface ApiResponse<Data> {
+  data: Data;
+  message: string;
+  code: number;
+}

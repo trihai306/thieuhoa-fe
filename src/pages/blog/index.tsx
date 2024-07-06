@@ -1,23 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 
+import Image from '@/components/Image';
 import { getAppLayout } from '@/components/layouts';
-import FooterMobi from '@/components/layouts/FooterMobi';
+import { useBlogQuery } from '@/services/blog/blog.query';
+import { blogService } from '@/services/blog/blog.service';
+// Define the getServerSideProps function
+export const getServerSideProps: GetServerSideProps = async () => {
+  // Fetch data here. This is a placeholder example.
+  const res = await blogService.getBlog();
 
-const BlogPage = () => {
-  const [recentPostList, setRecentPostList] = useState([]);
-  const [popularPostList, setPopularPostList] = useState([]);
-  const [fashionKnowledgeList, setFashionKnowledgeList] = useState([]);
-  const [mixFashionTipList, setMixFashionTipList] = useState([]);
+  // Return the fetched data as props
+  return {
+    props: {
+      data: res,
+    },
+  };
+};
+
+const BlogPage = ({ data }) => {
+  // const { data, isLoading } = useBlogQuery();
+  const recentPostList = data?.data.recentPosts || [];
+  const popularPostList = data?.data.popularPosts || [];
+  const fashionKnowledgeList = data?.data.fashionKnowledges ?? [];
+  const mixFashionTipList = data?.data.mixFashionTips ?? [];
 
   return (
     <>
       <div id="content-blog">
         <div className="top-content">
           <div className="bread-cumbs">
-            <a className="text-base" href="/">
+            <Link className="text-base" href="/">
               Thiều Hoa
-            </a>{' '}
+            </Link>{' '}
             »
             <a className="text-base" href="/blog">
               Blog
@@ -33,13 +48,11 @@ const BlogPage = () => {
                 <div className="main-left">
                   <div className="group-blog">
                     <div className="img">
-                      <a className="text-base" href={`/blog/${recentPostList[0].slug}`}>
-                        <img
-                          className="lozad"
-                          src="/images/image-thumb.svg"
-                          data-src={recentPostList[0].image}
-                          alt={recentPostList[0].title}
-                        />
+                      <a
+                        className="relative inline-block h-full w-full text-base"
+                        href={`/blog/${recentPostList[0].slug}`}
+                      >
+                        <Image fill src={recentPostList[0].image} alt={recentPostList[0].title} />
                       </a>
                     </div>
                     <div className="title-blog">
@@ -79,13 +92,11 @@ const BlogPage = () => {
                   {recentPostList.slice(1).map((post, index) => (
                     <div className="group-blog" key={index}>
                       <div className="img">
-                        <a className="text-base" href={`/blog/${post.slug}`}>
-                          <img
-                            className="lozad"
-                            src="/images/image-thumb.svg"
-                            data-src={post.image}
-                            alt={post.title}
-                          />
+                        <a
+                          className="relative inline-block h-full w-full text-base"
+                          href={`/blog/${post.slug}`}
+                        >
+                          <Image fill src={post.image} alt={post.title} />
                         </a>
                       </div>
                       <div className="title-blog">
@@ -130,13 +141,11 @@ const BlogPage = () => {
               {popularPostList.map((post, index) => (
                 <div className="group-blog" key={index}>
                   <div className="img">
-                    <a className="text-base" href={`/blog/${post.slug}`}>
-                      <img
-                        className="lozad"
-                        src="/images/image-thumb.svg"
-                        data-src={post.image}
-                        alt={post.title}
-                      />
+                    <a
+                      className="relative inline-block h-full w-full text-base"
+                      href={`/blog/${post.slug}`}
+                    >
+                      <Image src={post.image} alt={post.title} fill />
                     </a>
                   </div>
                   <div className="right-item">
@@ -189,11 +198,13 @@ const BlogPage = () => {
               {fashionKnowledgeList.length > 0 && (
                 <div className="group-blog">
                   <div className="img">
-                    <a className="text-base" href={`/blog/${fashionKnowledgeList[0].slug}`}>
-                      <img
-                        className="lozad"
-                        src="/images/image-thumb.svg"
-                        data-src={fashionKnowledgeList[0].image}
+                    <a
+                      className="relative inline-block h-full w-full text-base"
+                      href={`/blog/${fashionKnowledgeList[0].slug}`}
+                    >
+                      <Image
+                        fill
+                        src={fashionKnowledgeList[0].image}
                         alt={fashionKnowledgeList[0].title}
                       />
                     </a>
@@ -235,13 +246,11 @@ const BlogPage = () => {
                 {fashionKnowledgeList.slice(1).map((post, index) => (
                   <div className="group-blog" key={index}>
                     <div className="img">
-                      <a className="text-base" href={`/blog/${post.slug}`}>
-                        <img
-                          className="lozad"
-                          src="/images/image-thumb.svg"
-                          data-src={post.image}
-                          alt={post.title}
-                        />
+                      <a
+                        className="relative inline-block h-full w-full text-base"
+                        href={`/blog/${post.slug}`}
+                      >
+                        <Image fill src={post.image} alt={post.title} />
                       </a>
                     </div>
                     <div className="title-blog">
@@ -290,11 +299,13 @@ const BlogPage = () => {
               {mixFashionTipList.length > 0 && (
                 <div className="group-blog">
                   <div className="img">
-                    <a className="text-base" href={`/blog/${mixFashionTipList[0].slug}`}>
-                      <img
-                        className="lozad"
-                        src="/images/image-thumb.svg"
-                        data-src={mixFashionTipList[0].image}
+                    <a
+                      className="relative inline-block h-full w-full text-base"
+                      href={`/blog/${mixFashionTipList[0].slug}`}
+                    >
+                      <Image
+                        fill
+                        src={mixFashionTipList[0].image}
                         alt={mixFashionTipList[0].title}
                       />
                     </a>
@@ -336,13 +347,11 @@ const BlogPage = () => {
                 {mixFashionTipList.slice(1).map((post, index) => (
                   <div className="group-blog" key={index}>
                     <div className="img">
-                      <a className="text-base" href={`/blog/${post.slug}`}>
-                        <img
-                          className="lozad"
-                          src="/images/image-thumb.svg"
-                          data-src={post.image}
-                          alt={post.title}
-                        />
+                      <a
+                        className="relative inline-block h-full w-full text-base"
+                        href={`/blog/${post.slug}`}
+                      >
+                        <Image fill src={post.image} alt={post.title} />
                       </a>
                     </div>
                     <div className="title-blog">
@@ -380,8 +389,6 @@ const BlogPage = () => {
           </div>
         </div>
       </div>
-
-      <FooterMobi />
     </>
   );
 };
