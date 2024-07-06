@@ -4,4 +4,4 @@ export enum ThemeMode {
 }
 
 export const MEDIA_ENDPOINT = process.env.NEXT_PUBLIC_MEDIA_ENDPOINT;
-export const APP_API_URL = process.env.NEXT_PUBLIC_APP_API_URL;
+export const APP_API_URL = process.env.NEXT_PUBLIC_API_ENDPOINT;
