@@ -15,8 +15,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'thieuhoa.local',
+        protocol: 'https',
+        hostname: 'thieuhoa.com.vn',
         port: '',
         pathname: '/**',
       },

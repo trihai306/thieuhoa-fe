@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
-import { MEDIA_ENDPOINT } from '@/common/constants';
+import Image from '@/components/Image';
 import { layoutService } from '@/services/layout.service';
 import { MenuType } from '@/types/layout';
 const Header = () => {
@@ -17,35 +16,20 @@ const Header = () => {
     <header id="header">
       <div className="top-header">
         <div className="relative h-[35px] w-full">
-          <Image
-            fill={true}
-            className="img-topbar"
-            src={`${MEDIA_ENDPOINT}/v2/img/topbar2.png`}
-            alt=""
-          />
+          <Image fill={true} className="img-topbar" src={`/v2/img/topbar2.png`} alt="" />
         </div>
       </div>
       <div className="middle-header">
         <div className="left-content">
           <a rel="nofollow" href="{{ route('store_list') }}">
             <div className="item-store item">
-              <Image
-                width={24}
-                height={24}
-                src={`${MEDIA_ENDPOINT}/v2/img/svg/location.svg`}
-                alt="store"
-              />
+              <Image width={24} height={24} src={`/v2/img/svg/location.svg`} alt="store" />
               <span>Cửa hàng</span>
             </div>
           </a>
           <a href="tel:18009246">
             <div className="hotline item">
-              <Image
-                width={24}
-                height={24}
-                src={`${MEDIA_ENDPOINT}/v2/img/svg/Hotline.svg`}
-                alt="hotline"
-              />
+              <Image width={24} height={24} src={`/v2/img/svg/Hotline.svg`} alt="hotline" />
               <div className="group-text">
                 <p>1800.9246</p>
                 <p className="free-hotline">(Miễn Phí)</p>
@@ -69,34 +53,19 @@ const Header = () => {
         </div>
         <div className="logo">
           <a href="{{ route('home') }}">
-            <Image
-              width="75"
-              height="175"
-              src={`${MEDIA_ENDPOINT}/v2/img/logo-web.svg`}
-              alt="logo"
-            />
+            <Image width="75" height="175" src={`/v2/img/logo-web.svg`} alt="logo" />
           </a>
         </div>
         <div className="right-content">
           <a rel="nofollow" href="{{ route('user.login') }}">
             <div className="user-icon icon">
-              <Image
-                width={29}
-                height={29}
-                src={`${MEDIA_ENDPOINT}/v2/img/svg/user.svg`}
-                alt="user"
-              />
+              <Image width={29} height={29} src={`/v2/img/svg/user.svg`} alt="user" />
               <p>Tài khoản</p>
             </div>
           </a>
           <a rel="nofollow" href="{{ route('checkout.index') }}" className="icon-cart">
             <div className="cart-icon icon">
-              <Image
-                width={29}
-                height={29}
-                src={`${MEDIA_ENDPOINT}/v2/img/svg/cart.svg`}
-                alt="user"
-              />
+              <Image width={29} height={29} src={`/v2/img/svg/cart.svg`} alt="user" />
               <span className="total" id="count-cart">
                 1
               </span>
@@ -164,7 +133,7 @@ const Header = () => {
               placeholder="Tìm kiếm sản phẩm"
             />
             <button type="submit" className="icon-search" title="search">
-              <Image width={20} height={20} src={`${MEDIA_ENDPOINT}/v2/img/search.png`} alt="" />
+              <Image width={20} height={20} src={`/v2/img/search.png`} alt="" />
             </button>
           </form>
         </div>

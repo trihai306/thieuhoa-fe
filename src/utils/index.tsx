@@ -1,5 +1,7 @@
 import { PropsWithChildren, ReactElement } from 'react';
 
+import { MEDIA_ENDPOINT } from '@/common/constants';
+
 /**
  * The function `createLayout` takes a layout component and returns a higher-order function that takes
  * a page component and wraps it with the layout component.
@@ -14,4 +16,8 @@ export const createLayout = (Layout: React.FC<PropsWithChildren>) => {
   return function (Page: ReactElement) {
     return <Layout>{Page}</Layout>;
   };
+};
+
+export const getImageUrl = (url: string) => {
+  return `${MEDIA_ENDPOINT}${url}`;
 };
