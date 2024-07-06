@@ -457,7 +457,6 @@ const Header = () => {
           </svg>
         </div>
       </div>
-      @endif
     </header>
   );
 };
