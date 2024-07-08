@@ -14,11 +14,13 @@ const Header = () => {
   }, []);
   return (
     <header id="header">
-      <div className="top-header">
-        <div className="relative h-[35px] w-full">
-          <Image fill={true} className="img-topbar" src={`/v2/img/topbar2.png`} alt="" />
-        </div>
-      </div>
+      <Image
+        width={0}
+        height={0}
+        className="img-topbar tw-w-full"
+        src={`/v2/img/topbar2.png`}
+        alt=""
+      />
       <div className="middle-header">
         <div className="left-content">
           <a rel="nofollow" href="{{ route('store_list') }}">
@@ -125,7 +127,7 @@ const Header = () => {
         </div>
 
         <div className="right-content">
-          <form className="flex" action="/search" method="GET" data-hs-cf-bound="true">
+          <form className="tw-flex" action="/search" method="GET" data-hs-cf-bound="true">
             <input
               type="search"
               name="keyword"
