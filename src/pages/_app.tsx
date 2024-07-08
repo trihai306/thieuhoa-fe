@@ -8,6 +8,7 @@ import { AppPropsWithLayout } from '@/types';
 
 import '@/styles/core/master.scss';
 import '@/styles/globals.scss';
+import '@/styles/core/homepage.scss';
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page: ReactElement) => page);

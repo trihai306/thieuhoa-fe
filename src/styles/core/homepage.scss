@@ -1,0 +1,115 @@
+#content-homepage{
+    margin: 0 !important;
+}
+#header .bottom-header{
+    height: 65px !important;
+}
+#header .bottom-header .left-content .group-category .dropdown-category{
+    top: 65px !important;
+}
+
+
+.btn-load-more a {
+    color: white !important;
+}
+.group-product .slick-slide {
+    padding: 0 5px;
+}
+.icon-cart{
+    margin-right: 0 !important;
+}
+#footer{
+    margin-top: 50px !important;
+}
+#content-homepage .top-banner{
+    margin-top: 50px !important;
+}
+
+@media (max-width: 992px){
+    .banner-desktop{
+        display: none;
+    }
+    .banner-mobile{
+        display: block;
+    }
+    .group-banner{
+        flex-direction: row !important;
+        justify-content: left !important;
+    }
+    #content-homepage .top-banner .group-banner .text{
+        display: block !important;
+    }
+    /* Bốn cái icon */
+    #content-homepage .top-banner .group-banner{
+        padding: 1px !important;
+        padding-left: 9px !important;
+    }
+    #content-homepage .top-banner .group-banner .left-group img{
+        width: 80% !important;
+    }
+    #content-homepage .top-banner .group-banner .right-group .title{
+        font-weight: bold !important;
+        font-size: 12px !important;
+        line-height: 18px !important;
+    }
+    #content-homepage .top-banner .group-banner .right-group .text{
+        display: none !important;
+    }
+    /* FIX Hàng icon thời trang trung nien */
+    #content-homepage .list-category .group-item-list .item-list-category{
+        background: #efefef !important;
+    }
+    #content-homepage .list-category .group-item-list .item-list-category .img{
+        border-radius: 0 !important;
+        background: none !important;
+    }
+    #content-homepage .list-category .group-item-list .item-list-category{
+        padding: 5px !important;
+    }
+    #content-homepage .list-category .group-item-list .item-list-category .img{
+        background: none !important;
+        border-radius: 0 !important;
+        padding: 8px 0 !important;
+    }
+    #content-homepage .list-category .group-item-list .item-list-category .text-category{
+        margin-top: 0 !important;
+    }
+}
+/*css banner full vien */
+@media (max-width: 1025px) {
+    #content-homepage{
+        margin: 0 !important;
+    }
+    #content-homepage .top-banner{
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+    #content-homepage .home-search{
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+    #content-homepage .list-category .group-item-list.mobi{
+        margin-left: 16px !important;
+        margin-right: 16px !important;
+    }
+}
+@media (min-width: 1026px) {
+    #content-homepage .list-category, #section_coupons, .new-products {
+        margin-left: 75px;
+        margin-right: 75px;
+    }
+    .top-banner{
+        margin-left: 75px !important;
+        margin-right: 75px !important; 
+    }
+}
+
+/*css controll banner desktop và mobile */
+@media (min-width: 992px){
+    .banner-mobile{
+        display: none;
+    }
+    .banner-desktop{
+        display: block;
+    }
+}
