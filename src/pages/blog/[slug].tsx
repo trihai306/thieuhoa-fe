@@ -47,7 +47,7 @@ const BlogDetail: NextPageWithLayout = ({
   };
 
   return (
-    <div id="content-detail-blog" className="mx-auto max-w-screen-md">
+    <div id="content-detail-blog" className="tw-mx-auto tw-max-w-screen-md">
       <div className="top-content">
         <h1 className="title">{post.title}</h1>
         <div className="bread-cumbs">
@@ -68,9 +68,9 @@ const BlogDetail: NextPageWithLayout = ({
           )}
           »<span className="text-base">{post.title}</span>
         </div>
-        <div className="time-zone flex flex-row justify-between ">
+        <div className="time-zone tw-flex tw-flex-row tw-justify-between ">
           <time className="fl">
-            <div className="relative inline-block h-4 w-4">
+            <div className="h-4 w-4 tw-relative tw-inline-block">
               <Image width={10} height={10} src="/v2/img/svg/clock.svg" alt="time" />
             </div>
             <span style={{ fontWeight: 700, fontSize: '12px', color: '#333', marginLeft: '2px' }}>
@@ -87,14 +87,14 @@ const BlogDetail: NextPageWithLayout = ({
               })}
             </span>
           </time>
-          <span className="google-news flex flex-1 flex-row justify-end ">
-            <div className="flex items-center rounded-full bg-gray-200 px-3 py-1">
+          <span className="google-news justify-end tw-flex tw-flex-1 tw-flex-row ">
+            <div className="items-center rounded-full bg-gray-200 px-3 py-1 tw-flex">
               <span className="mobile-hidden">Theo dõi Thiều Hoa trên</span>
               <a
                 href="https://news.google.com/publications/CAAqBwgKMLSY0gsw87PpAw?hl=vi&gl=VN&ceid=VN%3Avi"
                 rel="noopener nofollow"
                 target="_blank"
-                className="google-news-link relative inline-block h-[45px] w-[200px] "
+                className="google-news-link h-[45px] w-[200px] tw-relative tw-inline-block "
               >
                 <Image
                   fill
@@ -115,7 +115,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/vay-dam-trung-nien?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="relative inline-block h-full w-full"
+                  className="h-full w-full tw-relative tw-inline-block"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-1.jpg" alt="" />
                 </a>
@@ -125,7 +125,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/ao-trung-nien?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="relative inline-block h-full w-full"
+                  className="h-full w-full tw-relative tw-inline-block"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-2.jpg" alt="" />
                 </a>
@@ -135,7 +135,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/dam-du-tiec?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="relative inline-block h-full w-full"
+                  className="h-full w-full tw-relative tw-inline-block"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-5.jpg" alt="" />
                 </a>
@@ -145,7 +145,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/tui-xach-nu?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="relative inline-block h-full w-full"
+                  className="h-full w-full tw-relative tw-inline-block"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-4.jpg" alt="" />
                 </a>
@@ -155,7 +155,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/giay-trung-nien?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="relative inline-block h-full w-full"
+                  className="h-full w-full tw-relative tw-inline-block"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-3.jpg" alt="" />
                 </a>
@@ -226,8 +226,8 @@ const BlogDetail: NextPageWithLayout = ({
         </div>
       )}
       <div className="blog-feedback">
-        <div className="flex-box">
-          <p className="question flex-full flex-middle">Bạn có hài lòng bài viết này?</p>
+        <div className="tw-flex-box">
+          <p className="question tw-flex-full tw-flex-middle">Bạn có hài lòng bài viết này?</p>
           <div className="feedback-icon">
             <label className="positive">
               <svg
@@ -282,7 +282,7 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="products-list">
             {products.map((product, index) => (
               <div className="product-item" key={index}>
-                <a href={product.url} className="relative inline-block h-full w-full">
+                <a href={product.url} className="h-full w-full tw-relative tw-inline-block">
                   <Image fill src={product.image} alt={product.name} />
                 </a>
                 <div className="product-info">
@@ -302,7 +302,7 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="posts-list">
             {keywordRelatePosts.map((relatePost, index) => (
               <div className="post-item" key={index}>
-                <a href={relatePost.url} className="relative inline-block h-full w-full">
+                <a href={relatePost.url} className="h-full w-full tw-relative tw-inline-block">
                   <Image fill src={relatePost.image} alt={relatePost.title} />
                 </a>
                 <div className="post-info">
@@ -324,7 +324,7 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="posts-list">
             {relatedPosts.map((relatedPost, index) => (
               <div className="post-item" key={index}>
-                <a href={relatedPost.url} className="relative inline-block h-full w-full">
+                <a href={relatedPost.url} className="h-full w-full tw-relative tw-inline-block">
                   <Image fill src={relatedPost.image} alt={relatedPost.title} />
                 </a>
                 <div className="post-info">
