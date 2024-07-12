@@ -34,7 +34,7 @@ const BlogPage = ({ data }) => {
               Thiều Hoa
             </Link>{' '}
             »
-            <a className="text-base" href="/blog">
+            <a className="tw-text-base" href="/blog">
               Blog
             </a>
           </div>
@@ -49,7 +49,7 @@ const BlogPage = ({ data }) => {
                   <div className="group-blog">
                     <div className="img">
                       <a
-                        className="relative inline-block h-full w-full text-base"
+                        className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                         href={`/blog/${recentPostList[0].slug}`}
                       >
                         <Image fill src={recentPostList[0].image} alt={recentPostList[0].title} />
@@ -93,7 +93,7 @@ const BlogPage = ({ data }) => {
                     <div className="group-blog" key={index}>
                       <div className="img">
                         <a
-                          className="relative inline-block h-full w-full text-base"
+                          className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                           href={`/blog/${post.slug}`}
                         >
                           <Image fill src={post.image} alt={post.title} />
@@ -142,7 +142,7 @@ const BlogPage = ({ data }) => {
                 <div className="group-blog" key={index}>
                   <div className="img">
                     <a
-                      className="relative inline-block h-full w-full text-base"
+                      className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                       href={`/blog/${post.slug}`}
                     >
                       <Image src={post.image} alt={post.title} fill />
@@ -199,7 +199,7 @@ const BlogPage = ({ data }) => {
                 <div className="group-blog">
                   <div className="img">
                     <a
-                      className="relative inline-block h-full w-full text-base"
+                      className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                       href={`/blog/${fashionKnowledgeList[0].slug}`}
                     >
                       <Image
@@ -247,7 +247,7 @@ const BlogPage = ({ data }) => {
                   <div className="group-blog" key={index}>
                     <div className="img">
                       <a
-                        className="relative inline-block h-full w-full text-base"
+                        className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                         href={`/blog/${post.slug}`}
                       >
                         <Image fill src={post.image} alt={post.title} />
@@ -300,7 +300,7 @@ const BlogPage = ({ data }) => {
                 <div className="group-blog">
                   <div className="img">
                     <a
-                      className="relative inline-block h-full w-full text-base"
+                      className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                       href={`/blog/${mixFashionTipList[0].slug}`}
                     >
                       <Image
@@ -348,7 +348,7 @@ const BlogPage = ({ data }) => {
                   <div className="group-blog" key={index}>
                     <div className="img">
                       <a
-                        className="relative inline-block h-full w-full text-base"
+                        className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                         href={`/blog/${post.slug}`}
                       >
                         <Image fill src={post.image} alt={post.title} />
