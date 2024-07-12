@@ -4,7 +4,7 @@
 
 @layer components {
   .page-header__content {
-    @apply m-0 my-5 box-border p-0 leading-[1.5em] text-[#222] text-[2em];
+    @apply tw-m-0 tw-my-5 tw-box-border tw-p-0 tw-leading-[1.5em] tw-text-[#222] tw-text-[2em];
     font-family: 'Montserrat', sans-serif !important;
   }
 }
