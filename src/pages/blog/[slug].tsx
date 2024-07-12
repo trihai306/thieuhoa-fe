@@ -70,7 +70,7 @@ const BlogDetail: NextPageWithLayout = ({
         </div>
         <div className="time-zone tw-flex tw-flex-row tw-justify-between ">
           <time className="fl">
-            <div className="h-4 w-4 tw-relative tw-inline-block">
+            <div className="tw-relative tw-inline-block tw-h-4 tw-w-4">
               <Image width={10} height={10} src="/v2/img/svg/clock.svg" alt="time" />
             </div>
             <span style={{ fontWeight: 700, fontSize: '12px', color: '#333', marginLeft: '2px' }}>
