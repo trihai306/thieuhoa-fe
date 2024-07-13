@@ -1,9 +1,8 @@
-import { APP_API_URL } from '@/common/constants';
-import { BlogData, BlogDetail } from '@/types/blog';
+import { BaseService } from '@/services/base.service';
+import API_ENDPOINTS from '@/services/endpoints';
 import { ApiResponse } from '@/types/common';
 
-import { BaseService } from '../base.service';
-import API_ENDPOINTS from '../endpoints';
+import { BlogData, BlogDetail } from '../types';
 
 class BlogService extends BaseService {
   async getBlog() {

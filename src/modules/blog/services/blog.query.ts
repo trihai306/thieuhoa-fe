@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import API_ENDPOINTS from '../endpoints';
+import API_ENDPOINTS from '@/services/endpoints';
 
 import { blogService } from './blog.service';
 

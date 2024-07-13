@@ -62,7 +62,7 @@ export default function HomeProductSlider({ items }: any) {
                       {formatNumber(+dataProductItem.originPriceMin)}đ
                     </span>
                   ) : null}
-                  {dataProductItem.dataColor.length && (
+                  {dataProductItem?.dataColor?.length && (
                     <div className="list-color">
                       <div className="color">
                         {dataProductItem.dataColor.map((dataColorItem: any) => {
