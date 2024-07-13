@@ -162,9 +162,7 @@ const Footer = () => {
                 height={50}
                 className="lozad"
                 src="https://thieuhoa.com.vn/v2/img/facebook.png"
-                data-src="https://thieuhoa.com.vn/v2/img/facebook.png"
                 alt=""
-                data-loaded="true"
               />
             </a>
             <a href="https://zalo.me/388030919384134642">
@@ -173,9 +171,7 @@ const Footer = () => {
                 height={50}
                 className="lozad"
                 src="https://thieuhoa.com.vn/v2/img/zalo-large.png"
-                data-src="https://thieuhoa.com.vn/v2/img/zalo-large.png"
                 alt=""
-                data-loaded="true"
               />
             </a>
             <a href="mailto:thoitrangthieuhoa@gmail.com">
@@ -184,7 +180,6 @@ const Footer = () => {
                 height={50}
                 className="lozad"
                 src="https://thieuhoa.com.vn/v2/img/mail.png"
-                data-src="https://thieuhoa.com.vn/v2/img/mail.png"
                 alt=""
                 data-loaded="true"
               />
@@ -203,11 +198,10 @@ const Footer = () => {
             <div className="title-promotion">QUAN TÂM ZALO OA TH</div>
             <div className="text">Nhận các thông tin khuyến mãi hấp dẫn</div>
             <div className="icon-zalo">
-              <a href="https://zalo.me/388030919384134642">
+              <a className="tw-flex tw-items-center" href="https://zalo.me/388030919384134642">
                 <img
                   className="lozad"
                   src="https://thieuhoa.com.vn/v2/img/zalo.png"
-                  data-src="https://thieuhoa.com.vn/v2/img/zalo.png"
                   alt=""
                   data-loaded="true"
                 />
@@ -221,7 +215,6 @@ const Footer = () => {
                 <img
                   className="lozad"
                   src="https://thieuhoa.com.vn/v2/img/congthuong.png"
-                  data-src="https://thieuhoa.com.vn/v2/img/congthuong.png"
                   alt=""
                   data-loaded="true"
                 />
@@ -232,7 +225,6 @@ const Footer = () => {
                 <img
                   className="lozad"
                   src="https://thieuhoa.com.vn/v2/img/App-Store.png"
-                  data-src="https://thieuhoa.com.vn/v2/img/App-Store.png"
                   alt=""
                   data-loaded="true"
                 />
@@ -241,7 +233,6 @@ const Footer = () => {
                 <img
                   className="lozad"
                   src="https://thieuhoa.com.vn/v2/img/google-play.png"
-                  data-src="https://thieuhoa.com.vn/v2/img/google-play.png"
                   alt=""
                   data-loaded="true"
                 />
@@ -255,7 +246,6 @@ const Footer = () => {
           <img
             className="lozad"
             src="https://thieuhoa.com.vn/v2/img/bi_c-circle.png"
-            data-src="https://thieuhoa.com.vn/v2/img/bi_c-circle.png"
             alt=""
             data-loaded="true"
           />

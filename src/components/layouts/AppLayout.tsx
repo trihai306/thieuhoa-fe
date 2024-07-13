@@ -4,16 +4,19 @@ import NoSSR from 'react-no-ssr';
 
 import { createLayout } from '@/utils';
 
+import ListIcon from '../ListIcon';
+
 import Footer from './Footer';
 import FooterMobi from './FooterMobi';
 import Header from './Header';
 
 export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="tw-flex tw-flex-col">
+    <div>
       <Header />
-      <main className="tw-flex tw-flex-1">{children}</main>
+      <main>{children}</main>
       <NoSSR>{isMobile ? <FooterMobi /> : <Footer />}</NoSSR>
+      <ListIcon />
     </div>
   );
 };
