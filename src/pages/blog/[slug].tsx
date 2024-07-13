@@ -1,6 +1,9 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 
 import Image from '@/components/Image';
 import { getAppLayout } from '@/components/layouts';
@@ -115,7 +118,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/vay-dam-trung-nien?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="h-full w-full tw-relative tw-inline-block"
+                  className="tw-relative tw-inline-block tw-h-full tw-w-full"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-1.jpg" alt="" />
                 </a>
@@ -125,7 +128,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/ao-trung-nien?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="h-full w-full tw-relative tw-inline-block"
+                  className="tw-relative tw-inline-block tw-h-full tw-w-full"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-2.jpg" alt="" />
                 </a>
@@ -135,7 +138,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/dam-du-tiec?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="h-full w-full tw-relative tw-inline-block"
+                  className="tw-relative tw-inline-block tw-h-full tw-w-full"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-5.jpg" alt="" />
                 </a>
@@ -145,7 +148,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/tui-xach-nu?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="h-full w-full tw-relative tw-inline-block"
+                  className="tw-relative tw-inline-block tw-h-full tw-w-full"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-4.jpg" alt="" />
                 </a>
@@ -155,7 +158,7 @@ const BlogDetail: NextPageWithLayout = ({
                   href="https://thieuhoa.com.vn/giay-trung-nien?utm_source=blogbanner&utm_medium=articleads&utm_campaign=daily"
                   target="_blank"
                   title=""
-                  className="h-full w-full tw-relative tw-inline-block"
+                  className="tw-relative tw-inline-block tw-h-full tw-w-full"
                 >
                   <Image fill src="/v2/img/banner-small/banner-small-3.jpg" alt="" />
                 </a>
@@ -163,6 +166,7 @@ const BlogDetail: NextPageWithLayout = ({
             </div>
           </div>
         </div>
+
         <div
           className="text blog-description"
           dangerouslySetInnerHTML={{ __html: post.description }}
@@ -201,7 +205,21 @@ const BlogDetail: NextPageWithLayout = ({
           </ul>
         </div>
       )}
-      <div className="blog-content " dangerouslySetInnerHTML={{ __html: post.content }} />
+      {/* <div className="blog-content " dangerouslySetInnerHTML={{ __html: post.content }} /> */}
+
+      <ReactMarkdown
+        className={'text blog-description'}
+        rehypePlugins={[rehypeRaw, remarkGfm]}
+        components={{
+          img: (props) => {
+            console.log('props', props);
+            return <img src={props['data-src']} />;
+          },
+        }}
+      >
+        {post.content}
+      </ReactMarkdown>
+
       {author && (
         <div style={{ display: 'block' }}>
           <span style={{ float: 'right' }}>
@@ -282,7 +300,7 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="products-list">
             {products.map((product, index) => (
               <div className="product-item" key={index}>
-                <a href={product.url} className="h-full w-full tw-relative tw-inline-block">
+                <a href={product.url} className="tw-relative tw-inline-block tw-h-full tw-w-full">
                   <Image fill src={product.image} alt={product.name} />
                 </a>
                 <div className="product-info">
@@ -302,7 +320,10 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="posts-list">
             {keywordRelatePosts.map((relatePost, index) => (
               <div className="post-item" key={index}>
-                <a href={relatePost.url} className="h-full w-full tw-relative tw-inline-block">
+                <a
+                  href={relatePost.url}
+                  className="tw-relative tw-inline-block tw-h-full tw-w-full"
+                >
                   <Image fill src={relatePost.image} alt={relatePost.title} />
                 </a>
                 <div className="post-info">
@@ -324,7 +345,10 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="posts-list">
             {relatedPosts.map((relatedPost, index) => (
               <div className="post-item" key={index}>
-                <a href={relatedPost.url} className="h-full w-full tw-relative tw-inline-block">
+                <a
+                  href={relatedPost.url}
+                  className="tw-relative tw-inline-block tw-h-full tw-w-full"
+                >
                   <Image fill src={relatedPost.image} alt={relatedPost.title} />
                 </a>
                 <div className="post-info">
