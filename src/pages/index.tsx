@@ -56,7 +56,6 @@ const Home: NextPageWithLayout = () => {
     event.target.innerText = 'Đã sao chép';
     navigator.clipboard.writeText(code);
   };
-  console.log(categoryData);
   return (
     <div id="content-homepage">
       <HomeSlider items={sliders} isMobile={isMobile} />

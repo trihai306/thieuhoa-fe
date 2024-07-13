@@ -10,9 +10,9 @@ import Header from './Header';
 
 export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="tw-flex tw-flex-col">
+    <div>
       <Header />
-      <main className="tw-flex tw-flex-1">{children}</main>
+      <main>{children}</main>
       <NoSSR>{isMobile ? <FooterMobi /> : <Footer />}</NoSSR>
     </div>
   );
