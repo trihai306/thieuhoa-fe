@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
@@ -56,6 +56,7 @@ const Home: NextPageWithLayout = () => {
     event.target.innerText = 'Đã sao chép';
     navigator.clipboard.writeText(code);
   };
+  console.log(categoryData);
   return (
     <div id="content-homepage">
       <HomeSlider items={sliders} isMobile={isMobile} />
@@ -92,7 +93,7 @@ const Home: NextPageWithLayout = () => {
         <div className="group-item-list desktop">
           {categories.map((category) => {
             return (
-              <a key={category['slug']} href={category['slug']}>
+              <a key={category['slug']} href={`/${category['slug']}`}>
                 <div className="item-list-category">
                   <div className="img">
                     <img
@@ -111,7 +112,7 @@ const Home: NextPageWithLayout = () => {
         <div className="group-item-list mobi">
           {categoriesMobile.map((category) => {
             return (
-              <a key={category['slug']} href={category['slug']}>
+              <a key={category['slug']} href={`${category['slug']}`}>
                 <div className="item-list-category">
                   <div className="img">
                     <img
@@ -187,14 +188,14 @@ const Home: NextPageWithLayout = () => {
         return (
           <div key={categoryItem.id} className="new-products">
             <div className="title">
-              <a className="text-base" href={categoryItem.slug}>
+              <a className="text-base" href={`/${categoryItem.slug}`}>
                 <h2>{categoryItem.name}</h2>
               </a>
             </div>
             <HomeProductSlider items={categoryItem.dataProduct} />
             <div className="load-more tw-mt-[20px]">
               <div className="btn-load-more">
-                <a className="xem_them tw-flex tw-items-center" href="">
+                <a className="xem_them tw-flex tw-items-center" href={`/${categoryItem.slug}`}>
                   <span>XEM THÊM</span>
                   <svg
                     width="11"
@@ -214,6 +215,73 @@ const Home: NextPageWithLayout = () => {
           </div>
         );
       })}
+
+      <div className="top-banner">
+        <a href={`/sale-off`} className="text-base">
+          <div className="group-banner">
+            <div className="left-group">
+              <img
+                width="40"
+                height="40"
+                src={`${MEDIA_ENDPOINT}/v2/img/svg/confirmation_number.svg`}
+                alt=""
+              />
+            </div>
+            <div className="right-group">
+              <p className="title">Giá tốt nhất</p>
+              <p className="text">Giảm 15% đơn hàng đầu tiên</p>
+            </div>
+          </div>
+        </a>
+        <a href={`/vay-dam-trung-nien`} className="text-base">
+          <div className="group-banner">
+            <div className="left-group">
+              <img
+                width="40"
+                height="40"
+                src={`${MEDIA_ENDPOINT}/v2/img/svg/volunteer_activism.svg`}
+                alt=""
+              />
+            </div>
+            <div className="right-group">
+              <p className="title">100% Made in Viet Nam</p>
+              <p className="text">Được thử hàng và thanh toán khi nhận hàng</p>
+            </div>
+          </div>
+        </a>
+        <a href={`/chinh-sach-bao-hanh`} className="text-base">
+          <div className="group-banner">
+            <div className="left-group">
+              <img
+                width="40"
+                height="40"
+                src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user.svg`}
+                alt=""
+              />
+            </div>
+            <div className="right-group">
+              <p className="title">Cam kết 1 đổi 1</p>
+              <p className="text">Trong 7 ngày</p>
+            </div>
+          </div>
+        </a>
+        <a href={`/chinh-sach-van-chuyen`} className="text-base">
+          <div className="group-banner">
+            <div className="left-group">
+              <img
+                width="40"
+                height="40"
+                src={`${MEDIA_ENDPOINT}/v2/img/svg/watch_later.svg`}
+                alt=""
+              />
+            </div>
+            <div className="right-group">
+              <p className="title">Giao hàng 4H</p>
+              <p className="text">Nội thành Tp.HCM - HN </p>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
   );
 };

@@ -14,13 +14,13 @@ const Header = () => {
   }, []);
   return (
     <header id="header">
-      <Image
+      {/* <Image
         width={0}
         height={0}
         className="img-topbar tw-w-full"
         src={`/v2/img/topbar2.png`}
         alt=""
-      />
+      /> */}
       <div className="middle-header">
         <div className="left-content">
           <a rel="nofollow" href="{{ route('store_list') }}">
