@@ -7,11 +7,11 @@ import remarkGfm from 'remark-gfm';
 import Swiper from 'swiper';
 import { SwiperSlide } from 'swiper/react';
 
-import BlogBanner from '@/components/BlogBanner';
-import BlogFeedback from '@/components/BlogFeedback';
 import Image from '@/components/Image';
 import { getAppLayout } from '@/components/layouts';
-import { blogService } from '@/services/blog/blog.service';
+import BlogBanner from '@/modules/blog/components/BlogBanner';
+import BlogFeedback from '@/modules/blog/components/BlogFeedback';
+import { blogService } from '@/modules/blog/services/blog.service';
 import { NextPageWithLayout } from '@/types';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -151,14 +151,12 @@ const BlogDetail: NextPageWithLayout = ({
           </ul>
         </div>
       )}
-      {/* <div className="blog-content " dangerouslySetInnerHTML={{ __html: post.content }} /> */}
 
       <ReactMarkdown
         className={'text blog-description'}
         rehypePlugins={[rehypeRaw, remarkGfm]}
         components={{
           img: (props) => {
-            console.log('props', props);
             return <img src={props['data-src']} />;
           },
         }}

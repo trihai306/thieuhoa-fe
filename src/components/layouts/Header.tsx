@@ -98,7 +98,11 @@ const Header = () => {
                             {itemChild.children.map((itemGrandChild) => {
                               return (
                                 <div key={itemGrandChild.id} className="name-category">
-                                  <a href={itemGrandChild.url}>{itemGrandChild.text}</a>
+                                  <a
+                                    href={itemGrandChild.url.replace('https://thieuhoa.com.vn', '')}
+                                  >
+                                    {itemGrandChild.text}
+                                  </a>
                                 </div>
                               );
                             })}
@@ -113,7 +117,9 @@ const Header = () => {
                         if (itemChild.children.length < 1) {
                           return (
                             <div key={itemChild.id} className="title">
-                              <a href={itemChild.url}>{itemChild.text}</a>
+                              <a href={itemChild.url.replace('https://thieuhoa.com.vn', '')}>
+                                {itemChild.text}
+                              </a>
                             </div>
                           );
                         }

@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 import Image from '@/components/Image';
 import { getAppLayout } from '@/components/layouts';
+import { blogService } from '@/modules/blog/services/blog.service';
 import { useBlogQuery } from '@/services/blog/blog.query';
-import { blogService } from '@/services/blog/blog.service';
 // Define the getServerSideProps function
 export const getServerSideProps: GetServerSideProps = async () => {
   // Fetch data here. This is a placeholder example.
