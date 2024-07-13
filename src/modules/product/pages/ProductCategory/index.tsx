@@ -91,7 +91,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
             {products.map((product) => (
               <div className="item-list-product" key={product.slug}>
                 <div className="group-img">
-                  <a href={`/${product.slug}/${product.cateSlug}`}>
+                  <a href={`/${product.cateSlug}/${product.slug}`}>
                     <img
                       className="img-product lozad"
                       src={JSON.parse(product.extra)['thumbnail']}

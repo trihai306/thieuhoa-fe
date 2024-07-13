@@ -1,54 +1,44 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import Head from 'next/head';
 
 import { productService } from '../../services/product.service';
 
-const ProductDetail = () => {
+export type ProductDetailProps = {
+  slug: string;
+  initialData?: any;
+};
+
+const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
   const { data, isLoading } = useQuery({
-    queryKey: ['product', 'all'],
+    queryKey: ['product', slug],
+    initialData: initialData,
     queryFn: async () => {
-      return await productService.getProductDetail(
-        'tui-xach-nu/tui-xach-thoi-trang-phoi-vai-sang-trong-TX4A0963',
-      );
+      return await productService.getProductDetail(slug);
     },
   });
-  const product = {
-    name: 'Product Name',
-    priceMin: 100000,
-    numberStar: 4.5,
-    reviews_count: 10,
-    order_count: 82,
-    totalStock: 20,
-    discount: 10,
-    originPriceMin: 110000,
-    colors: [{ color: 'Red', thumbnail: '/path/to/thumbnail.jpg' }],
-    arrayColor: ['Red', 'Blue'],
-    arraySize: ['S', 'M', 'L'],
-    present: {
-      getImage: '/path/to/image.jpg',
-      getGallery: ['/path/to/gallery1.jpg', '/path/to/gallery2.jpg'],
-    },
-    htmlStar: '<span>⭐⭐⭐⭐⭐</span>',
-  };
+  const product = data?.data.product;
 
-  const categoryPost = { slug: 'category-slug', name: 'Category Name' };
-  const buyTogethers = { count: () => 0 };
+  const categoryPost = data?.data.categoryPost;
+  const buyTogethers = { count: () => data?.data.buyTogethers };
   const agent = { isDesktop: () => true, isMobile: () => false };
   const sizeChart = '/path/to/size-chart.jpg';
 
   const onClickProductImageZoom = () => console.log('Product image zoom');
-
+  if (isLoading) return <div>Loading...</div>;
   return (
     <div>
-      <span itemscope itemtype="http://schema.org/Product" className="microdata">
-        <meta itemprop="image" content={product.present.getImage} />
-        <meta itemprop="name" content={product.name} />
-        <meta itemprop="description" content="Meta Description" />
-        <span itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-          <meta itemprop="price" content={product.priceMin} />
-          <meta itemprop="priceCurrency" content="VND" />
+      <Head>
+        <span itemScope itemType="http://schema.org/Product" className="microdata">
+          <meta itemProp="image" content={product?.extra.thumbnail} />
+          <meta itemProp="name" content={product?.name} />
+          <meta itemProp="description" content="Meta Description" />
+          <span itemProp="offers" itemScope itemType="http://schema.org/Offer">
+            <meta itemProp="price" content={product?.priceMin} />
+            <meta itemProp="priceCurrency" content="VND" />
+          </span>
         </span>
-      </span>
+      </Head>
       <div id="content-product-detail">
         <div className="bread-cumbs">
           <a className="text-base" href="/">
@@ -77,7 +67,7 @@ const ProductDetail = () => {
               <div className={`container ${buyTogethers.count() === 0 ? 'sticky-image' : ''}`}>
                 <div className="all-show">
                   <div className="show" id="product-image-show">
-                    {product.present.getGallery.map((image, key) => (
+                    {product?.extra?.list_gallery.map((image, key) => (
                       <img
                         key={key}
                         src={image}
@@ -96,7 +86,7 @@ const ProductDetail = () => {
                         overflowY: 'hidden',
                       }}
                     >
-                      {product.present.getGallery.map((image, key) => (
+                      {product?.extra.list_gallery.map((image, key) => (
                         <div
                           key={key}
                           style={{ width: '90px', height: 'auto', marginRight: '10px' }}
@@ -117,7 +107,7 @@ const ProductDetail = () => {
                   <div className="small-container">
                     {agent.isDesktop() && (
                       <div id="small-img-roll">
-                        {product.present.getGallery.map((image, key) => (
+                        {product?.extra.list_gallery.map((image, key) => (
                           <img
                             key={key}
                             src={image}
@@ -136,7 +126,7 @@ const ProductDetail = () => {
             <div className="product-image-slider">
               <div className="swiper mySwiper">
                 <div className="swiper-wrapper">
-                  {product.present.getGallery.map((image, key) => (
+                  {product?.present.getGallery.map((image, key) => (
                     <div key={key} className="swiper-slide" onClick={onClickProductImageZoom}>
                       <img src={image} alt={product.name} />
                     </div>
@@ -148,20 +138,23 @@ const ProductDetail = () => {
           )}
           <div className="right-product-detail">
             <div className="header-right">
-              <h1 className="name-title">{product.name}</h1>
+              <h1 className="name-title">{product?.name}</h1>
               <div className="bottom-head">
                 <div className="rate-view item-head">
-                  <span>{product.numberStar}/5</span>
-                  <div dangerouslySetInnerHTML={{ __html: product.htmlStar }}></div>
+                  <span>{product?.numberStar}/5</span>
+                  <div
+                    className="tw-flex"
+                    dangerouslySetInnerHTML={{ __html: product.htmlStar }}
+                  ></div>
                 </div>
                 <div className="total-rate item-head">
-                  <span className="number">{product.reviews_count}</span> đánh giá
+                  <span className="number">{product?.reviews_count}</span> đánh giá
                 </div>
                 <div className="sold item-head">
-                  Bán <span className="number"> {product.order_count}</span> mỗi tháng
+                  Bán <span className="number"> {product?.order_count}</span> mỗi tháng
                 </div>
                 <div className="status-prod">
-                  {product.totalStock === 0 ? (
+                  {product?.totalStock === 0 ? (
                     <div>
                       <span className="title">Tình trạng:</span>{' '}
                       <span className="text-status">Hết hàng</span>
@@ -177,8 +170,10 @@ const ProductDetail = () => {
             </div>
             <div className="group-price-voucher">
               <div className="gr-price">
-                <div className="price-now">{new Intl.NumberFormat().format(product.priceMin)}đ</div>
-                {product.discount && (
+                <div className="price-now">
+                  {new Intl.NumberFormat().format(product?.priceMin)}đ
+                </div>
+                {product?.discount && (
                   <>
                     <div className="old-price">
                       {new Intl.NumberFormat().format(product.originPriceMin)}đ
@@ -190,13 +185,13 @@ const ProductDetail = () => {
                 )}
               </div>
             </div>
-            {product.colors.length > 0 && (
+            {product?.colors?.length > 0 && (
               <div className="group-color">
                 <div className="title">
                   Màu sắc: <strong id="color-name"></strong>
                 </div>
                 <div className="color">
-                  {product.colors.map((colorItem, key) => (
+                  {product?.colors.map((colorItem, key) => (
                     <div
                       key={key}
                       data-property={colorItem.color}
@@ -204,8 +199,8 @@ const ProductDetail = () => {
                     >
                       <img
                         className="lozad"
-                        src="/images/image-thumb-25-25.svg"
-                        data-src={colorItem.thumbnail}
+                        // src="/images/image-thumb-25-25.svg"
+                        src={colorItem.thumbnail}
                         alt={colorItem.color}
                       />
                     </div>
@@ -213,7 +208,7 @@ const ProductDetail = () => {
                 </div>
               </div>
             )}
-            {product.arrayColor.length > 0 && (
+            {product && product.arrayColor.length > 0 && (
               <div className="group-color">
                 <div className="title">
                   Màu sắc: <strong id="color-name"></strong>
@@ -223,7 +218,7 @@ const ProductDetail = () => {
                     <div
                       key={key}
                       data-property={color}
-                      className="color-item-text select-product-color"
+                      className="color-item-text select-product-color  tw-whitespace-nowrap "
                     >
                       {color}
                     </div>
