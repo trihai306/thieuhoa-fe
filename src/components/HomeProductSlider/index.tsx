@@ -41,7 +41,7 @@ export default function HomeProductSlider({ items }: any) {
           return (
             <SwiperSlide key={dataProductItem.id}>
               <div key={dataProductItem.id} className="item-new-product">
-                <a href={dataProductItem.cateSlug}>
+                <a href={`/${dataProductItem.cateSlug}/${dataProductItem.slug}`}>
                   <img
                     src={JSON.parse(dataProductItem.extra).thumbnail}
                     alt={dataProductItem.name}
