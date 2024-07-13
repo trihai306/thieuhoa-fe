@@ -23,7 +23,7 @@ const Header = () => {
       /> */}
       <div className="middle-header">
         <div className="left-content">
-          <a rel="nofollow" href="{{ route('store_list') }}">
+          <a rel="nofollow" href={`/he-thong-cua-hang`}>
             <div className="item-store item">
               <Image width={24} height={24} src={`/v2/img/svg/location.svg`} alt="store" />
               <span>Cửa hàng</span>
@@ -54,18 +54,18 @@ const Header = () => {
           </div>
         </div>
         <div className="logo">
-          <a href="{{ route('home') }}">
+          <a href={'/'}>
             <Image width="75" height="175" src={`/v2/img/logo-web.svg`} alt="logo" />
           </a>
         </div>
         <div className="right-content">
-          <a rel="nofollow" href="{{ route('user.login') }}">
+          <a rel="nofollow" href={`/dang-nhap`}>
             <div className="user-icon icon">
               <Image width={29} height={29} src={`/v2/img/svg/user.svg`} alt="user" />
               <p>Tài khoản</p>
             </div>
           </a>
-          <a rel="nofollow" href="{{ route('checkout.index') }}" className="icon-cart">
+          <a rel="nofollow" href={`/checkout`} className="icon-cart">
             <div className="cart-icon icon">
               <Image width={29} height={29} src={`/v2/img/svg/cart.svg`} alt="user" />
               <span className="total" id="count-cart">
