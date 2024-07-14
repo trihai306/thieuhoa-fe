@@ -26,6 +26,18 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8081',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'vantrong.tailc51ac.ts.net',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

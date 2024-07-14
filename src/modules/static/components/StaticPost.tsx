@@ -2,11 +2,11 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useQuery } from '@tanstack/react-query';
 import Head from 'next/head';
+import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
 
 import { postService } from '../services/post/post.service';
 import { DataView, MetaData, StaticPage } from '../types';
-import rehypeRaw from 'rehype-raw';
-import remarkGfm from 'remark-gfm';
 export type StaticPostProps = {
   slug: string;
   initialData?: any;
