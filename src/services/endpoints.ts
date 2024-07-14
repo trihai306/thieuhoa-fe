@@ -28,6 +28,8 @@ const API_ENDPOINTS = {
   CATEGORY_AND_POST: '/{slug}',
   GE_TAG_DETAIL: '/tags/{slug}',
   PRODUCT_DETAIL: '/{cateSlug}/{slug}',
+  GET_COUPON: '/get-coupon',
+  CART: '/cart',
 };
 
 export default API_ENDPOINTS;
