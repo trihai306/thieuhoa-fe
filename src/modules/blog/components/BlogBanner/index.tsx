@@ -57,14 +57,9 @@ const BlogBanner = () => {
       >
         {banners.map((banner, index) => (
           <SwiperSlide key={index}>
-            <a
-              className="tw-relative tw-inline-block tw-h-[300px] tw-w-full"
-              href={banner.href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <div className="tw-relative tw-inline-block tw-h-full tw-w-full">
               <Image fill src={banner.src} alt={banner.alt} />
-            </a>
+            </div>
           </SwiperSlide>
         ))}
         <button
