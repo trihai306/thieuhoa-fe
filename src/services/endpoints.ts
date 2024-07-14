@@ -31,6 +31,8 @@ const API_ENDPOINTS = {
   GET_COUPON: '/get-coupon',
   CART: '/cart',
   ADD_TO_CART: '/add-to-cart',
+  USER_POINT: 'get-customer-points',
+  APPLY_COUPON: '/cart/apply-coupon',
 };
 
 export default API_ENDPOINTS;
