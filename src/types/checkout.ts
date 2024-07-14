@@ -17,7 +17,7 @@ export interface DataVoucher {
   text_title: string;
 }
 export interface CartType {
-  items: any[];
+  items: Item[];
   dataGift: any[];
   subTotal: number;
   subTotalOrigin: number;
@@ -56,4 +56,27 @@ export interface Item {
   price: string;
   priceSum: string;
   regularPriceSum: string;
+}
+
+export interface ResponseApplyCouponType {
+  items: Item[];
+  dataGift: any[];
+  subTotal: number;
+  subTotalOrigin: number;
+  subTotalFormat: string;
+  total: number;
+  totalFormat: string;
+  maxUsePoint: number;
+  totalOrigin: number;
+  totalOriginFormat: string;
+  discount: number;
+  discountFormat: string;
+  discountProduct: number;
+  discountProductFormat: string;
+  shipFee: number;
+  shipFeeFormat: string;
+  discountPointPrice: number;
+  discountPointPriceFormat: string;
+  discountShipFee: number;
+  discountShipFeeFormat: string;
 }

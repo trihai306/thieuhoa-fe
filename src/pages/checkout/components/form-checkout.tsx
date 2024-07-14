@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { checkoutService } from '@/services/checkout/checkout.service';
 import { CartType, DataVoucher } from '@/types/checkout';
@@ -6,9 +6,21 @@ import { CartType, DataVoucher } from '@/types/checkout';
 interface FormCheckoutProps {
   couponApi?: DataVoucher[];
 }
+interface CouponMessage {
+  error: boolean;
+  message: string;
+}
 export default function FormCheckout({ couponApi }: FormCheckoutProps) {
   const [coupons, setCoupons] = useState<DataVoucher[]>([]);
   const [dataCart, setDataCart] = useState<CartType>();
+  const [customerPoint, setCustomerPoint] = useState<number>(0);
+  const fullNameInputRef = useRef<HTMLInputElement>(null);
+  const phoneInputNumber = useRef<HTMLInputElement>(null);
+  const addressInputNumber = useRef<HTMLInputElement>(null);
+  const noteInputRef = useRef<HTMLInputElement>(null);
+  const voucherInputRef = useRef<HTMLInputElement>(null);
+
+  const [voucherMessage, setVoucherMessage] = useState<CouponMessage>();
   useEffect(() => {
     const getCounpon = async () => {
       const res = await checkoutService.getCouponList();
@@ -19,6 +31,75 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
     };
     getCounpon();
   }, []);
+
+  useEffect(() => {
+    const userLocalStorage = localStorage.getItem('user_info');
+    const isRenderInput =
+      fullNameInputRef.current &&
+      phoneInputNumber.current &&
+      addressInputNumber.current &&
+      noteInputRef.current;
+    if (userLocalStorage && isRenderInput) {
+      const userInfo = JSON.parse(userLocalStorage);
+      fullNameInputRef.current.value = userInfo.fullName;
+      phoneInputNumber.current.value = userInfo.phone;
+      addressInputNumber.current.value = userInfo.address;
+      noteInputRef.current.value = userInfo.note;
+    }
+  }, []);
+  useEffect(() => {
+    const phone = phoneInputNumber.current?.value;
+    if (!phone || phone?.length < 10) {
+      return;
+    }
+    const checkPointByPhone = async () => {
+      const res = await checkoutService.checkPointByPhone(+phone);
+      setCustomerPoint(res.data);
+    };
+    checkPointByPhone();
+  }, []);
+
+  const handleAppluyVoucher = useCallback(async () => {
+    if (!voucherInputRef.current || !voucherInputRef.current.value || !phoneInputNumber.current)
+      return;
+    const res = await checkoutService.applyCoupon(
+      voucherInputRef.current.value,
+      +phoneInputNumber.current.value,
+    );
+    if (res.code !== 200) {
+      setVoucherMessage({
+        error: true,
+        message: res.message,
+      });
+      return;
+    } else {
+      setVoucherMessage({
+        error: false,
+        message: 'Mã giảm giá đã được áp dụng!',
+      });
+    }
+  }, []);
+  const handleUseVoucher = useCallback(
+    (code: string) => {
+      if (!voucherInputRef.current) return;
+      voucherInputRef.current.value = code;
+      handleAppluyVoucher();
+    },
+    [handleAppluyVoucher],
+  );
+  const handleSubmit = useCallback(() => {
+    const fullName = fullNameInputRef.current?.value;
+    const phone = phoneInputNumber.current?.value;
+    const address = addressInputNumber.current?.value;
+    const note = noteInputRef.current?.value;
+    const userInfo = {
+      fullName,
+      phone,
+      address,
+      note,
+    };
+    localStorage.setItem('user_info', JSON.stringify(userInfo));
+  }, []);
   return (
     <div className="main-content-pay">
       <div className="left-content-pay">
@@ -28,18 +109,31 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
             <div className="group-input">
               <div className="form-input">
                 <div>
-                  <input type="text" name="full_name" className="user" placeholder="Họ tên" />
+                  <input
+                    ref={fullNameInputRef}
+                    type="text"
+                    name="full_name"
+                    className="user"
+                    placeholder="Họ tên"
+                  />
                 </div>
               </div>
               <div className="form-input">
                 <div>
-                  <input type="tel" name="phone" className="phone" placeholder="Số điện thoại" />
+                  <input
+                    ref={phoneInputNumber}
+                    type="tel"
+                    name="phone"
+                    className="phone"
+                    placeholder="Số điện thoại"
+                  />
                 </div>
               </div>
             </div>
             <div className="group-input-custom">
               <div className="form-input-custom">
                 <input
+                  ref={addressInputNumber}
                   type="text"
                   name="address"
                   className="email"
@@ -49,6 +143,7 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
             </div>
             <div className="form-input">
               <input
+                ref={noteInputRef}
                 type="text"
                 name="cnote"
                 className="note"
@@ -92,9 +187,9 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
           lỗi
         </p>
 
-        <div className="btn-order" id="btn-checkout">
+        <button className="btn-order" id="btn-checkout" type="button" onClick={handleSubmit}>
           Thanh toán
-        </div>
+        </button>
       </div>
       <div className="right-content-pay">
         <h2 className="title">Giỏ hàng</h2>
@@ -221,7 +316,11 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
         <div className="group-voucher">
           <div className="all-gr-voucher">
             {coupons.map((coupon) => (
-              <div key={coupon.id} className="item-voucher active tw-cursor-pointer">
+              <div
+                key={coupon.id}
+                className="item-voucher active tw-cursor-pointer"
+                onClick={() => handleUseVoucher(coupon.code)}
+              >
                 <svg
                   width="172"
                   height="51"
@@ -254,6 +353,7 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
         </div>
         <div className="gr-apply tw-my-[10px]">
           <input
+            ref={voucherInputRef}
             type="text"
             name="enter-voucher"
             className="enter-voucher"
@@ -261,12 +361,17 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
           />
           <button className="btn-apply">Áp dụng</button>
         </div>
-        <div className="gr-apply group-point tw-my-[10px]">
-          <input type="number" name="use-point" placeholder="Sử dụng điểm" />
-          <span className="user-point">this.customerPoint điểm</span>
-        </div>
-        <p className="text-green tw-mb-[10px] tw-mb-[5px]">Mã giảm giá đã được áp dụng!</p>
-        <p className="text-red tw-mb-[10px]">couponData.errorMessage</p>
+        {!!customerPoint && (
+          <div className="gr-apply group-point tw-my-[10px]">
+            <input type="number" name="use-point" placeholder="Sử dụng điểm" />
+            <span className="user-point">{customerPoint} điểm</span>
+          </div>
+        )}
+        {voucherMessage && (
+          <p className={`${voucherMessage.error ? 'text-red' : 'text-green'} tw-mb-[10px]`}>
+            {voucherMessage.message}
+          </p>
+        )}
         <div className="group-price">
           <div className="left-group">Tạm tính</div>
           <div className="right-group">
