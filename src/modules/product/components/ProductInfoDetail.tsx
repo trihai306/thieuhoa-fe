@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { useAddToCardMutation } from '@/services/checkout/checkout.query';
 
@@ -14,13 +14,20 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
   const product = data.product;
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const [quantity, setQuantity] = useState(1);
   const { mutateAsync: doAddCart } = useAddToCardMutation();
+
+  const productStock = useMemo(() => {
+    return product?.variations.find(
+      (stock) => stock.color === selectedColor && stock.size === selectedSize,
+    )?.stock;
+  }, [product, selectedColor, selectedSize]);
 
   const handleAddCart = async () => {
     const formData = {
       color: selectedColor,
       size: selectedSize,
-      quantity: '1',
+      quantity: quantity,
       product_id: product.id, // replace with actual product id
       product_image: '',
       reviews_count: product.reviews_count, // replace with actual reviews count
@@ -177,17 +184,21 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       <span id="message-check-product-stock" className="text-amount">
         Còn
         <span id="notice-product-stock" className="number">
-          44
+          {productStock}
         </span>
         sản phẩm
       </span>
       <div className="amout">
         <div className="wrapper">
-          <span className="minus">-</span>
-          <span id="quantity-num" className="num">
-            1
+          <span className="minus" onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}>
+            -
           </span>
-          <span className="plus">+</span>
+          <span id="quantity-num" className="num">
+            {quantity}
+          </span>
+          <span className="plus" onClick={() => setQuantity((prev) => prev + 1)}>
+            +
+          </span>
         </div>
         <button onClick={handleAddCart} id="product-add-to-cart" className="btn-add-cart ">
           <svg
