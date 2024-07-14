@@ -30,6 +30,7 @@ const API_ENDPOINTS = {
   PRODUCT_DETAIL: '/{cateSlug}/{slug}',
   GET_COUPON: '/get-coupon',
   CART: '/cart',
+  ADD_TO_CART: '/add-to-cart',
 };
 
 export default API_ENDPOINTS;

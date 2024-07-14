@@ -15,6 +15,12 @@ class CheckoutService extends BaseService {
   async getDataCart() {
     return await this.http.get<ApiResponse<CartType>>(API_ENDPOINTS.CART).then((res) => res.data);
   }
+
+  async addToCard(data: any) {
+    return await this.http
+      .post<ApiResponse<CartType>>(API_ENDPOINTS.ADD_TO_CART, data)
+      .then((res) => res.data);
+  }
 }
 
 export const checkoutService = new CheckoutService();

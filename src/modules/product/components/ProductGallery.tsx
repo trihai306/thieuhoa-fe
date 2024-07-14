@@ -1,4 +1,5 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { css } from '@emotion/react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
 import Image from '@/components/Image';
@@ -30,13 +31,20 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images, alt }) => {
   };
 
   return (
-    <div className="tw-flex tw-aspect-[2/3] tw-w-1/2 tw-flex-row tw-space-x-2 tw-p-2">
+    <div
+      className="tw-sticky tw-flex  tw-aspect-[2/3] tw-flex-row tw-space-x-2 tw-p-2 "
+      css={css`
+        width: 50%;
+        aspect-ratio: 2 / 3;
+        overflow: hidden;
+      `}
+    >
       <Swiper
         direction={'vertical'}
         ref={sliderRef}
         spaceBetween={50}
         slidesPerView={5}
-        className="tw-h-full tw-opacity-50"
+        className="tw-mb-auto tw-h-full tw-opacity-50"
       >
         {images?.map((image, index) => (
           <SwiperSlide key={index}>
@@ -57,7 +65,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images, alt }) => {
         slidesPerView={1}
         onSlideChange={() => console.log('slide change')}
         onSwiper={(swiper: any) => console.log(swiper)}
-        className="tw-h-full tw-flex-1"
+        className="tw-w-full"
       >
         {images?.map((image, index) => (
           <SwiperSlide key={index}>

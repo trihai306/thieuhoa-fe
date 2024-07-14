@@ -6,7 +6,7 @@ import ProductDetail from '@/modules/product/pages/ProductDetail';
 import { productService } from '@/modules/product/services/product.service';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { slug, product } = context.params;
+  const { slug, product } = context.params as any;
   const res = await productService.getProductDetail(`${slug}/${product}`);
 
   return {
@@ -16,7 +16,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
-const ProductDetailPage = ({ slug, productDetail }) => {
+const ProductDetailPage = ({ slug, productDetail }: any) => {
   return <ProductDetail slug={slug} initialData={productDetail} />;
 };
 ProductDetailPage.getLayout = getAppLayout;
