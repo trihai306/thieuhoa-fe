@@ -6,6 +6,9 @@ import Link from 'next/link';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
+import { MEDIA_ENDPOINT } from '@/common/constants';
+import { formatNumber } from '@/utils/number';
+
 import { productService } from '../../services/product.service';
 
 export type ProductCategoryProps = {
@@ -36,7 +39,6 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
   };
 
   if (isLoading) return <div>Loading...</div>;
-
   return (
     <div id="content-product">
       <div className="top-content">
@@ -101,12 +103,12 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
                   </Link>
                   {category?.slug === 'san-pham-moi' && <div className="new-product-img">Mới</div>}
                   {category?.slug === 'best-seller' && (
-                    <div className="selling">
-                      <img src="v2/img/svg/hot-sale.svg" alt="" />
+                    <div className="selling tw-my-2">
+                      <img src={`${MEDIA_ENDPOINT}/v2/img/svg/hot-sale.svg`} alt="" />
                       <span className="text-selling">Bán chạy</span>
                     </div>
                   )}
-                  {product.discount && (
+                  {!!product.discount && (
                     <div className="product-grid__tags product-grid__tags--sale">
                       Sale -{product.discount}%
                     </div>
@@ -118,9 +120,9 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
                   </Link>
                 </h2>
                 <div className="price-product">
-                  <span className="price-now">{product.priceMin}đ</span>
+                  <span className="price-now">{formatNumber(product.priceMin)}đ</span>
                   {product.originPriceMin && product.originPriceMin > product.priceMin && (
-                    <span className="price-old">{product.originPriceMin}đ</span>
+                    <span className="price-old">{formatNumber(product.originPriceMin)}đ</span>
                   )}
                   {JSON.parse(product.extra)['data_color'].length > 0 && (
                     <div className="list-color">

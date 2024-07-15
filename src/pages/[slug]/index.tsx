@@ -6,7 +6,7 @@ import StaticPost from '@/modules/static/components/StaticPost';
 import { postService } from '@/modules/static/services/post/post.service';
 import { NextPageWithLayout } from '@/types';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const { slug } = context.params;
   const res = await postService.getPost(slug as string);
   if (Object.keys(res.data).includes('staticPage')) {

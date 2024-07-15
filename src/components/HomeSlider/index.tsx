@@ -28,7 +28,7 @@ export default function HomeSlider({ items, isMobile }: any) {
           {items?.map((item: any) => (
             <SwiperSlide key={item.id}>
               {item.url ? (
-                <Link href={item.url}>
+                <Link href={item.url.replace('https://thieuhoa.com.vn/', '')}>
                   <img src={isMobile ? item.image_mobile : item.image_desktop} alt="" />
                 </Link>
               ) : (

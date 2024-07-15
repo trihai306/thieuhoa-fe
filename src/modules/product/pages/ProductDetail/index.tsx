@@ -37,13 +37,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
           <Link className="text-base" href="/">
             Thiều Hoa
           </Link>
-          »
+          <span className="tw-mx-3">»</span>
           <Link className="text-base" href="/search">
             Sản phẩm
           </Link>
           {categoryPost && (
             <>
-              »
+              <span className="tw-mx-3">»</span>
               <Link className="text-base" href={`/category/${categoryPost.slug}`}>
                 {categoryPost.name}
               </Link>

@@ -1,3 +1,4 @@
+import { MEDIA_ENDPOINT } from '@/common/constants';
 import React from 'react';
 
 const ProductDescriptionDetail = () => {
@@ -68,8 +69,8 @@ const ProductDescriptionDetail = () => {
       </div>
       <div className="gr-icon-share">
         <span>Chia sẻ</span>
-        <a href="https://www.facebook.com/sharer.php?u={{ request()->url() }}" target="_blank">
-          <img src="{{ asset('/v2/img/svg/face-icon.svg') }}" alt="" />
+        <a href="https://www.facebook.com/sharer.php?u=" target="_blank">
+          <img src={`${MEDIA_ENDPOINT}/v2/img/svg/face-icon.svg`} alt="" />
         </a>
       </div>
     </div>

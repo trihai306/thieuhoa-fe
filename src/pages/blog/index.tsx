@@ -32,7 +32,7 @@ const BlogPage = ({ data }) => {
           <Link className="text-base" href="/">
             Thiều Hoa
           </Link>{' '}
-          »
+          <span className="tw-mx-3">»</span>
           <Link className="tw-text-base" href="/blog">
             Blog
           </Link>

@@ -31,7 +31,7 @@ const ProductDescription: React.FC<ProductDescriptionProps> = ({ data }) => {
             },
           }}
         >
-          {data.product.content}
+          {data.product?.content}
         </ReactMarkdown>
       </div>
     </div>

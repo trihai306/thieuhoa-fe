@@ -10,10 +10,10 @@ import { pagesService } from '@/services/pages.service';
 import { NextPageWithLayout } from '@/types';
 
 const Home: NextPageWithLayout = () => {
-  const [sliders, setSliders] = useState<Linkny[]>([]);
-  const [vouchers, setVouchers] = useState<Linkny[]>([]);
-  const [blocks, setBlocks] = useState<Linkny[]>([]);
-  const [categoryData, setCategoryData] = useState<Linkny[]>([]);
+  const [sliders, setSliders] = useState<any[]>([]);
+  const [vouchers, setVouchers] = useState<any[]>([]);
+  const [blocks, setBlocks] = useState<any[]>([]);
+  const [categoryData, setCategoryData] = useState<any[]>([]);
   useEffect(() => {
     const getData = async () => {
       const { data } = await pagesService.home();

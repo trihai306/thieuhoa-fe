@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
 
 import { useAddToCardMutation } from '@/services/checkout/checkout.query';
 
 import { ProductDetail } from '../types';
 
 import ProductVoucher from './ProductVoucher';
-import Link from 'next/link';
 
 export type ProductInfoDetailProps = {
   data: ProductDetail;
@@ -42,7 +42,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
     setSelectedColor(product.colors[0].color);
     setSelectedSize(product.arraySize[0]);
   }, [product]);
-
+  if (!product) return null;
   return (
     <div className="right-product-detail">
       <div className="header-right">
@@ -75,7 +75,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       </div>
       <div className="group-price-voucher">
         <div className="gr-price">
-          <div className="price-now">{new Intl.NumberFormat().format(product?.priceMin)}</div>
+          <div className="price-now">{new Intl.NumberFormat().format(product?.priceMin)}đ</div>
           {product?.discount && (
             <>
               <div className="old-price">

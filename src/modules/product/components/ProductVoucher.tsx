@@ -90,7 +90,7 @@ const VoucherItem = ({ voucher }) => {
         />
       </svg>{' '}
       <span className="text-voucher">{voucher.text_title}</span>{' '}
-      <div className="popup-detail-item">
+      <div className="popup-detail-item tw-w-[290px]">
         <div className="title-pop">Tiết kiệm hơn khi áp mã giảm giá</div>{' '}
         <div className="item-voucher-pop">
           <img src="https://thieuhoa.com.vn/v2/img/svg/Subtract.svg" alt="" />{' '}

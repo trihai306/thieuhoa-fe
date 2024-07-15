@@ -1,6 +1,8 @@
 import { useCallback, useRef } from 'react';
+import Link from 'next/link';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
+import { MEDIA_ENDPOINT } from '@/common/constants';
 import Image from '@/components/Image';
 
 import 'swiper/css/navigation';
@@ -46,20 +48,19 @@ const BlogBanner = () => {
     if (!sliderRef.current) return;
     sliderRef.current?.swiper?.slideNext();
   }, []);
+  console.log(banners);
+  if (!banners.length) return null;
   return (
     <div className="banner tw-h-[300px]">
-      <Swiper
-        ref={sliderRef}
-        spaceBetween={50}
-        slidesPerView={1}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper: any) => console.log(swiper)}
-      >
+      <Swiper ref={sliderRef} spaceBetween={0} slidesPerView={1} className="tw-h-full">
         {banners.map((banner, index) => (
           <SwiperSlide key={index}>
-            <div className="tw-relative tw-inline-block tw-h-full tw-w-full">
-              <Image fill src={banner.src} alt={banner.alt} />
-            </div>
+            <Link
+              href={banner.href.replace('https://thieuhoa.com.vn/', '/')}
+              className="tw-relative tw-inline-block tw-h-full tw-w-full"
+            >
+              <Image fill src={`${MEDIA_ENDPOINT}${banner.src}`} alt={banner.alt} />
+            </Link>
           </SwiperSlide>
         ))}
         <button

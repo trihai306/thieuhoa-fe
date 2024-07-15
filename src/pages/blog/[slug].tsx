@@ -13,6 +13,7 @@ import BlogBanner from '@/modules/blog/components/BlogBanner';
 import BlogFeedback from '@/modules/blog/components/BlogFeedback';
 import { blogService } from '@/modules/blog/services/blog.service';
 import { NextPageWithLayout } from '@/types';
+import { formatNumber } from '@/utils/number';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { slug } = context.params;
@@ -57,22 +58,23 @@ const BlogDetail: NextPageWithLayout = ({
           <Link className="text-link" href="/">
             Thiều Hoa
           </Link>
-          »
+          <span className="tw-mx-3">»</span>
           <Link className="text-link" href="/blog">
             Blog
           </Link>
           {category && (
             <>
-              »
+              <span className="tw-mx-3">»</span>
               <Link className="text-link" href={`/category/${category.full_path}`}>
                 {category.title}
               </Link>
             </>
           )}
-          »<span className="text-base">{post.title}</span>
+          <span className="tw-mx-3">»</span>
+          <span className="text-base">{post.title}</span>
         </div>
-        <div className="time-zone tw-flex tw-flex-row tw-justify-between ">
-          <time className="fl">
+        <div className="time-zone tw-flex tw-flex-row tw-items-center tw-justify-between tw-gap-x-1">
+          <time className="fl tw-flex tw-items-center tw-gap-x-1">
             <div className="tw-relative tw-inline-block tw-h-4 tw-w-4">
               <Image width={10} height={10} src="/v2/img/svg/clock.svg" alt="time" />
             </div>
@@ -194,14 +196,17 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="products-list">
             {products.map((product, index) => (
               <div className="product-item" key={index}>
-                <Link href={product.url} className="tw-relative tw-inline-block tw-h-full tw-w-full">
+                <Link
+                  href={product.url}
+                  className="tw-relative tw-inline-block tw-h-full tw-w-full"
+                >
                   <Image fill src={product.image} alt={product.name} />
                 </Link>
                 <div className="product-info">
                   <Link className="product-name" href={product.url}>
                     {product.name}
                   </Link>
-                  <p className="product-price">{product.price}</p>
+                  <p className="product-price">{formatNumber(product.price)}</p>
                 </div>
               </div>
             ))}
