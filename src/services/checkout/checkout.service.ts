@@ -38,6 +38,11 @@ class CheckoutService extends BaseService {
       })
       .then((res) => res.data);
   }
+  async getCartNumber() {
+    return await this.http
+      .get<ApiResponse<{ total: number }>>(API_ENDPOINTS.CART_NUMBER)
+      .then((res) => res.data);
+  }
 }
 
 export const checkoutService = new CheckoutService();

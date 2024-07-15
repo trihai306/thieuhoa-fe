@@ -42,7 +42,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images, alt }) => {
       <Swiper
         direction={'vertical'}
         ref={sliderRef}
-        spaceBetween={50}
+        spaceBetween={15}
         slidesPerView={5}
         className="tw-mb-auto tw-h-full tw-opacity-50"
       >

@@ -33,6 +33,7 @@ const API_ENDPOINTS = {
   ADD_TO_CART: '/add-to-cart',
   USER_POINT: 'get-customer-points',
   APPLY_COUPON: '/cart/apply-coupon',
+  CART_NUMBER: '/get-cart-number',
 };
 
 export default API_ENDPOINTS;
