@@ -6,7 +6,7 @@ import { getImageUrl } from '@/utils';
 export type ImageProps = React.ComponentProps<typeof NextImage>;
 const Image: React.FC<ImageProps> = ({ src, ...props }) => {
   // check if src is full url
-  if (src.startsWith('http')) {
+  if (typeof src === 'string' && src.startsWith('http')) {
     return <NextImage src={src} {...props} alt="image" unoptimized />;
   }
 
