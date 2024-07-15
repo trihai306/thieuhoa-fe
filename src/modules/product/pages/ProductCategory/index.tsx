@@ -7,10 +7,10 @@ import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
+import ReadMore from '@/components/ReadMore';
 import { formatNumber } from '@/utils/number';
 
 import { productService } from '../../services/product.service';
-
 export type ProductCategoryProps = {
   slug: string;
   initialData?: any;
@@ -175,25 +175,45 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
               )}
             </ul>
           ) : (
-            <div
-              dangerouslySetInnerHTML={{
-                __html: productPaginate.onEachSide(1).appends({}).links(),
-              }}
-            />
+            <>
+              <nav>
+                <ul className="pagination">
+                  <li className="page-item active" aria-current="page">
+                    <span className="page-link">1</span>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link" href="https://thieuhoa.com.vn/tui-xach-nu?page=2">
+                      2
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link" href="https://thieuhoa.com.vn/tui-xach-nu?page=3">
+                      3
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link" href="https://thieuhoa.com.vn/tui-xach-nu?page=4">
+                      4
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a
+                      className="page-link"
+                      href="https://thieuhoa.com.vn/tui-xach-nu?page=2"
+                      rel="next"
+                      aria-label="Next »"
+                    >
+                      ›
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </>
           )}
           <div className="description-product">
             <div className="group-description">
               <div className="cate_description_sub">
-                <ReactMarkdown
-                  rehypePlugins={[rehypeRaw, remarkGfm]}
-                  components={{
-                    img: (props) => {
-                      return <img src={props['data-src']} />;
-                    },
-                  }}
-                >
-                  {category?.description}
-                </ReactMarkdown>
+                <ReadMore>{category?.description}</ReadMore>
               </div>
             </div>
           </div>

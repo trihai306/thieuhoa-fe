@@ -51,7 +51,12 @@ const BlogPage = ({ data }) => {
                       className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                       href={`/blog/${recentPostList[0].slug}`}
                     >
-                      <Image fill src={recentPostList[0].image} alt={recentPostList[0].title} />
+                      <Image
+                        objectFit="cover"
+                        fill
+                        src={recentPostList[0].image}
+                        alt={recentPostList[0].title}
+                      />
                     </Link>
                   </div>
                   <div className="title-blog">
@@ -95,7 +100,7 @@ const BlogPage = ({ data }) => {
                         className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                         href={`/blog/${post.slug}`}
                       >
-                        <Image fill src={post.image} alt={post.title} />
+                        <Image objectFit="cover" fill src={post.image} alt={post.title} />
                       </Link>
                     </div>
                     <div className="title-blog">
@@ -144,7 +149,7 @@ const BlogPage = ({ data }) => {
                     className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                     href={`/blog/${post.slug}`}
                   >
-                    <Image src={post.image} alt={post.title} fill />
+                    <Image objectFit="cover" src={post.image} alt={post.title} fill />
                   </Link>
                 </div>
                 <div className="right-item">
@@ -202,6 +207,7 @@ const BlogPage = ({ data }) => {
                     href={`/blog/${fashionKnowledgeList[0].slug}`}
                   >
                     <Image
+                      objectFit="cover"
                       fill
                       src={fashionKnowledgeList[0].image}
                       alt={fashionKnowledgeList[0].title}
@@ -249,7 +255,7 @@ const BlogPage = ({ data }) => {
                       className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                       href={`/blog/${post.slug}`}
                     >
-                      <Image fill src={post.image} alt={post.title} />
+                      <Image objectFit="cover" fill src={post.image} alt={post.title} />
                     </Link>
                   </div>
                   <div className="title-blog">
@@ -302,7 +308,12 @@ const BlogPage = ({ data }) => {
                     className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                     href={`/blog/${mixFashionTipList[0].slug}`}
                   >
-                    <Image fill src={mixFashionTipList[0].image} alt={mixFashionTipList[0].title} />
+                    <Image
+                      objectFit="cover"
+                      fill
+                      src={mixFashionTipList[0].image}
+                      alt={mixFashionTipList[0].title}
+                    />
                   </Link>
                 </div>
                 <div className="title-blog">
@@ -346,7 +357,7 @@ const BlogPage = ({ data }) => {
                       className="tw-relative tw-inline-block tw-h-full tw-w-full tw-text-base"
                       href={`/blog/${post.slug}`}
                     >
-                      <Image fill src={post.image} alt={post.title} />
+                      <Image objectFit="cover" fill src={post.image} alt={post.title} />
                     </Link>
                   </div>
                   <div className="title-blog">

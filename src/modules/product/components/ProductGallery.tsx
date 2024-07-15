@@ -44,7 +44,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images, alt }) => {
         ref={sliderRef}
         spaceBetween={15}
         slidesPerView={5}
-        className="tw-mb-auto tw-h-[800px] tw-opacity-50"
+        className="tw-mb-auto !tw-hidden tw-h-[800px] tw-opacity-50 md:!tw-block"
       >
         {images?.map((image, index) => (
           <SwiperSlide key={index}>

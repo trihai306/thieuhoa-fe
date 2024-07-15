@@ -16,6 +16,7 @@ const Image: React.FC<ImageProps> = ({ src, ...props }) => {
       {...props}
       alt="image"
       // unoptimized
+      objectFit="cover"
       loader={({ src }) => getImageUrl(src)}
     />
   );

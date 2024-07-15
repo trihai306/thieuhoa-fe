@@ -1,6 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { map } from 'lodash';
 import Link from 'next/link';
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { useAddToCardMutation } from '@/services/checkout/checkout.query';
 
 import { ProductDetail } from '../types';
@@ -36,6 +45,14 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
     };
     await doAddCart(formData);
   };
+
+  const storeOffline = useMemo(() => {
+    return map(data.dataStock.offline, (value) => value);
+  }, [data]);
+
+  const storeOnline = useMemo(() => {
+    return map(data.dataStock.online, (value) => value);
+  }, [data]);
 
   useEffect(() => {
     if (!product) return;
@@ -130,40 +147,49 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
                 fill="#222222"
               />
             </svg>
-            <span>Hướng dẫn chọn size</span>
-          </div>
-        </div>
-        <div className="popup-guide-size hidden">
-          <div className="content-guide">
-            <div className="icon-close-guide">
-              <svg
-                width={26}
-                height={26}
-                viewBox="0 0 26 26"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19.5 6.5L6.5 19.5"
-                  stroke="white"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M6.5 6.5L19.5 19.5"
-                  stroke="white"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <img
-              src="https://thieuhoa.com.vn/wp-content/uploads/2022/10/2x3QUR9StS6JBFRM5eu03g1cLAud07pBjc3lnvvB.webp"
-              alt=""
-              style={{ maxWidth: '100%' }}
-            />
+            <Dialog>
+              <DialogTrigger>
+                <span>Hướng dẫn chọn size</span>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Hướng dẫn chọn size</DialogTitle>
+                  <DialogDescription>
+                    <div className="content-guide">
+                      <div className="icon-close-guide">
+                        <svg
+                          width={26}
+                          height={26}
+                          viewBox="0 0 26 26"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M19.5 6.5L6.5 19.5"
+                            stroke="white"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M6.5 6.5L19.5 19.5"
+                            stroke="white"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
+                      <img
+                        src="https://thieuhoa.com.vn/wp-content/uploads/2022/10/2x3QUR9StS6JBFRM5eu03g1cLAud07pBjc3lnvvB.webp"
+                        alt=""
+                        style={{ maxWidth: '100%' }}
+                      />
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
         <div className="option-size">
@@ -231,590 +257,56 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       <div className="description-detail">
         <div className="go-to-store">
           <img src="https://thieuhoa.com.vn/v2/img/svg/location.svg" alt="" />
-          <div>Xem cửa hàng có sản phẩm này</div>
-        </div>
-        <div className="popup popup-store hidden">
-          <div className="popup-store-content">
-            <div className="gr-store">
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 63 Đại Lộ Đồng Khởi - Bến Tre</div>
-                  <div className="address-store">63 Đại Lộ Đồng Khởi, P. Phú Khương, Bến Tre</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/vnA95nuu7juz4kfC6"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
+          <Dialog modal={true}>
+            <DialogTrigger>
+              <div>Xem cửa hàng có sản phẩm này</div>
+            </DialogTrigger>
+            <DialogContent className="tw-h-[500px]">
+              <DialogHeader>
+                <DialogTitle>Xem cửa hàng có sản phẩm này</DialogTitle>
+                <DialogDescription className="tw-max-h-96 tw-overflow-x-auto">
+                  <div className="">
+                    <div className="gr-store">
+                      {storeOffline &&
+                        storeOffline.map((item) => (
+                          <div key={item.id} className="item-store !tw-block ">
+                            <div className="left-item">
+                              <div className="name-store">Thiều Hoa - {item.name}</div>
+                              <div className="address-store">{item.address}</div>
+                              <div className="phone-store">
+                                <Link
+                                  href="https://maps.app.goo.gl/vnA95nuu7juz4kfC6"
+                                  style={{
+                                    color: 'rgb(34, 34, 34)',
+                                    textDecoration: 'underline',
+                                  }}
+                                >
+                                  Xem đường đi
+                                </Link>
+                              </div>
+                            </div>
+                            <div className="right-item">
+                              <span>Còn hàng</span>
+                            </div>
+                          </div>
+                        ))}
+
+                      {storeOnline && (
+                        <div className="item-store">
+                          <div className="left-item">
+                            <div className="name-store">Thiều Hoa - Kho Online</div>
+                          </div>
+                          <div className="right-item">
+                            <span>Còn hàng</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 254 Cô Bắc - Quận 1</div>
-                  <div className="address-store">
-                    254 Cô Bắc, Cô Giang, Quận 1, Thành phố Hồ Chí Minh, Việt Nam
-                  </div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/C52tV9XJvWUej4hi7"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 422 Quang Trung - Gò Vấp</div>
-                  <div className="address-store">
-                    422 Quang Trung, phường 10, Gò Vấp, Thành phố Hồ Chí Minh, Việt Nam
-                  </div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/Fo2LktniniT815m9A"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 317 Nguyễn Thị Thập - Quận 7</div>
-                  <div className="address-store">317 Nguyễn Thị Thập, Tân Phú, Quận 7, TP. HCM</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/ueTXY9Qgw1vho4EY7"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 114 Đặng Văn Bi - Thủ Đức</div>
-                  <div className="address-store">114 Đặng Văn Bi, Bình Thọ, Thủ Đức, TP. HCM</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/LjvGQiZEHPJRvaAc8"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 789 Lũy Bán Bích - Tân Phú</div>
-                  <div className="address-store">789 Lũy Bán Bích</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/JzunQXou9eTmoE117"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 49G Phan Đăng Lưu - Phú Nhuận</div>
-                  <div className="address-store">49G Phan Đăng Lưu</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/VLdM2iNnqzAxGbDv8"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 245B Nguyễn Thị Tú - Bình Tân</div>
-                  <div className="address-store">245B Nguyễn Thị Tú</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/LrtpVeGAH3DtB4az8"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 2/4A Nguyễn Ảnh Thủ - Quận 12</div>
-                  <div className="address-store">2/4A Nguyễn Ảnh Thủ</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/6DQriWHGWH3xnnQr8"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 174 Bạch Mai - Hai Bà Trưng - HN</div>
-                  <div className="address-store">174 Bạch Mai,</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/uEnqTqTkMN3yzBNT8"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 850 Hậu Giang - Quận 6</div>
-                  <div className="address-store">850 Hậu Giang,</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/fsch7HHzt7PLHeRQ6"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 187 Lê Văn Việt - Quận 9</div>
-                  <div className="address-store">187 Lê Văn Việt, Tăng Nhơn Phú B</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/tx8S1eCbEZWj3nfg7"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 65 Nguyễn Lương Bằng - Đống Đa - HN</div>
-                  <div className="address-store">65 Nguyễn Lương Bằng, Nam Đồng</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/bxZXDDFTvTezPv5H8"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 172 Yersin - Bình Dương</div>
-                  <div className="address-store">172 Yersin, Thủ Đâu Một, Bình Dương</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/7V3SNn3mrb2TPLR68"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 180 Bacu - Vũng Tàu</div>
-                  <div className="address-store">180 Ba Cu</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/ADurwFAxoqLqQuvq5"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 19 Nguyễn Trãi - Cần Thơ</div>
-                  <div className="address-store">19 Nguyễn Trãi, Tân An, Ninh Kiều, Cần Thơ</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/ifLDMLvHcayhVWGP9
-"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 130 Quang Trung - Hà Đông - HN</div>
-                  <div className="address-store">130 Quang Trung</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/Vg98iNvk8b228tZx5"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 46 Xô Viết Nghệ Tĩnh - Bình Thạnh</div>
-                  <div className="address-store">46 Xô Viết Nghệ Tĩnh</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/QuE1AXgfrGoGoBkw8"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 44 Thái Nguyên - Nha Trang</div>
-                  <div className="address-store">44 Thái Nguyên</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/hXSazGLRwiJvFNN97?coh=178573&entry=tt"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 1559 Phạm Văn Thuận - Biên Hòa</div>
-                  <div className="address-store">1559 Phạm Văn Thuận</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/3kFNHKGwMojoyB9h9"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 400 Nguyễn Trung Trực - Kiên Giang</div>
-                  <div className="address-store">
-                    400 Nguyễn Trung Trực, Phường Vĩnh Lạc, Rạch Giá, Kiên Giang
-                  </div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://goo.gl/maps/TgBedmk1sA68YoiV6"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 186 Ấp Bắc - Tiền Giang</div>
-                  <div className="address-store">186 Ấp Bắc Mỹ Tho</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/yoWKGUyCT6chALjE7"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 122 Nguyễn Văn Linh - Đà Nẵng</div>
-                  <div className="address-store">122 Nguyễn Văn Linh</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/gcXu3KVJ1sEHqs66A"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 15 Phan Chu Trinh - Buôn Ma Thuột</div>
-                  <div className="address-store">15 Phan Chu Trinh</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/YT1NviPGGbwNuDcf9"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 871 Hà Hoàng Hổ - An Giang</div>
-                  <div className="address-store">871 Hà Hoàng Hổ</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/kDzCJSoaZWneyKx9A"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 801 Cách Mạng Tháng 8 - Tây Ninh</div>
-                  <div className="address-store">801 Cách Mạng Tháng 8, Hiệp Ninh, Tây Ninh</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/LuWqL1BNWy54z4Fj8"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 46 Phan Đình Phùng - Đà Lạt</div>
-                  <div className="address-store">
-                    46 Phan Đình Phùng, Phường 1, Thành phố Đà Lạt, Lâm Đồng
-                  </div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/vjEULPvtnMQs5bn37"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - 7 Trần Hưng Đạo - Cà Mau</div>
-                  <div className="address-store">7 Trần Hưng Đạo, Phường 5, Thành phố Cà Mau</div>
-                  <div className="phone-store">
-                    <Link
-                      href="https://maps.app.goo.gl/QT6DX8N5eHePUoYr8"
-                      style={{
-                        color: 'rgb(34, 34, 34)',
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      Xem đường đi
-                    </Link>
-                  </div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-              <div className="item-store">
-                <div className="left-item">
-                  <div className="name-store">Thiều Hoa - Kho Online</div>
-                </div>
-                <div className="right-item">
-                  <span>Còn hàng</span>
-                </div>
-              </div>
-            </div>
-          </div>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <div className="description-detail">
