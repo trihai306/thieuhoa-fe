@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { isMobile } from 'react-device-detect';
+import Link from 'next/link';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
 import HomeProductSlider from '@/components/HomeProductSlider';
@@ -9,10 +10,10 @@ import { pagesService } from '@/services/pages.service';
 import { NextPageWithLayout } from '@/types';
 
 const Home: NextPageWithLayout = () => {
-  const [sliders, setSliders] = useState<any[]>([]);
-  const [vouchers, setVouchers] = useState<any[]>([]);
-  const [blocks, setBlocks] = useState<any[]>([]);
-  const [categoryData, setCategoryData] = useState<any[]>([]);
+  const [sliders, setSliders] = useState<Linkny[]>([]);
+  const [vouchers, setVouchers] = useState<Linkny[]>([]);
+  const [blocks, setBlocks] = useState<Linkny[]>([]);
+  const [categoryData, setCategoryData] = useState<Linkny[]>([]);
   useEffect(() => {
     const getData = async () => {
       const { data } = await pagesService.home();
@@ -27,16 +28,16 @@ const Home: NextPageWithLayout = () => {
 
   const categories = useMemo(() => {
     return [
-      { slug: 'vay-dam-trung-nien', img: '/v2/img/svg/dam-trung-nien.svg', name: 'Đầm Trung Niên' },
-      { slug: 'ao-kieu-trung-nien', img: '/v2/img/svg/ao-kieu-nu.svg', name: 'Áo Kiểu Nữ' },
-      { slug: 'chan-vay', img: '/v2/img/svg/chan-vay.svg', name: 'Chân Váy' },
-      { slug: 'ao-dai', img: '/v2/img/svg/ao-dai.svg', name: 'Áo Dài' },
-      { slug: 'khan-choang-co', img: '/v2/img/svg/khan-choang-co.svg', name: 'Khăn Choàng Cổ' },
-      { slug: 'dam-du-tiec', img: '/v2/img/svg/dam-da-hoi.svg', name: 'Đầm Dự Tiệc' },
-      { slug: 'ao-thun-trung-nien', img: '/v2/img/svg/ao-thun.svg', name: 'Áo Thun' },
-      { slug: 'quan-trung-nien', img: '/v2/img/svg/quan-trung-nien.svg', name: 'Quần Trung Niên' },
-      { slug: 'do-bo-trung-nien', img: '/v2/img/svg/do-bo.svg', name: 'Đồ Bộ' },
-      { slug: 'tui-xach-nu', img: '/v2/img/svg/tui-sach.svg', name: 'Túi Xách' },
+      { slug: 'vay-dam-trung-nien', img: 'v2/img/svg/dam-trung-nien.svg', name: 'Đầm Trung Niên' },
+      { slug: 'ao-kieu-trung-nien', img: 'v2/img/svg/ao-kieu-nu.svg', name: 'Áo Kiểu Nữ' },
+      { slug: 'chan-vay', img: 'v2/img/svg/chan-vay.svg', name: 'Chân Váy' },
+      { slug: 'ao-dai', img: 'v2/img/svg/ao-dai.svg', name: 'Áo Dài' },
+      { slug: 'khan-choang-co', img: 'v2/img/svg/khan-choang-co.svg', name: 'Khăn Choàng Cổ' },
+      { slug: 'dam-du-tiec', img: 'v2/img/svg/dam-da-hoi.svg', name: 'Đầm Dự Tiệc' },
+      { slug: 'ao-thun-trung-nien', img: 'v2/img/svg/ao-thun.svg', name: 'Áo Thun' },
+      { slug: 'quan-trung-nien', img: 'v2/img/svg/quan-trung-nien.svg', name: 'Quần Trung Niên' },
+      { slug: 'do-bo-trung-nien', img: 'v2/img/svg/do-bo.svg', name: 'Đồ Bộ' },
+      { slug: 'tui-xach-nu', img: 'v2/img/svg/tui-sach.svg', name: 'Túi Xách' },
     ];
   }, []);
   const categoriesMobile = useMemo(() => {
@@ -92,7 +93,7 @@ const Home: NextPageWithLayout = () => {
         <div className="group-item-list desktop">
           {categories.map((category) => {
             return (
-              <a key={category['slug']} href={`/${category['slug']}`}>
+              <Link key={category['slug']} href={`/${category['slug']}`}>
                 <div className="item-list-category">
                   <div className="img">
                     <img
@@ -104,14 +105,14 @@ const Home: NextPageWithLayout = () => {
                   </div>
                   <div className="text-category">{category['name']}</div>
                 </div>
-              </a>
+              </Link>
             );
           })}
         </div>
         <div className="group-item-list mobi">
           {categoriesMobile.map((category) => {
             return (
-              <a key={category['slug']} href={`${category['slug']}`}>
+              <Link key={category['slug']} href={`${category['slug']}`}>
                 <div className="item-list-category">
                   <div className="img">
                     <img
@@ -123,7 +124,7 @@ const Home: NextPageWithLayout = () => {
                   </div>
                   <div className="text-category">{category['name']}</div>
                 </div>
-              </a>
+              </Link>
             );
           })}
         </div>
@@ -168,10 +169,10 @@ const Home: NextPageWithLayout = () => {
                 {block.products?.map((product: any) => {
                   return (
                     <div key={product.id} className="item-new-product">
-                      <a href="{{ $product->url }}" rel="nofollow">
+                      <Link href="{{ $product->url }}" rel="nofollow">
                         <img src={`${MEDIA_ENDPOINT}/images/image-thumb.svg`} alt={product.name} />
                         <div className="text-new">{product.name}</div>
-                      </a>
+                      </Link>
                       <div className="price-product">
                         <span className="price-now">{product.price}đ</span>
                       </div>
@@ -187,14 +188,14 @@ const Home: NextPageWithLayout = () => {
         return (
           <div key={categoryItem.id} className="new-products">
             <div className="title">
-              <a className="text-base" href={`/${categoryItem.slug}`}>
+              <Link className="text-base" href={`/${categoryItem.slug}`}>
                 <h2>{categoryItem.name}</h2>
-              </a>
+              </Link>
             </div>
             <HomeProductSlider items={categoryItem.dataProduct} />
             <div className="load-more tw-mt-[20px]">
               <div className="btn-load-more">
-                <a className="xem_them tw-flex tw-items-center" href={`/${categoryItem.slug}`}>
+                <Link className="xem_them tw-flex tw-items-center" href={`/${categoryItem.slug}`}>
                   <span>XEM THÊM</span>
                   <svg
                     width="11"
@@ -208,7 +209,7 @@ const Home: NextPageWithLayout = () => {
                       fill="white"
                     />
                   </svg>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -216,7 +217,7 @@ const Home: NextPageWithLayout = () => {
       })}
 
       <div className="top-banner">
-        <a href={`/sale-off`} className="text-base">
+        <Link href={`/sale-off`} className="text-base">
           <div className="group-banner">
             <div className="left-group">
               <img
@@ -231,8 +232,8 @@ const Home: NextPageWithLayout = () => {
               <p className="text">Giảm 15% đơn hàng đầu tiên</p>
             </div>
           </div>
-        </a>
-        <a href={`/vay-dam-trung-nien`} className="text-base">
+        </Link>
+        <Link href={`/vay-dam-trung-nien`} className="text-base">
           <div className="group-banner">
             <div className="left-group">
               <img
@@ -247,8 +248,8 @@ const Home: NextPageWithLayout = () => {
               <p className="text">Được thử hàng và thanh toán khi nhận hàng</p>
             </div>
           </div>
-        </a>
-        <a href={`/chinh-sach-bao-hanh`} className="text-base">
+        </Link>
+        <Link href={`/chinh-sach-bao-hanh`} className="text-base">
           <div className="group-banner">
             <div className="left-group">
               <img
@@ -263,8 +264,8 @@ const Home: NextPageWithLayout = () => {
               <p className="text">Trong 7 ngày</p>
             </div>
           </div>
-        </a>
-        <a href={`/chinh-sach-van-chuyen`} className="text-base">
+        </Link>
+        <Link href={`/chinh-sach-van-chuyen`} className="text-base">
           <div className="group-banner">
             <div className="left-group">
               <img
@@ -279,7 +280,7 @@ const Home: NextPageWithLayout = () => {
               <p className="text">Nội thành Tp.HCM - HN </p>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
     </div>
   );

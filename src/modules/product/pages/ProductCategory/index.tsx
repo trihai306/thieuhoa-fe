@@ -2,6 +2,7 @@ import React from 'react';
 import { isMobile } from 'react-device-detect';
 import ReactMarkdown from 'react-markdown';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 
@@ -40,19 +41,19 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
     <div id="content-product">
       <div className="top-content">
         <div className="bread-cumbs">
-          <a className="text-base" href="/">
+          <Link className="text-base" href="/">
             Thiều Hoa
-          </a>{' '}
-          »
-          <a className="text-base" href="/search">
+          </Link>{' '}
+          <span className="tw-mx-3">»</span>
+          <Link className="text-base" href="/search">
             Sản phẩm
-          </a>
+          </Link>
           {category && (
             <>
-              »{' '}
-              <a className="text-base" href={`/${category?.slug}`}>
+              <span className="tw-mx-3">»</span>
+              <Link className="text-base" href={`/${category?.slug}`}>
                 {category?.name}
-              </a>
+              </Link>
             </>
           )}
         </div>
@@ -62,24 +63,24 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
         <div className="gr-filter">
           <div className="option-filter">
             {!parentCategory ? (
-              <a className="text-base" href={`/${category?.slug}`}>
+              <Link className="text-base" href={`/${category?.slug}`}>
                 <div className="item-filter active">
                   <span>Tất cả {category?.name}</span>
                 </div>
-              </a>
+              </Link>
             ) : (
-              <a className="text-base" href={`/${parentCategory?.slug}`}>
+              <Link className="text-base" href={`/${parentCategory?.slug}`}>
                 <div className="item-filter">
                   <span>Tất cả {parentCategory?.name}</span>
                 </div>
-              </a>
+              </Link>
             )}
             {childrenCategory?.map((child) => (
-              <a className="text-base" href={`/${child.slug}`} key={child.slug}>
+              <Link className="text-base" href={`/${child.slug}`} key={child.slug}>
                 <div className={`item-filter ${child.slug === category?.slug ? 'active' : ''}`}>
                   <span>{child.name}</span>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -91,13 +92,13 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
             {products?.map((product) => (
               <div className="item-list-product" key={product.slug}>
                 <div className="group-img">
-                  <a href={`/${product.cateSlug}/${product.slug}`}>
+                  <Link href={`/${product.cateSlug}/${product.slug}`}>
                     <img
                       className="img-product lozad"
                       src={JSON.parse(product.extra)['thumbnail']}
                       alt={product.name}
                     />
-                  </a>
+                  </Link>
                   {category?.slug === 'san-pham-moi' && <div className="new-product-img">Mới</div>}
                   {category?.slug === 'best-seller' && (
                     <div className="selling">
@@ -112,9 +113,9 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
                   )}
                 </div>
                 <h2 className="name-product">
-                  <a className="text-base" href={`/${product.slug}/${product.cateSlug}`}>
+                  <Link className="text-base" href={`/${product.slug}/${product.cateSlug}`}>
                     {product.name}
-                  </a>
+                  </Link>
                 </h2>
                 <div className="price-product">
                   <span className="price-now">{product.priceMin}đ</span>
@@ -146,7 +147,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
             <ul className="pagination" style={{ float: 'right' }}>
               {productPaginate.withQueryString().previousPageUrl() && (
                 <li className="page-item" style={{ width: '120px' }}>
-                  <a
+                  <Link
                     style={{ padding: '0.5rem 0.5rem' }}
                     className="page-link"
                     href={productPaginate.withQueryString().previousPageUrl()}
@@ -154,12 +155,12 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
                     aria-label="« Previous"
                   >
                     ‹ Trang trước
-                  </a>
+                  </Link>
                 </li>
               )}
               {productPaginate.withQueryString().nextPageUrl() && (
                 <li className="page-item" style={{ width: '120px' }}>
-                  <a
+                  <Link
                     style={{ padding: '0.5rem 0.5rem' }}
                     className="page-link"
                     href={productPaginate.withQueryString().nextPageUrl()}
@@ -167,7 +168,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
                     aria-label="Next »"
                   >
                     Trang sau ›
-                  </a>
+                  </Link>
                 </li>
               )}
             </ul>

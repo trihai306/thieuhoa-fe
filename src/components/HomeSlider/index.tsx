@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
@@ -27,9 +28,9 @@ export default function HomeSlider({ items, isMobile }: any) {
           {items?.map((item: any) => (
             <SwiperSlide key={item.id}>
               {item.url ? (
-                <a href={item.url}>
+                <Link href={item.url}>
                   <img src={isMobile ? item.image_mobile : item.image_desktop} alt="" />
-                </a>
+                </Link>
               ) : (
                 <img src={isMobile ? item.image_mobile : item.image_desktop} alt="" />
               )}

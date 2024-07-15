@@ -28,7 +28,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
 
   const categoryPost = data?.data.categoryPost;
 
-
   if (isLoading) return <div>Loading...</div>;
   return (
     <>
@@ -45,9 +44,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
           {categoryPost && (
             <>
               »
-              <a className="text-base" href={`/category/${categoryPost.slug}`}>
+              <Link className="text-base" href={`/category/${categoryPost.slug}`}>
                 {categoryPost.name}
-              </a>
+              </Link>
             </>
           )}
         </div>

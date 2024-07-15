@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 import Image from '@/components/Image';
 import { checkoutService } from '@/services/checkout/checkout.service';
@@ -30,13 +31,13 @@ const Header = () => {
       /> */}
       <div className="middle-header">
         <div className="left-content">
-          <a rel="nofollow" href={`/he-thong-cua-hang`}>
+          <Link rel="nofollow" href={`/he-thong-cua-hang`}>
             <div className="item-store item">
               <Image width={24} height={24} src={`/v2/img/svg/location.svg`} alt="store" />
               <span>Cửa hàng</span>
             </div>
-          </a>
-          <a href="tel:18009246">
+          </Link>
+          <Link href="tel:18009246">
             <div className="hotline item">
               <Image width={24} height={24} src={`/v2/img/svg/Hotline.svg`} alt="hotline" />
               <div className="group-text">
@@ -44,7 +45,7 @@ const Header = () => {
                 <p className="free-hotline">(Miễn Phí)</p>
               </div>
             </div>
-          </a>
+          </Link>
           <div className="category-mobi">
             <svg
               width="20"
@@ -61,18 +62,18 @@ const Header = () => {
           </div>
         </div>
         <div className="logo">
-          <a href={'/'}>
+          <Link href={'/'}>
             <Image width="75" height="175" src={`/v2/img/logo-web.svg`} alt="logo" />
-          </a>
+          </Link>
         </div>
         <div className="right-content">
-          <a rel="nofollow" href={`/dang-nhap`}>
+          <Link rel="nofollow" href={`/dang-nhap`}>
             <div className="user-icon icon">
               <Image width={29} height={29} src={`/v2/img/svg/user.svg`} alt="user" />
               <p>Tài khoản</p>
             </div>
-          </a>
-          <a rel="nofollow" href={`/checkout`} className="icon-cart">
+          </Link>
+          <Link rel="nofollow" href={`/checkout`} className="icon-cart">
             <div className="cart-icon icon">
               <Image width={29} height={29} src={`/v2/img/svg/cart.svg`} alt="user" />
               <span className="total" id="count-cart">
@@ -80,7 +81,7 @@ const Header = () => {
               </span>
               <p>Giỏ hàng</p>
             </div>
-          </a>
+          </Link>
         </div>
       </div>
       <div className="div_ngang"></div>
@@ -89,7 +90,7 @@ const Header = () => {
           {menu.map((item) => (
             <div key={item.id} className="group-category">
               <div className="item-category">
-                <a href={item.url}>{item.text}</a>
+                <Link href={item.url.replace('https://thieuhoa.com.vn', '')}>{item.text}</Link>
               </div>
               {!!item.children?.length && (
                 <div className="dropdown-category">
@@ -100,16 +101,18 @@ const Header = () => {
                         return (
                           <div key={itemChild.id} className="group-item-category">
                             <div className="title">
-                              <a href={itemChild.url}>{itemChild.text}</a>
+                              <Link href={itemChild.url.replace('https://thieuhoa.com.vn', '')}>
+                                {itemChild.text}
+                              </Link>
                             </div>
                             {itemChild.children.map((itemGrandChild) => {
                               return (
                                 <div key={itemGrandChild.id} className="name-category">
-                                  <a
+                                  <Link
                                     href={itemGrandChild.url.replace('https://thieuhoa.com.vn', '')}
                                   >
                                     {itemGrandChild.text}
-                                  </a>
+                                  </Link>
                                 </div>
                               );
                             })}
@@ -124,9 +127,9 @@ const Header = () => {
                         if (itemChild.children.length < 1) {
                           return (
                             <div key={itemChild.id} className="title">
-                              <a href={itemChild.url.replace('https://thieuhoa.com.vn', '')}>
+                              <Link href={itemChild.url.replace('https://thieuhoa.com.vn', '')}>
                                 {itemChild.text}
-                              </a>
+                              </Link>
                             </div>
                           );
                         }
@@ -182,139 +185,141 @@ const Header = () => {
           <div className="tab-wrapper">
             <ul className="tab">
               <li className="active">
-                <a href="#tab-mobi-menu-387">THỜI TRANG</a>
+                <Link href="#tab-mobi-menu-387">THỜI TRANG</Link>
               </li>
               <li>
-                <a href="#tab-mobi-menu-619">PHỤ KIỆN</a>
+                <Link href="#tab-mobi-menu-619">PHỤ KIỆN</Link>
               </li>
               <li>
-                <a href="https://thieuhoa.com.vn/san-pham-moi">MỚI VỀ</a>
+                <Link href="https://thieuhoa.com.vn/san-pham-moi">MỚI VỀ</Link>
               </li>
               <li>
-                <a href="https://thieuhoa.com.vn/best-seller">BÁN CHẠY</a>
+                <Link href="https://thieuhoa.com.vn/best-seller">BÁN CHẠY</Link>
               </li>
               <li>
-                <a href="https://thieuhoa.com.vn/sale-off">SALE 199K</a>
+                <Link href="https://thieuhoa.com.vn/sale-off">SALE 199K</Link>
               </li>
               <li>
-                <a href="#tab-mobi-menu-444">BLOG</a>
+                <Link href="#tab-mobi-menu-444">BLOG</Link>
               </li>
               <li>
-                <a href="https://thieuhoa.com.vn/blog/canh-bao-mao-danh-thieu-hoa">CẢNH BÁO</a>
+                <Link href="https://thieuhoa.com.vn/blog/canh-bao-mao-danh-thieu-hoa">
+                  CẢNH BÁO
+                </Link>
               </li>
               <li>
-                <a href="#tab-mobi-menu-615">GIỚI THIỆU</a>
+                <Link href="#tab-mobi-menu-615">GIỚI THIỆU</Link>
               </li>
             </ul>
             <div className="tab-content">
               <div className="tab-item tab-main tab-new" id="tab-mobi-menu-387">
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/vay-dam-trung-nien">ĐẦM TRUNG NIÊN</a>
+                    <Link href="https://thieuhoa.com.vn/vay-dam-trung-nien">ĐẦM TRUNG NIÊN</Link>
                     <span className="plus-sign text-right" data-toggle="child-list-396">
                       +
                     </span>
                   </div>
                   <ul id="child-list-396">
                     <li>
-                      <a href="https://thieuhoa.com.vn/dam-du-tiec">ĐẦM DỰ TIỆC</a>
+                      <Link href="https://thieuhoa.com.vn/dam-du-tiec">ĐẦM DỰ TIỆC</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/vay-dam-suong">ĐẦM SUÔNG</a>
+                      <Link href="https://thieuhoa.com.vn/vay-dam-suong">ĐẦM SUÔNG</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/dam-dao-pho">ĐẦM DẠO PHỐ</a>
+                      <Link href="https://thieuhoa.com.vn/dam-dao-pho">ĐẦM DẠO PHỐ</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/dam-truyen-thong">ĐẦM TRUYỀN THỐNG</a>
+                      <Link href="https://thieuhoa.com.vn/dam-truyen-thong">ĐẦM TRUYỀN THỐNG</Link>
                     </li>
                   </ul>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/ao-trung-nien">ÁO TRUNG NIÊN</a>
+                    <Link href="https://thieuhoa.com.vn/ao-trung-nien">ÁO TRUNG NIÊN</Link>
                     <span className="plus-sign text-right" data-toggle="child-list-409">
                       +
                     </span>
                   </div>
                   <ul id="child-list-409">
                     <li>
-                      <a href="https://thieuhoa.com.vn/ao-kieu-trung-nien">ÁO KIỂU</a>
+                      <Link href="https://thieuhoa.com.vn/ao-kieu-trung-nien">ÁO KIỂU</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/ao-thun-trung-nien">ÁO THUN</a>
+                      <Link href="https://thieuhoa.com.vn/ao-thun-trung-nien">ÁO THUN</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/ao-khoac-nu">ÁO KHOÁC</a>
+                      <Link href="https://thieuhoa.com.vn/ao-khoac-nu">ÁO KHOÁC</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/ao-so-mi-trung-nien">ÁO SƠ MI</a>
+                      <Link href="https://thieuhoa.com.vn/ao-so-mi-trung-nien">ÁO SƠ MI</Link>
                     </li>
                   </ul>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/quan-trung-nien">QUẦN TRUNG NIÊN</a>
+                    <Link href="https://thieuhoa.com.vn/quan-trung-nien">QUẦN TRUNG NIÊN</Link>
                     <span className="plus-sign text-right" data-toggle="child-list-421">
                       +
                     </span>
                   </div>
                   <ul id="child-list-421">
                     <li>
-                      <a href="https://thieuhoa.com.vn/quan-gia-vay">QUẦN GIẢ VÁY</a>
+                      <Link href="https://thieuhoa.com.vn/quan-gia-vay">QUẦN GIẢ VÁY</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/quan-ong-suong">QUẦN ỐNG SUÔNG</a>
+                      <Link href="https://thieuhoa.com.vn/quan-ong-suong">QUẦN ỐNG SUÔNG</Link>
                     </li>
                   </ul>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/khan-choang-co">KHĂN CHOÀNG CỔ</a>
+                    <Link href="https://thieuhoa.com.vn/khan-choang-co">KHĂN CHOÀNG CỔ</Link>
                     <span className="plus-sign text-right" data-toggle="child-list-427">
                       +
                     </span>
                   </div>
                   <ul id="child-list-427">
                     <li>
-                      <a href="https://thieuhoa.com.vn/khan-cashmere">CASHMERE</a>
+                      <Link href="https://thieuhoa.com.vn/khan-cashmere">CASHMERE</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/khan-len">KHĂN LEN</a>
+                      <Link href="https://thieuhoa.com.vn/khan-len">KHĂN LEN</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/khan-lua-to-tam">KHĂN LỤA TƠ TẰM</a>
+                      <Link href="https://thieuhoa.com.vn/khan-lua-to-tam">KHĂN LỤA TƠ TẰM</Link>
                     </li>
                     <li>
-                      <a href="https://thieuhoa.com.vn/khan-lua-satin">KHĂN LỤA SATIN</a>
+                      <Link href="https://thieuhoa.com.vn/khan-lua-satin">KHĂN LỤA SATIN</Link>
                     </li>
                   </ul>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/ao-dai">ÁO DÀI</a>
+                    <Link href="https://thieuhoa.com.vn/ao-dai">ÁO DÀI</Link>
                   </div>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/chan-vay">CHÂN VÁY</a>
+                    <Link href="https://thieuhoa.com.vn/chan-vay">CHÂN VÁY</Link>
                   </div>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/do-bo-trung-nien">ĐỒ BỘ</a>
+                    <Link href="https://thieuhoa.com.vn/do-bo-trung-nien">ĐỒ BỘ</Link>
                   </div>
                 </div>
               </div>
               <div className="tab-item tab-main tab-new none" id="tab-mobi-menu-619">
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/tui-xach-nu">Túi xách nữ</a>
+                    <Link href="https://thieuhoa.com.vn/tui-xach-nu">Túi xách nữ</Link>
                   </div>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/giay-trung-nien">Giày Trung Niên</a>
+                    <Link href="https://thieuhoa.com.vn/giay-trung-nien">Giày Trung Niên</Link>
                   </div>
                 </div>
               </div>
@@ -324,29 +329,29 @@ const Header = () => {
               <div className="tab-item tab-main tab-new none" id="tab-mobi-menu-444">
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/kien-thuc-ve-thoi-trang">
+                    <Link href="https://thieuhoa.com.vn/kien-thuc-ve-thoi-trang">
                       Kiến thức về thời trang
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/tips-phoi-do">Tips Phối Đồ</a>
+                    <Link href="https://thieuhoa.com.vn/tips-phoi-do">Tips Phối Đồ</Link>
                   </div>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/cac-loai-vai">Các Loại Vải</a>
+                    <Link href="https://thieuhoa.com.vn/cac-loai-vai">Các Loại Vải</Link>
                   </div>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/xu-huong-thoi-trang">Xu Hướng</a>
+                    <Link href="https://thieuhoa.com.vn/xu-huong-thoi-trang">Xu Hướng</Link>
                   </div>
                 </div>
                 <div className="left-item title">
                   <div className="name-item item-mobile">
-                    <a href="https://thieuhoa.com.vn/dong-phuc">Đồng Phục</a>
+                    <Link href="https://thieuhoa.com.vn/dong-phuc">Đồng Phục</Link>
                   </div>
                 </div>
               </div>
@@ -365,7 +370,7 @@ const Header = () => {
           <div className="group-item group-item-type">
             <div className="title">MUA THEO THỂ LOẠI</div>
             <div className="all-item">
-              <a href="#" className="item">
+              <Link href="#" className="item">
                 <div className="img">
                   <img
                     className="lozad"
@@ -375,13 +380,13 @@ const Header = () => {
                   />
                 </div>
                 <div className="name-item">Áo thun</div>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="group-item ">
             <div className="title">MUA HÀNG THEO GIÁ</div>
             <div className="all-item column-2">
-              <a
+              <Link
                 rel="nofollow"
                 href="{{ route('category_and_post', ['slug' => 'dong-gia-99k']) }}"
                 className="item"
@@ -395,8 +400,8 @@ const Header = () => {
                   />
                 </div>
                 <div className="name-item">Đồng giá 99K</div>
-              </a>
-              <a
+              </Link>
+              <Link
                 rel="nofollow"
                 href="{{ route('category_and_post', ['slug' => 'dong-gia-199k']) }}"
                 className="item"
@@ -410,7 +415,7 @@ const Header = () => {
                   />
                 </div>
                 <div className="name-item">Đồng giá 199K</div>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Image from '@/components/Image';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -21,9 +22,9 @@ const Footer = () => {
                 TRỤ SỞ: 254 Cô Bắc, P. Cô Giang, Quận 1, Tp. Hồ Chí Minh
                 <br />
                 Hệ thống chi nhánh:{' '}
-                <a rel="nofollow" href="/store-list">
+                <Link rel="nofollow" href="/store-list">
                   Xem thêm
-                </a>
+                </Link>
               </span>
               <br />
             </div>
@@ -36,7 +37,7 @@ const Footer = () => {
                 alt=""
               />
               <span>
-                <a href="tel:18009246">1800.9246 (Miễn phí)</a>
+                <Link href="tel:18009246">1800.9246 (Miễn phí)</Link>
               </span>
             </div>
             <div className="item-footer">
@@ -111,9 +112,9 @@ const Footer = () => {
                 { href: '/chinh-sach-bao-hanh', text: 'Chính Sách Bảo Hành' },
               ].map((item, index) => (
                 <div className="item-footer" key={index}>
-                  <a rel="nofollow" href={item.href}>
+                  <Link rel="nofollow" href={item.href}>
                     <span>{item.text}</span>
-                  </a>
+                  </Link>
                 </div>
               ))}
             </div>
@@ -145,9 +146,9 @@ const Footer = () => {
                 { href: '/store-list', text: 'Hệ thống cửa hàng' },
               ].map((item, index) => (
                 <div className="item-footer" key={index}>
-                  <a href={item.href}>
+                  <Link href={item.href}>
                     <span>{item.text}</span>
-                  </a>
+                  </Link>
                 </div>
               ))}
             </div>
@@ -156,7 +157,7 @@ const Footer = () => {
         <div className="right-content">
           <div className="title">KẾT NỐI VỚI CHÚNG TÔI</div>
           <div className="list-icon">
-            <a href="https://www.facebook.com/thieuhoavn">
+            <Link href="https://www.facebook.com/thieuhoavn">
               <img
                 width={50}
                 height={50}
@@ -164,8 +165,8 @@ const Footer = () => {
                 src="https://thieuhoa.com.vn/v2/img/facebook.png"
                 alt=""
               />
-            </a>
-            <a href="https://zalo.me/388030919384134642">
+            </Link>
+            <Link href="https://zalo.me/388030919384134642">
               <img
                 width={50}
                 height={50}
@@ -173,8 +174,8 @@ const Footer = () => {
                 src="https://thieuhoa.com.vn/v2/img/zalo-large.png"
                 alt=""
               />
-            </a>
-            <a href="mailto:thoitrangthieuhoa@gmail.com">
+            </Link>
+            <Link href="mailto:thoitrangthieuhoa@gmail.com">
               <img
                 width={50}
                 height={50}
@@ -183,7 +184,7 @@ const Footer = () => {
                 alt=""
                 data-loaded="true"
               />
-            </a>
+            </Link>
           </div>
           <div className="group-email">
             <div className="title-mail">ĐĂNG KÝ NHẬN TIN TỪ THIEUHOA</div>
@@ -198,7 +199,7 @@ const Footer = () => {
             <div className="title-promotion">QUAN TÂM ZALO OA TH</div>
             <div className="text">Nhận các thông tin khuyến mãi hấp dẫn</div>
             <div className="icon-zalo">
-              <a className="tw-flex tw-items-center" href="https://zalo.me/388030919384134642">
+              <Link className="tw-flex tw-items-center" href="https://zalo.me/388030919384134642">
                 <img
                   className="lozad"
                   src="https://thieuhoa.com.vn/v2/img/zalo.png"
@@ -206,37 +207,37 @@ const Footer = () => {
                   data-loaded="true"
                 />
                 <span>Quan tâm</span>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="group-icon">
             <div className="left-icon">
-              <a href="http://online.gov.vn/Home/WebDetails/80642">
+              <Link href="http://online.gov.vn/Home/WebDetails/80642">
                 <img
                   className="lozad"
                   src="https://thieuhoa.com.vn/v2/img/congthuong.png"
                   alt=""
                   data-loaded="true"
                 />
-              </a>
+              </Link>
             </div>
             <div className="right-icon">
-              <a href="#" className="app-store">
+              <Link href="#" className="app-store">
                 <img
                   className="lozad"
                   src="https://thieuhoa.com.vn/v2/img/App-Store.png"
                   alt=""
                   data-loaded="true"
                 />
-              </a>
-              <a href="#" className="google-play">
+              </Link>
+              <Link href="#" className="google-play">
                 <img
                   className="lozad"
                   src="https://thieuhoa.com.vn/v2/img/google-play.png"
                   alt=""
                   data-loaded="true"
                 />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

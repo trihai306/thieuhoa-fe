@@ -1,9 +1,10 @@
 import React from 'react';
+import Link from 'next/link';
 
 const FooterMobi = () => {
   return (
     <div className="bottom-footer-mobi">
-      <a href="tel:18009246" className="item">
+      <Link href="tel:18009246" className="item">
         <svg
           width="25"
           height="25"
@@ -21,8 +22,8 @@ const FooterMobi = () => {
           />
         </svg>
         <p>Gọi ngay</p>
-      </a>
-      <a href="https://zalo.me/388030919384134642" className="item">
+      </Link>
+      <Link href="https://zalo.me/388030919384134642" className="item">
         <svg
           width="24"
           height="25"
@@ -36,8 +37,8 @@ const FooterMobi = () => {
           />
         </svg>
         <p>Zalo</p>
-      </a>
-      <a href="https://www.messenger.com/t/1889518347796003" className="item">
+      </Link>
+      <Link href="https://www.messenger.com/t/1889518347796003" className="item">
         <svg
           width="25"
           height="25"
@@ -51,8 +52,8 @@ const FooterMobi = () => {
           />
         </svg>
         <p>Mesenger</p>
-      </a>
-      <a href="{{ route('store_list') }}" className="item">
+      </Link>
+      <Link href="" className="item">
         <svg
           width="25"
           height="25"
@@ -77,7 +78,7 @@ const FooterMobi = () => {
           </defs>
         </svg>
         <p>Cửa hàng</p>
-      </a>
+      </Link>
     </div>
   );
 };

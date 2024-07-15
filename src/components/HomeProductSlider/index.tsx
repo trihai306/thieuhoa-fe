@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
@@ -41,13 +42,13 @@ export default function HomeProductSlider({ items }: any) {
           return (
             <SwiperSlide key={dataProductItem.id}>
               <div key={dataProductItem.id} className="item-new-product">
-                <a href={`/${dataProductItem.cateSlug}/${dataProductItem.slug}`}>
+                <Link href={`/${dataProductItem.cateSlug}/${dataProductItem.slug}`}>
                   <img
                     src={JSON.parse(dataProductItem.extra).thumbnail}
                     alt={dataProductItem.name}
                   />
                   <div className="text-new">{dataProductItem.name}</div>
-                </a>
+                </Link>
                 {dataProductItem.originPriceMin &&
                 dataProductItem.originPriceMin > dataProductItem.priceMin ? (
                   <span className="product-grid__tags product-grid__tags--sale">

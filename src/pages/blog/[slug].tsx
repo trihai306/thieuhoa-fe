@@ -58,15 +58,15 @@ const BlogDetail: NextPageWithLayout = ({
             Thiều Hoa
           </Link>
           »
-          <a className="text-link" href="/blog">
+          <Link className="text-link" href="/blog">
             Blog
-          </a>
+          </Link>
           {category && (
             <>
               »
-              <a className="text-link" href={`/category/${category.full_path}`}>
+              <Link className="text-link" href={`/category/${category.full_path}`}>
                 {category.title}
-              </a>
+              </Link>
             </>
           )}
           »<span className="text-base">{post.title}</span>
@@ -93,7 +93,7 @@ const BlogDetail: NextPageWithLayout = ({
           <span className="google-news justify-end tw-flex tw-flex-1 tw-flex-row ">
             <div className="items-center rounded-full bg-gray-200 px-3 py-1 tw-flex">
               <span className="mobile-hidden">Theo dõi Thiều Hoa trên</span>
-              <a
+              <Link
                 href="https://news.google.com/publications/CAAqBwgKMLSY0gsw87PpAw?hl=vi&gl=VN&ceid=VN%3Avi"
                 rel="noopener nofollow"
                 target="_blank"
@@ -105,7 +105,7 @@ const BlogDetail: NextPageWithLayout = ({
                   className="google-news-img"
                   src="/v2/img/google-news.png"
                 />
-              </a>
+              </Link>
             </div>
           </span>
         </div>
@@ -124,13 +124,13 @@ const BlogDetail: NextPageWithLayout = ({
             <b>Mục lục bài viết </b>
             <span className="toc_toggle">
               [
-              <a
+              <Link
                 className="icon-list newscare-icon"
                 onClick={toggleNewscare}
                 href="javascript:void(0)"
               >
                 Ẩn
-              </a>
+              </Link>
               ]
             </span>
           </div>
@@ -142,9 +142,9 @@ const BlogDetail: NextPageWithLayout = ({
               if (headline.name === 'h2') className = '';
               return (
                 <li key={index}>
-                  <a className={className} href={`#${headline.id}`}>
+                  <Link className={className} href={`#${headline.id}`}>
                     {headline.text}
-                  </a>
+                  </Link>
                 </li>
               );
             })}
@@ -167,13 +167,13 @@ const BlogDetail: NextPageWithLayout = ({
       {author && (
         <div style={{ display: 'block' }}>
           <span style={{ float: 'right' }}>
-            <a
+            <Link
               className="text-base"
               style={{ fontSize: '16px', fontWeight: 'bold' }}
               href={`/author/${author.slug}`}
             >
               {author.name}
-            </a>
+            </Link>
           </span>
         </div>
       )}
@@ -182,7 +182,7 @@ const BlogDetail: NextPageWithLayout = ({
         <div className="tag-list">
           {blogMenus.map((blogMenu, index) => (
             <div className="tag-item" key={index}>
-              <a href={blogMenu.url}>{blogMenu.text}</a>
+              <Link href={blogMenu.url}>{blogMenu.text}</Link>
             </div>
           ))}
         </div>
@@ -194,13 +194,13 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="products-list">
             {products.map((product, index) => (
               <div className="product-item" key={index}>
-                <a href={product.url} className="tw-relative tw-inline-block tw-h-full tw-w-full">
+                <Link href={product.url} className="tw-relative tw-inline-block tw-h-full tw-w-full">
                   <Image fill src={product.image} alt={product.name} />
-                </a>
+                </Link>
                 <div className="product-info">
-                  <a className="product-name" href={product.url}>
+                  <Link className="product-name" href={product.url}>
                     {product.name}
-                  </a>
+                  </Link>
                   <p className="product-price">{product.price}</p>
                 </div>
               </div>
@@ -214,16 +214,16 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="posts-list">
             {keywordRelatePosts.map((relatePost, index) => (
               <div className="post-item" key={index}>
-                <a
+                <Link
                   href={relatePost.url}
                   className="tw-relative tw-inline-block tw-h-full tw-w-full"
                 >
                   <Image fill src={relatePost.image} alt={relatePost.title} />
-                </a>
+                </Link>
                 <div className="post-info">
-                  <a className="post-title" href={relatePost.url}>
+                  <Link className="post-title" href={relatePost.url}>
                     {relatePost.title}
-                  </a>
+                  </Link>
                   <p className="post-date">
                     {new Date(relatePost.date).toLocaleDateString('vi-VN')}
                   </p>
@@ -239,16 +239,16 @@ const BlogDetail: NextPageWithLayout = ({
           <div className="posts-list">
             {relatedPosts.map((relatedPost, index) => (
               <div className="post-item" key={index}>
-                <a
+                <Link
                   href={relatedPost.url}
                   className="tw-relative tw-inline-block tw-h-full tw-w-full"
                 >
                   <Image fill src={relatedPost.image} alt={relatedPost.title} />
-                </a>
+                </Link>
                 <div className="post-info">
-                  <a className="post-title" href={relatedPost.url}>
+                  <Link className="post-title" href={relatedPost.url}>
                     {relatedPost.title}
-                  </a>
+                  </Link>
                   <p className="post-date">
                     {new Date(relatedPost.date).toLocaleDateString('vi-VN')}
                   </p>
