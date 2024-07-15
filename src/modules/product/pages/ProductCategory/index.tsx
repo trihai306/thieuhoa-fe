@@ -50,33 +50,33 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
           {category && (
             <>
               »{' '}
-              <a className="text-base" href={`/${category.slug}`}>
-                {category.name}
+              <a className="text-base" href={`/${category?.slug}`}>
+                {category?.name}
               </a>
             </>
           )}
         </div>
         <h1 className="title">
-          <span>{category.name}</span>
+          <span>{category?.name}</span>
         </h1>
         <div className="gr-filter">
           <div className="option-filter">
             {!parentCategory ? (
-              <a className="text-base" href={`/${category.slug}`}>
+              <a className="text-base" href={`/${category?.slug}`}>
                 <div className="item-filter active">
-                  <span>Tất cả {category.name}</span>
+                  <span>Tất cả {category?.name}</span>
                 </div>
               </a>
             ) : (
-              <a className="text-base" href={`/${parentCategory.slug}`}>
+              <a className="text-base" href={`/${parentCategory?.slug}`}>
                 <div className="item-filter">
-                  <span>Tất cả {parentCategory.name}</span>
+                  <span>Tất cả {parentCategory?.name}</span>
                 </div>
               </a>
             )}
-            {childrenCategory.map((child) => (
+            {childrenCategory?.map((child) => (
               <a className="text-base" href={`/${child.slug}`} key={child.slug}>
-                <div className={`item-filter ${child.slug === category.slug ? 'active' : ''}`}>
+                <div className={`item-filter ${child.slug === category?.slug ? 'active' : ''}`}>
                   <span>{child.name}</span>
                 </div>
               </a>
@@ -88,7 +88,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
       <div className="main-content">
         <div className="right-product">
           <div className="group-list-product">
-            {products.map((product) => (
+            {products?.map((product) => (
               <div className="item-list-product" key={product.slug}>
                 <div className="group-img">
                   <a href={`/${product.cateSlug}/${product.slug}`}>
@@ -98,8 +98,8 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
                       alt={product.name}
                     />
                   </a>
-                  {category.slug === 'san-pham-moi' && <div className="new-product-img">Mới</div>}
-                  {category.slug === 'best-seller' && (
+                  {category?.slug === 'san-pham-moi' && <div className="new-product-img">Mới</div>}
+                  {category?.slug === 'best-seller' && (
                     <div className="selling">
                       <img src="v2/img/svg/hot-sale.svg" alt="" />
                       <span className="text-selling">Bán chạy</span>

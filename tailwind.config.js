@@ -12,4 +12,7 @@ module.exports = {
   },
   plugins: [require('@tailwindcss/typography')],
   prefix: 'tw-',
+  // corePlugins: {
+  //   preflight: false,
+  // },
 };

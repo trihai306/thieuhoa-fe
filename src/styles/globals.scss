@@ -9,6 +9,12 @@
   }
 }
 
+button, input:where([type='button']), input:where([type='reset']), input:where([type='submit']) {
+  -webkit-appearance: button;
+  background-color: transparent;
+  background-image: none;
+  border: none;
+}
 .item-mobile {
   display: flex;
   justify-content: space-between;
