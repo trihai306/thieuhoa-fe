@@ -249,6 +249,7 @@
     background: #fff;
     border-top: 1px solid #e5e5e5;
     height: 60px;
+    column-gap: 4px;
     .item{
       background: $background-btn;
       border: 1px solid transparent;
@@ -256,6 +257,7 @@
       height: 40px;
       padding: 0px 6px;
       border-radius: 8px;
+      flex: 1;
       p{
         font-size: 12px;
         margin-left: 6px;
