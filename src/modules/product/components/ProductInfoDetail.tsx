@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { map } from 'lodash';
 import Link from 'next/link';
 
+import { MEDIA_ENDPOINT } from '@/common/constants';
 import {
   Dialog,
   DialogContent,
@@ -93,7 +94,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       <div className="group-price-voucher">
         <div className="gr-price">
           <div className="price-now">{new Intl.NumberFormat().format(product?.priceMin)}đ</div>
-          {product?.discount && (
+          {!!product?.discount && (
             <>
               <div className="old-price">
                 {new Intl.NumberFormat().format(product.originPriceMin)}đ
@@ -211,7 +212,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       <span id="message-check-product-stock" className="text-amount">
         Còn
         <span id="notice-product-stock" className="number">
-          {productStock}
+          {` ${productStock} `}
         </span>
         sản phẩm
       </span>
@@ -251,12 +252,12 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
         </button>
       </div>
       <div className="hotline">
-        <img src="https://thieuhoa.com.vn/v2/img/svg/Hotline.svg" alt="hotline" />
+        <img src={`${MEDIA_ENDPOINT}/v2/img/svg/Hotline.svg`} alt="hotline" />
         <Link href="tel:18009246">18009246</Link> - <span>Hotline đặt hàng nhanh</span>
       </div>
       <div className="description-detail">
         <div className="go-to-store">
-          <img src="https://thieuhoa.com.vn/v2/img/svg/location.svg" alt="" />
+          <img src={`${MEDIA_ENDPOINT}/v2/img/svg/location.svg`} alt="" />
           <Dialog modal={true}>
             <DialogTrigger>
               <div>Xem cửa hàng có sản phẩm này</div>
@@ -267,7 +268,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
                 <DialogDescription className="tw-max-h-96 tw-overflow-x-auto">
                   <div className="">
                     <div className="gr-store">
-                      {storeOffline &&
+                      {!!storeOffline &&
                         storeOffline.map((item) => (
                           <div key={item.id} className="item-store !tw-block ">
                             <div className="left-item">
@@ -407,7 +408,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
           <div className="top-banner">
             <div className="group-banner">
               <div className="left-group">
-                <img src="/v2/img/svg/volunteer_activism1.svg" alt="" />
+                <img src={`${MEDIA_ENDPOINT}/v2/img/svg/volunteer_activism1.svg`} alt="" />
               </div>
               <div className="right-group">
                 <p className="title text-base">100% Made in Viet Nam</p>
@@ -416,7 +417,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             </div>
             <div className="group-banner">
               <div className="left-group">
-                <img src="/v2/img/svg/cargo-truck-1.svg" alt="" />
+                <img src={`${MEDIA_ENDPOINT}/v2/img/svg/cargo-truck-1.svg`} alt="" />
               </div>
               <div className="right-group">
                 <p className="title text-base">Miễn phí vận chuyển </p>
@@ -425,7 +426,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             </div>
             <div className="group-banner">
               <div className="left-group">
-                <img src="/v2/img/svg/cash-on-delivery1.svg" alt="" />
+                <img src={`${MEDIA_ENDPOINT}/v2/img/svg/cash-on-delivery1.svg`} alt="" />
               </div>
               <div className="right-group">
                 <p className="title text-base">Kiểm hàng - Thanh toán tại nhà</p>
@@ -434,7 +435,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             </div>
             <div className="group-banner">
               <div className="left-group">
-                <img src="/v2/img/svg/verified_user1.svg" alt="" />
+                <img src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user1.svg`} alt="" />
               </div>
               <div className="right-group">
                 <p className="title text-base">Cam kết 1 đổi 1 trong 7 ngày</p>

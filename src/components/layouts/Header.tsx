@@ -1,29 +1,15 @@
-import { useEffect, useState } from 'react';
-import React from 'react';
+import React ,{ useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import Image from '@/components/Image';
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer';
 import { checkoutService } from '@/services/checkout/checkout.service';
 import { layoutService } from '@/services/layout.service';
 import { MenuType } from '@/types/layout';
-
-import { Button } from '../ui/button';
 
 import MenuDrawer from './MenuDrawer';
 
 const Header = () => {
   const [menu, setMenu] = useState<MenuType[]>([]);
-  console.log('header>>menu', menu);
   const [cartNumber, setCartNumber] = useState(0);
   useEffect(() => {
     const getMenu = async () => {

@@ -17,6 +17,7 @@ const MenuDrawer = ({ menu }: { menu: MenuType[] }) => {
     if (isEmpty(menu.children)) {
       return (
         <div
+          key={menu.id}
           className={`tw-w-full hover:tw-bg-yellow-500 ${level === 1 ? 'title' : 0}`}
           style={{
             marginLeft: `${level * 10}px`,
@@ -30,7 +31,7 @@ const MenuDrawer = ({ menu }: { menu: MenuType[] }) => {
     }
 
     return (
-      <div>
+      <div key={menu.id}>
         <div>
           <Link href={menu.url ? menu.url.replace('https://thieuhoa.com.vn', '') : '#'}>
             {menu ? menu.text : ''}
