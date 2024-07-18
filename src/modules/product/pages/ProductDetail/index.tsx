@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
-import { useAddToCardMutation } from '@/services/checkout/checkout.query';
 import { ApiResponse } from '@/types';
 
 import ProductDescription from '../../components/ProductDescription';
