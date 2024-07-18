@@ -10,7 +10,7 @@ const ReadMore = ({ children, maxCharacterCount = 400 }) => {
     setIsReadMoreShown(!isReadMoreShown);
   };
 
-  if (text.length <= maxCharacterCount) {
+  if (text?.length ?? 0 <= maxCharacterCount) {
     return (
       <ReactMarkdown
         rehypePlugins={[rehypeRaw, remarkGfm]}
