@@ -1,9 +1,32 @@
-import React from 'react'
+import { GetServerSideProps } from 'next';
 
-const SearchPage = () => {
+import { getAppLayout } from '@/components/layouts';
+import ProductSearch from '@/modules/product/pages/Search';
+import { productService } from '@/modules/product/services/product.service';
+import { NextPageWithLayout } from '@/types';
+
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
+  const { keyword } = context.query;
+
+  const res = await productService.search({
+    keyword: (keyword as string) ?? '',
+    page: 1,
+  });
+
+  return {
+    props: {
+      keyword: keyword,
+      productCategory: res,
+    },
+  };
+};
+
+const BlogDetail: NextPageWithLayout = ({ keyword, productCategory }) => {
   return (
-    <div>SearchPage</div>
-  )
-}
-
-export default SearchPage
+    <>
+      <ProductSearch keyword={keyword} initialData={productCategory} />
+    </>
+  );
+};
+BlogDetail.getLayout = getAppLayout;
+export default BlogDetail;
