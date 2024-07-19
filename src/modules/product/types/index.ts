@@ -15,7 +15,7 @@ export interface ProductCategory {
 
 export interface Products {
   current_page: number;
-  data: Daum[];
+  data: Product[];
   first_page_url: string;
   from: number;
   last_page: number;
@@ -26,39 +26,6 @@ export interface Products {
   prev_page_url: any;
   to: number;
   total: number;
-}
-
-export interface Daum {
-  id: number;
-  name: string;
-  slug: string;
-  full_path: string;
-  sku: string;
-  excerpt: string;
-  content: string;
-  meta: string;
-  old_id: any;
-  created_at: string;
-  updated_at: string;
-  deleted_at: any;
-  review_data: any;
-  regular_price?: number;
-  discount: number;
-  price: any;
-  sale_price: any;
-  status: number;
-  auto_sale: number;
-  display: number;
-  publish_date: string;
-  extra: string;
-  stock: number;
-  order_count: number;
-  cateSlug: string;
-  arrayColor: string[];
-  arraySize: any[];
-  priceMin: number;
-  originPriceMin: number;
-  variations: Variation[];
 }
 
 export interface Variation {
