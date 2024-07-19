@@ -1,11 +1,24 @@
 import React from 'react';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
 import { getAppLayout } from '@/components/layouts';
+import { checkoutService } from '@/services/checkout/checkout.service';
+import { DataVoucher } from '@/types/home';
 
-import QuickCheckout from './components/form-checkout';
-
-export default function Checkout() {
+import FormCheckout from './components/form-checkout';
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { data: dataVoucher } = await checkoutService.getCouponList();
+  return {
+    props: {
+      dataVoucher,
+    },
+  };
+};
+interface CheckoutProps {
+  dataVoucher: DataVoucher[];
+}
+export default function Checkout({ dataVoucher }: CheckoutProps) {
   return (
     <div>
       <Head>
@@ -55,7 +68,7 @@ export default function Checkout() {
             <div className="dropdown-filter"></div>
           </div>
           <div>
-            <QuickCheckout />
+            <FormCheckout couponApi={dataVoucher} />
           </div>
         </div>
       </div>

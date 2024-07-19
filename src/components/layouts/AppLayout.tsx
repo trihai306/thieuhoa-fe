@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
+import { Toaster } from 'react-hot-toast';
 import NoSSR from 'react-no-ssr';
 import { useRouter } from 'next/router';
 
@@ -34,6 +35,7 @@ export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   }, [router]);
   return (
     <div>
+      <Toaster />
       {loading && <Preloader />}
       <Header />
       <main>{children}</main>

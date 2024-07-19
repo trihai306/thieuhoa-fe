@@ -1,28 +1,30 @@
-import React ,{ useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 import Image from '@/components/Image';
-import { checkoutService } from '@/services/checkout/checkout.service';
+import { useAppDispatch, useAppSelector } from '@/redux';
+import { setCartCount } from '@/redux/features/cart';
 import { layoutService } from '@/services/layout.service';
 import { MenuType } from '@/types/layout';
+import { getCartTotal } from '@/utils/cart';
 
 import MenuDrawer from './MenuDrawer';
 
 const Header = () => {
   const [menu, setMenu] = useState<MenuType[]>([]);
-  const [cartNumber, setCartNumber] = useState(0);
+  const cartCount = useAppSelector((state) => state.cart.count);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const getMenu = async () => {
       const res = await layoutService.menu();
       setMenu(res.data);
     };
-    const getCartNumber = async () => {
-      const res = await checkoutService.getCartNumber();
-      setCartNumber(res.data.total);
-    };
     getMenu();
-    getCartNumber();
-  }, []);
+
+    const count = getCartTotal();
+    dispatch(setCartCount(count));
+  }, [dispatch]);
   return (
     <header id="header">
       <div className="middle-header">
@@ -60,7 +62,7 @@ const Header = () => {
             <div className="cart-icon icon">
               <Image width={29} height={29} src={`/v2/img/svg/cart.svg`} alt="user" />
               <span className="total" id="count-cart">
-                {cartNumber}
+                {cartCount}
               </span>
               <p>Giỏ hàng</p>
             </div>
@@ -126,7 +128,7 @@ const Header = () => {
         </div>
 
         <div className="right-content">
-          <form className="tw-flex" action="/search" method="GET" data-hs-cf-bound="true">
+          <form className="tw-flex" action="/search" method="GET">
             <input
               type="search"
               name="keyword"

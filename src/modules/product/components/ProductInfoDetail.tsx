@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { map } from 'lodash';
 import Link from 'next/link';
 
@@ -11,7 +12,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { useAddToCardMutation } from '@/services/checkout/checkout.query';
+import { useAppDispatch } from '@/redux';
+import { setCartCount } from '@/redux/features/cart';
+import { addProductToCart, getCartTotal } from '@/utils/cart';
 
 import { ProductDetail } from '../types';
 
@@ -26,25 +29,23 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
   const [quantity, setQuantity] = useState(1);
-  const { mutateAsync: doAddCart } = useAddToCardMutation();
-
+  const dispatch = useAppDispatch();
   const productStock = useMemo(() => {
     return product?.variations.find(
       (stock) => stock.color === selectedColor && stock.size === selectedSize,
     )?.stock;
   }, [product, selectedColor, selectedSize]);
 
-  const handleAddCart = async () => {
-    const formData = {
+  const handleAddCart = () => {
+    addProductToCart({
+      product_id: product.id,
       color: selectedColor,
       size: selectedSize,
       quantity: quantity,
-      product_id: product.id, // replace with actual product id
-      product_image: '',
-      reviews_count: product.reviews_count, // replace with actual reviews count
-      order_count: product.order_count, // replace with actual order count
-    };
-    await doAddCart(formData);
+    });
+    const count = getCartTotal();
+    dispatch(setCartCount(count));
+    toast.success('Đã thêm sản phẩm vào giỏ hàng');
   };
 
   const storeOffline = useMemo(() => {
@@ -57,9 +58,59 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
 
   useEffect(() => {
     if (!product) return;
-    setSelectedColor(product.colors[0].color);
+    setSelectedColor(product?.colors[0]?.color ?? product.arrayColor[0]);
     setSelectedSize(product.arraySize[0]);
   }, [product]);
+
+  const renderColor = useCallback(() => {
+    if (product.colors.length) {
+      return (
+        <div className="group-color">
+          <div className="title">
+            Màu sắc: <strong id="color-name">{selectedColor}</strong>
+          </div>
+          <div className="color">
+            {product?.colors.map((colorItem, key) => (
+              <button
+                onClick={() => setSelectedColor(colorItem.color)}
+                key={key}
+                data-property={colorItem.color}
+                className={`color-item select-product-color ${
+                  colorItem.color === selectedColor ? 'active' : ''
+                }`}
+              >
+                <img className="lozad" src={colorItem.thumbnail} alt={colorItem.color} />
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    if (product.arrayColor.length) {
+      return (
+        <div className="group-color">
+          <div className="title">
+            Màu sắc: <strong id="color-name">{selectedColor}</strong>
+          </div>
+          <div className="color">
+            {product.arrayColor.map((colorItem) => {
+              return (
+                <button
+                  key={colorItem}
+                  className={`color-item-text select-product-color ${
+                    colorItem === selectedColor ? 'active' : ''
+                  }`}
+                  onClick={() => setSelectedColor(colorItem)}
+                >
+                  {colorItem}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      );
+    }
+  }, [product.arrayColor, product.colors, selectedColor]);
   if (!product) return null;
   return (
     <div className="right-product-detail">
@@ -108,27 +159,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
         <ProductVoucher vouchers={data?.dataVoucher} />
       </div>
 
-      {product?.colors?.length > 0 && (
-        <div className="group-color">
-          <div className="title">
-            Màu sắc: <strong id="color-name">{selectedColor}</strong>
-          </div>
-          <div className="color">
-            {product?.colors.map((colorItem, key) => (
-              <button
-                onClick={() => setSelectedColor(colorItem.color)}
-                key={key}
-                data-property={colorItem.color}
-                className={`color-item select-product-color ${
-                  colorItem.color === selectedColor ? 'active' : ''
-                }`}
-              >
-                <img className="lozad" src={colorItem.thumbnail} alt={colorItem.color} />
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+      {renderColor()}
 
       <div className="group-size">
         <div className="top-size">
