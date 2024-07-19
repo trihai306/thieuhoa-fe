@@ -7,8 +7,14 @@ import { ApiResponse } from '@/types';
 import { Product, ProductCategory, ProductDetail } from '../types';
 
 class ProductService extends BaseService {
-  async getCategory(slug: string) {
-    return await this.http.get<ApiResponse<ProductCategory>>(slug).then((res) => res.data);
+  async getCategory(data: { slug: string; page?: number }) {
+    return await this.http
+      .get<ApiResponse<ProductCategory>>(data.slug, {
+        params: {
+          page: data.page,
+        },
+      })
+      .then((res) => res.data);
   }
 
   async search(data: { keyword: string; page?: number }) {

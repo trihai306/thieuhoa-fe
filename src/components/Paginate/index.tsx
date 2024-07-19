@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import ReactPaginate from 'react-paginate';
 
 export interface PaginateProps {
@@ -45,8 +45,8 @@ const Paginate: React.FC<PaginateProps> = ({ total, perPage, value, onChange, is
       className="pagination"
       breakLabel="..."
       nextLabel=">"
-      initialPage={value}
-      onPageChange={(page) => onChange?.(page.selected)}
+      initialPage={value - 1}
+      onPageChange={(page) => onChange?.(page.selected + 1)}
       pageRangeDisplayed={2}
       pageCount={Math.ceil(total / perPage)}
       previousLabel="<"
@@ -56,4 +56,4 @@ const Paginate: React.FC<PaginateProps> = ({ total, perPage, value, onChange, is
   );
 };
 
-export default Paginate;
+export default memo(Paginate);

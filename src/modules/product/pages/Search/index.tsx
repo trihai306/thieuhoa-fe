@@ -20,22 +20,16 @@ export type ProductSearchProps = {
 
 const ProductSearch: React.FC<ProductSearchProps> = ({ keyword, initialData }) => {
   const router = useRouter();
-
+  const [searchQuery, setSearchQuery] = useState({
+    keyword: keyword,
+    page: 1,
+  });
   const [page, setPage] = useState(1);
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: [
-      'search',
-      {
-        keyword: keyword,
-        page: page,
-      },
-    ],
+    queryKey: ['search', searchQuery],
     initialData: initialData,
     queryFn: async () => {
-      return await productService.search({
-        keyword: keyword,
-        page: page,
-      });
+      return await productService.search(searchQuery);
     },
   });
 
@@ -54,14 +48,6 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ keyword, initialData }) =
 
   const category = data?.data?.category;
   const products = data?.data?.products?.data;
-
-  const productPaginate = {
-    withQueryString: () => ({
-      previousPageUrl: () => '#',
-      nextPageUrl: () => '#',
-    }),
-    onEachSide: () => ({ appends: () => ({ links: () => 'Pagination Links' }) }),
-  };
 
   return (
     <div id="content-product">
@@ -147,13 +133,12 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ keyword, initialData }) =
 
           <Paginate
             isMobile={isMobile}
-            value={page}
+            value={searchQuery.page}
             onChange={(p) => {
-              if (p + 1 === page) return;
-              setPage(p + 1);
+              setSearchQuery({ ...searchQuery, page: p });
             }}
-            total={data?.data.products.total ?? 0}
-            perPage={data?.data.products.per_page ?? 1}
+            total={data?.data?.products?.total ?? 0}
+            perPage={data?.data?.products?.per_page ?? 1}
           />
         </div>
       </div>

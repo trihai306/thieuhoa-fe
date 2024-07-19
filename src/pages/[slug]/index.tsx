@@ -7,7 +7,7 @@ import { postService } from '@/modules/static/services/post/post.service';
 import { NextPageWithLayout } from '@/types';
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  const { slug } = context.params;
+  const { slug, page } = context.params;
   const res = await postService.getPost(slug as string);
   if (Object.keys(res.data).includes('staticPage')) {
     return {
@@ -22,14 +22,15 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
     props: {
       slug: slug,
       productCategory: res,
+      page: page ?? 1,
     },
   };
 };
 
-const BlogDetail: NextPageWithLayout = ({ slug, productCategory, staticPage }) => {
+const BlogDetail: NextPageWithLayout = ({ slug, productCategory, staticPage, page }) => {
   return (
     <div>
-      {productCategory && <ProductCategory slug={slug} initialData={productCategory} />}
+      {productCategory && <ProductCategory slug={slug} initialData={productCategory} page={page} />}
       {staticPage && <StaticPost slug={slug} initialData={staticPage} />}
     </div>
   );

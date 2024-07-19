@@ -1,44 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { isMobile } from 'react-device-detect';
-import ReactMarkdown from 'react-markdown';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import rehypeRaw from 'rehype-raw';
-import remarkGfm from 'remark-gfm';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
+import Paginate from '@/components/Paginate';
 import ReadMore from '@/components/ReadMore';
+import { ApiResponse } from '@/types';
 import { formatNumber } from '@/utils/number';
 
+import ProductLoadingCard from '../../components/ProductLoadingCard';
 import { productService } from '../../services/product.service';
+import { ProductCategory as ProductCategoryType } from '../../types';
 export type ProductCategoryProps = {
   slug: string;
-  initialData?: any;
+  initialData?: ApiResponse<ProductCategoryType>;
+  page?: number;
 };
 
-const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) => {
-  const { data, isLoading } = useQuery({
-    queryKey: ['category', slug],
+const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, page }) => {
+  const [searchQuery, setSearchQuery] = useState({
+    slug: slug,
+    page: page ?? 1,
+  });
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ['category', searchQuery],
     initialData: initialData,
     queryFn: async () => {
-      return await productService.getCategory(slug);
+      return await productService.getCategory(searchQuery);
     },
   });
+  const haveLoading = isLoading || isFetching;
 
   const category = data?.data?.category;
   const parentCategory = data?.data?.parentCategory;
   const childrenCategory = data?.data?.childrenCategory;
   const products = data?.data?.products?.data;
 
-  const productPaginate = {
-    withQueryString: () => ({
-      previousPageUrl: () => '#',
-      nextPageUrl: () => '#',
-    }),
-    onEachSide: () => ({ appends: () => ({ links: () => 'Pagination Links' }) }),
-  };
-
-  if (isLoading) return <div>Loading...</div>;
   return (
     <div id="content-product">
       <div className="top-content">
@@ -91,125 +89,76 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData }) 
       <div className="main-content">
         <div className="right-product">
           <div className="group-list-product">
-            {products?.map((product) => (
-              <div className="item-list-product" key={product.slug}>
-                <div className="group-img">
-                  <Link href={`/${product.cateSlug}/${product.slug}`}>
-                    <img
-                      className="img-product lozad"
-                      src={JSON.parse(product.extra)['thumbnail']}
-                      alt={product.name}
-                    />
-                  </Link>
-                  {category?.slug === 'san-pham-moi' && <div className="new-product-img">Mới</div>}
-                  {category?.slug === 'best-seller' && (
-                    <div className="selling tw-my-2">
-                      <img src={`${MEDIA_ENDPOINT}/v2/img/svg/hot-sale.svg`} alt="" />
-                      <span className="text-selling">Bán chạy</span>
-                    </div>
-                  )}
-                  {!!product.discount && (
-                    <div className="product-grid__tags product-grid__tags--sale">
-                      Sale -{product.discount}%
-                    </div>
-                  )}
-                </div>
-                <h2 className="name-product">
-                  <Link className="text-base" href={`/${product.slug}/${product.cateSlug}`}>
-                    {product.name}
-                  </Link>
-                </h2>
-                <div className="price-product">
-                  <span className="price-now">{formatNumber(product.priceMin)}đ</span>
-                  {product.originPriceMin && product.originPriceMin > product.priceMin && (
-                    <span className="price-old">{formatNumber(product.originPriceMin)}đ</span>
-                  )}
-                  {JSON.parse(product.extra)['data_color'].length > 0 && (
-                    <div className="list-color">
-                      <div className="color">
-                        {JSON.parse(product.extra)['data_color'].map((dataColorItem) => (
-                          <div className="color-item" key={dataColorItem.name}>
-                            <img
-                              src={dataColorItem.thumbnail}
-                              className="color-img"
-                              height="20"
-                              width="20"
-                              alt={dataColorItem.name}
-                            />
-                          </div>
-                        ))}
+            {haveLoading &&
+              Array(20)
+                .fill(0)
+                .map((_, index) => <ProductLoadingCard key={index} />)}
+            {!haveLoading &&
+              products?.map((product) => (
+                <div className="item-list-product" key={product.slug}>
+                  <div className="group-img">
+                    <Link href={`/${product.cateSlug}/${product.slug}`}>
+                      <img
+                        className="img-product lozad"
+                        src={JSON.parse(product.extra)['thumbnail']}
+                        alt={product.name}
+                      />
+                    </Link>
+                    {category?.slug === 'san-pham-moi' && (
+                      <div className="new-product-img">Mới</div>
+                    )}
+                    {category?.slug === 'best-seller' && (
+                      <div className="selling tw-my-2">
+                        <img src={`${MEDIA_ENDPOINT}/v2/img/svg/hot-sale.svg`} alt="" />
+                        <span className="text-selling">Bán chạy</span>
                       </div>
-                    </div>
-                  )}
+                    )}
+                    {!!product.discount && (
+                      <div className="product-grid__tags product-grid__tags--sale">
+                        Sale -{product.discount}%
+                      </div>
+                    )}
+                  </div>
+                  <h2 className="name-product">
+                    <Link className="text-base" href={`/${product.slug}/${product.cateSlug}`}>
+                      {product.name}
+                    </Link>
+                  </h2>
+                  <div className="price-product">
+                    <span className="price-now">{formatNumber(product.priceMin)}đ</span>
+                    {product.originPriceMin && product.originPriceMin > product.priceMin && (
+                      <span className="price-old">{formatNumber(product.originPriceMin)}đ</span>
+                    )}
+                    {JSON.parse(product.extra)['data_color'].length > 0 && (
+                      <div className="list-color">
+                        <div className="color">
+                          {JSON.parse(product.extra)['data_color'].map((dataColorItem) => (
+                            <div className="color-item" key={dataColorItem.name}>
+                              <img
+                                src={dataColorItem.thumbnail}
+                                className="color-img"
+                                height="20"
+                                width="20"
+                                alt={dataColorItem.name}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
-          {isMobile ? (
-            <ul className="pagination" style={{ float: 'right' }}>
-              {productPaginate.withQueryString().previousPageUrl() && (
-                <li className="page-item" style={{ width: '120px' }}>
-                  <Link
-                    style={{ padding: '0.5rem 0.5rem' }}
-                    className="page-link"
-                    href={productPaginate.withQueryString().previousPageUrl()}
-                    rel="prev"
-                    aria-label="« Previous"
-                  >
-                    ‹ Trang trước
-                  </Link>
-                </li>
-              )}
-              {productPaginate.withQueryString().nextPageUrl() && (
-                <li className="page-item" style={{ width: '120px' }}>
-                  <Link
-                    style={{ padding: '0.5rem 0.5rem' }}
-                    className="page-link"
-                    href={productPaginate.withQueryString().nextPageUrl()}
-                    rel="next"
-                    aria-label="Next »"
-                  >
-                    Trang sau ›
-                  </Link>
-                </li>
-              )}
-            </ul>
-          ) : (
-            <>
-              <nav>
-                <ul className="pagination">
-                  <li className="page-item active" aria-current="page">
-                    <span className="page-link">1</span>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="https://thieuhoa.com.vn/tui-xach-nu?page=2">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="https://thieuhoa.com.vn/tui-xach-nu?page=3">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link" href="https://thieuhoa.com.vn/tui-xach-nu?page=4">
-                      4
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a
-                      className="page-link"
-                      href="https://thieuhoa.com.vn/tui-xach-nu?page=2"
-                      rel="next"
-                      aria-label="Next »"
-                    >
-                      ›
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </>
-          )}
+          <Paginate
+            isMobile={isMobile}
+            value={searchQuery.page}
+            onChange={(p) => {
+              setSearchQuery({ ...searchQuery, page: p });
+            }}
+            total={data?.data?.products?.total ?? 0}
+            perPage={data?.data?.products?.per_page ?? 1}
+          />
           <div className="description-product">
             <div className="group-description">
               <div className="cate_description_sub">
