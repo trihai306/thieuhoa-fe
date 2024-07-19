@@ -1,15 +1,17 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
+import cartReducer from './features/cart';
 import settingReducer from './features/settings';
-
 export enum ReducerName {
   Settings = 'settings',
+  Cart = 'cart',
 }
 
 export const store = configureStore({
   reducer: {
     settings: settingReducer,
+    cart: cartReducer,
   },
 });
 

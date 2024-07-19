@@ -1,9 +1,10 @@
 import { cloneDeepWith, isString } from 'lodash';
 
 import { BaseService } from '@/services/base.service';
+import API_ENDPOINTS from '@/services/endpoints';
 import { ApiResponse } from '@/types';
 
-import { ProductCategory, ProductDetail } from '../types';
+import { Product, ProductCategory, ProductDetail } from '../types';
 
 class ProductService extends BaseService {
   async getCategory(slug: string) {
@@ -24,6 +25,13 @@ class ProductService extends BaseService {
         }
       }) as ApiResponse<ProductDetail>;
     });
+  }
+  async getProducts(ids: number[]) {
+    return await this.http
+      .post<ApiResponse<Product[]>>(API_ENDPOINTS.GET_PRODUCTS, {
+        ids,
+      })
+      .then((res) => res.data);
   }
 }
 

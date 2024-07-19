@@ -1,35 +1,64 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { MEDIA_ENDPOINT } from '@/common/constants';
+import { productService } from '@/modules/product/services/product.service';
+import { ProductDetail } from '@/modules/product/types';
 import { checkoutService } from '@/services/checkout/checkout.service';
-import { CartType, DataVoucher } from '@/types/checkout';
+import { DataVoucher } from '@/types/checkout';
+import { getCart } from '@/utils/cart';
+import { formatNumber } from '@/utils/number';
 
 interface FormCheckoutProps {
-  couponApi?: DataVoucher[];
+  couponApi: DataVoucher[];
 }
 interface CouponMessage {
   error: boolean;
   message: string;
 }
+interface CartItem {
+  image: string;
+  order_count: number;
+  color: string;
+  size: string;
+  quantity: number;
+  name: string;
+  price: number;
+  regularPrice: number;
+}
 export default function FormCheckout({ couponApi }: FormCheckoutProps) {
-  const [coupons, setCoupons] = useState<DataVoucher[]>([]);
-  const [dataCart, setDataCart] = useState<CartType>();
   const [customerPoint, setCustomerPoint] = useState<number>(0);
   const fullNameInputRef = useRef<HTMLInputElement>(null);
   const phoneInputNumber = useRef<HTMLInputElement>(null);
   const addressInputNumber = useRef<HTMLInputElement>(null);
   const noteInputRef = useRef<HTMLInputElement>(null);
   const voucherInputRef = useRef<HTMLInputElement>(null);
-
+  const [cartItems, setCartItems] = useState<any[]>([]);
   const [voucherMessage, setVoucherMessage] = useState<CouponMessage>();
   useEffect(() => {
-    const getCounpon = async () => {
-      const res = await checkoutService.getCouponList();
-      const resCart = await checkoutService.getDataCart();
-      setCoupons(res.data);
-      setDataCart(resCart.data);
-      console.log(resCart);
+    const getCartItems = async () => {
+      const dataCart = getCart();
+      const productIds = dataCart.map((item) => item.product_id);
+      const uniqueIds = productIds.filter((item, index) => productIds.indexOf(item) === index);
+      const { data: products } = await productService.getProducts(uniqueIds);
+      setCartItems(() => {
+        const productIds = dataCart.map((item) => item.product_id);
+        const items = dataCart.filter((item) => productIds.includes(item.product_id));
+        return items.map((item) => {
+          const product = products.find((item) => productIds.includes(item.id));
+          const extra = JSON.parse(`${product?.extra ?? '{}'}`);
+          return {
+            ...item,
+            name: product?.name,
+            image: extra.thumbnail,
+            price: product?.price,
+            regularPrice: product?.regular_price,
+            reviews_count: product.reviews_count,
+            order_count: product.order_count,
+          };
+        });
+      });
     };
-    getCounpon();
+    getCartItems();
   }, []);
 
   useEffect(() => {
@@ -71,7 +100,6 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
         error: true,
         message: res.message,
       });
-      return;
     } else {
       setVoucherMessage({
         error: false,
@@ -193,52 +221,56 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
       </div>
       <div className="right-content-pay">
         <h2 className="title">Giỏ hàng</h2>
-        <div v-for="cartItem in dataCart.items" className="item-product-pay">
-          <div className="form-group-checkbox">
-            <div className="img">
-              <img src="cartItem.image" alt="" />
-              <div className="new-product-img">Mới</div>
-              <div className="bottom-img-noti">x</div>
-            </div>
-          </div>
-          <div className="product-item-name">
-            <div className="top-product-item">
-              <div className="name-product">cartname</div>
-              <div className="tw-mb-[10px] tw-text-[14px]">
-                Bán <strong>cartItem.order_count</strong> mỗi tháng
-                <br />
-                <strong>cartItem.reviews_count</strong> đánh giá
-              </div>
-              <div className="type-product">
-                <div className="text-color">
-                  <span>Màu:</span> cartItem.color
-                </div>
-                <div className="text-size">
-                  <span>Size:</span> cartItem.size
+        {cartItems.map((item) => {
+          return (
+            <div key={item.product_id} className="item-product-pay">
+              <div className="form-group-checkbox">
+                <div className="img">
+                  <img src={item.image} alt="" />
+                  <div className="new-product-img">Mới</div>
+                  <div className="bottom-img-noti">x</div>
                 </div>
               </div>
-            </div>
-            <div className="amout">
-              <div className="wrapper">
-                <span className="minus">-</span>
-                <span className="num">cartItem.quantity</span>
-                <span className="plus">+</span>
+              <div className="product-item-name">
+                <div className="top-product-item">
+                  <div className="name-product">{item.name}</div>
+                  <div className="tw-mb-[10px] tw-text-[14px]">
+                    Bán <strong>{item.order_count}</strong> mỗi tháng
+                    <br />
+                    <strong>{item.reviews_count}</strong> đánh giá
+                  </div>
+                  <div className="type-product">
+                    <div className="text-color">
+                      <span>Màu:</span> {item.color}
+                    </div>
+                    <div className="text-size">
+                      <span>Size:</span> {item.size}
+                    </div>
+                  </div>
+                </div>
+                <div className="amout">
+                  <div className="wrapper">
+                    <span className="minus">-</span>
+                    <span className="num">{item.quantity}</span>
+                    <span className="plus">+</span>
+                  </div>
+                </div>
+                <div className="price-gr">
+                  <div className="price-now">{formatNumber(item.price * item.quantity)}đ</div>
+                  {item.regularPrice > item.price && (
+                    <div className="old-price">
+                      {formatNumber(item.regularPrice * item.quantity)}đ
+                    </div>
+                  )}
+                  <button type="button" className="delete-product">
+                    <img src={`${MEDIA_ENDPOINT}/v2/img/svg/gg_trash.svg`} alt="" />
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="price-gr">
-              <div className="price-now">cartItem.priceSumđ</div>
-              <div className="old-price" v-if="cartItem.regularPriceSum > cartItem.priceSum">
-                cartItem.regularPriceSumđ
-              </div>
-
-              <div className="delete-product">
-                <img src="/v2/img/svg/gg_trash.svg" alt="" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="exclusive-offer" v-show="promoDeals.length">
+          );
+        })}
+        {/* <div className="exclusive-offer" v-show="promoDeals.length">
           <div className="title-exclusive">
             <span className="text1">
               Ưu đãi độc quyền{' '}
@@ -312,10 +344,10 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="group-voucher">
           <div className="all-gr-voucher">
-            {coupons.map((coupon) => (
+            {couponApi.map((coupon) => (
               <div
                 key={coupon.id}
                 className="item-voucher active tw-cursor-pointer"
@@ -372,7 +404,7 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
             {voucherMessage.message}
           </p>
         )}
-        <div className="group-price">
+        {/* <div className="group-price">
           <div className="left-group">Tạm tính</div>
           <div className="right-group">
             <div className="price-now">
@@ -420,7 +452,7 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
           <div className="right-group ">
             <div className=" total">{dataCart?.totalFormat}đ</div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
