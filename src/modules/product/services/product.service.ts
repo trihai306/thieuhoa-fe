@@ -10,6 +10,12 @@ class ProductService extends BaseService {
     return await this.http.get<ApiResponse<ProductCategory>>(slug).then((res) => res.data);
   }
 
+  async search(keyword: string) {
+    return await this.http
+      .get<ApiResponse<ProductCategory>>(`/search?keyword=${keyword}`)
+      .then((res) => res.data);
+  }
+
   async getProductDetail(slug: string) {
     return await this.http.get<ApiResponse<ProductDetail>>(slug).then((res) => {
       return cloneDeepWith(res.data, (value, key) => {
