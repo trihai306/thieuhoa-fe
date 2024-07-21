@@ -38,7 +38,6 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
       const productIds = dataCart.map((item) => item.product_id);
       const uniqueIds = productIds.filter((item, index) => productIds.indexOf(item) === index);
       const { data: products } = await productService.getProducts(uniqueIds);
-      console.log(products);
       setCartItems(() => {
         const productIds = dataCart.map((item) => item.product_id);
         const items = dataCart.filter((item) => productIds.includes(item.product_id));
@@ -190,6 +189,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
       const res = await checkoutService.checkout(req);
       if (res.code === 200) {
         setCheckoutErrorMsg('');
+        forceUpdateCart([]);
         router.push(res.data.redirect);
       } else {
         setCheckoutErrorMsg('Đã có lỗi xảy ra.');
@@ -235,8 +235,12 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
     if (isNaN(point) || point < 0) {
       return;
     }
-    if (point > maxUse || point > customerPoint) {
+    if (point > maxUse) {
       setCustomerPointApply(maxUse);
+      return;
+    }
+    if (point > customerPoint) {
+      setCustomerPointApply(customerPoint);
       return;
     }
     setCustomerPointApply(point);
