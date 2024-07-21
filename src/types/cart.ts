@@ -3,4 +3,5 @@ export type CartProduct = {
   color: string;
   size: string;
   quantity: number;
+  variation_id: number;
 };

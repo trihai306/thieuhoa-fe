@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { cloneDeep } from 'lodash';
+import { useRouter } from 'next/navigation';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
 import { productService } from '@/modules/product/services/product.service';
@@ -29,6 +30,8 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [voucherMessage, setVoucherMessage] = useState<CouponMessage>();
   const [voucherCode, setVoucherCode] = useState<string>('');
+  const router = useRouter();
+  const [checkoutErrorMsg, setCheckoutErrorMsg] = useState<string>('');
   useEffect(() => {
     const getCartItems = async () => {
       const dataCart = getCart();
@@ -173,6 +176,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
       note,
     };
     localStorage.setItem('user_info', JSON.stringify(userInfo));
+    const dataCart = getCart();
     const req = {
       full_name: fullName,
       phone,
@@ -180,10 +184,17 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
       note,
       input_point: customerPointApply || 0,
       couponCode: voucherCode,
+      dataCart,
     };
     const checkout = async () => {
       const res = await checkoutService.checkout(req);
-      console.log(res);
+      if (res.code === 200) {
+        setCheckoutErrorMsg('');
+        router.push(res.data.redirect);
+      } else {
+        setCheckoutErrorMsg('Đã có lỗi xảy ra.');
+        console.log(res);
+      }
     };
     checkout();
   }, [customerPointApply, voucherCode]);
@@ -299,10 +310,11 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
                   checked
                   id="collapse1"
                   value="collapse1"
+                  readOnly
                 />
                 1. Thanh toán khi nhận hàng
               </div>
-              <div v-show="activeCollapse === 'collapse1'">
+              <div>
                 <ul className="ul-info-nhan-hang">
                   <li>
                     Đơn hàng từ <b>200K: Freeship toàn quốc.</b>
@@ -318,10 +330,11 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
           </label>
         </div>
         <div id="btn-checkout-check tw-w-[1px] tw-h-[1px]"></div>
-        <p id="errorMessage" className="text-red tw-mb-[10px]">
-          lỗi
-        </p>
-
+        {!!checkoutErrorMsg && (
+          <p id="errorMessage" className="text-red tw-mb-[10px]">
+            {checkoutErrorMsg}
+          </p>
+        )}
         <button className="btn-order" id="btn-checkout" type="button" onClick={handleSubmit}>
           Thanh toán
         </button>

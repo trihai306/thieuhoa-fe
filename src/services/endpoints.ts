@@ -34,6 +34,7 @@ const API_ENDPOINTS = {
   GET_PRODUCTS: '/get-products',
   GET_SHIP: '/get-ship-info',
   CHECKOUT: '/checkout',
+  SUCCESS: '/checkout_success',
 };
 
 export default API_ENDPOINTS;

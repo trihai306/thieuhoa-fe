@@ -48,7 +48,6 @@ const BlogBanner = () => {
     if (!sliderRef.current) return;
     sliderRef.current?.swiper?.slideNext();
   }, []);
-  console.log(banners);
   if (!banners.length) return null;
   return (
     <div className="banner tw-h-[300px]">

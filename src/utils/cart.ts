@@ -34,6 +34,7 @@ export function forceUpdateCart(items: CartProduct[]) {
       color: item.color,
       size: item.size,
       quantity: item.quantity,
+      variation_id: item.variation_id,
     };
   });
   localStorage.setItem('cart', JSON.stringify(dataCart));

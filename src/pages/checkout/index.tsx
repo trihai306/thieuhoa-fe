@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
@@ -11,7 +11,6 @@ import FormCheckout from './components/form-checkout';
 export const getServerSideProps: GetServerSideProps = async () => {
   const { data: dataVoucher } = await checkoutService.getCouponList();
   const { data: dataShip } = await checkoutService.getShipInfo();
-  console.log(dataShip);
   return {
     props: {
       dataVoucher,

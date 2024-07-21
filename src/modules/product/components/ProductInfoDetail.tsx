@@ -37,11 +37,15 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
   }, [product, selectedColor, selectedSize]);
 
   const handleAddCart = () => {
+    const variation = product.variations.find(
+      (item) => item.color === selectedColor && item.size === selectedSize,
+    );
     addProductToCart({
       product_id: product.id,
       color: selectedColor,
       size: selectedSize,
       quantity: quantity,
+      variation_id: variation.id,
     });
     const count = getCartTotal();
     dispatch(setCartCount(count));

@@ -1,6 +1,7 @@
 import { APP_API_URL } from '@/common/constants';
 import { ApiResponse } from '@/types/common';
 import { ResponseHomePageType } from '@/types/home';
+import API_ENDPOINTS from './endpoints';
 
 import { BaseService } from './base.service';
 
@@ -8,6 +9,11 @@ class PagesService extends BaseService {
   async home() {
     return this.http
       .get<ApiResponse<ResponseHomePageType>>(`${APP_API_URL}`)
+      .then((res) => res.data);
+  }
+  async getCheckoutSuccess(params: any) {
+    return await this.http
+      .get<ApiResponse<any>>(API_ENDPOINTS.SUCCESS, { params })
       .then((res) => res.data);
   }
 }
