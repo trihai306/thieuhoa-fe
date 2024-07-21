@@ -59,24 +59,11 @@ export interface Item {
 }
 
 export interface ResponseApplyCouponType {
-  items: Item[];
-  dataGift: any[];
-  subTotal: number;
-  subTotalOrigin: number;
-  subTotalFormat: string;
-  total: number;
-  totalFormat: string;
-  maxUsePoint: number;
-  totalOrigin: number;
-  totalOriginFormat: string;
   discount: number;
-  discountFormat: string;
-  discountProduct: number;
-  discountProductFormat: string;
-  shipFee: number;
-  shipFeeFormat: string;
-  discountPointPrice: number;
-  discountPointPriceFormat: string;
-  discountShipFee: number;
-  discountShipFeeFormat: string;
+  from_value: number;
+}
+
+export interface ResponseShippingType {
+  min_value_for_free_ship: number;
+  value_ship: number;
 }

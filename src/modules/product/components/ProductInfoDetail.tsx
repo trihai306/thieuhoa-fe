@@ -112,6 +112,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
     }
   }, [product.arrayColor, product.colors, selectedColor]);
   if (!product) return null;
+
   return (
     <div className="right-product-detail">
       <div className="header-right">

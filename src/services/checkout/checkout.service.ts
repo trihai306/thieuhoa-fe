@@ -1,4 +1,4 @@
-import { CartType, DataVoucher, ResponseApplyCouponType } from '@/types/checkout';
+import { DataVoucher, ResponseApplyCouponType, ResponseShippingType } from '@/types/checkout';
 import { ApiResponse } from '@/types/common';
 
 import { BaseService } from '../base.service';
@@ -12,16 +12,7 @@ class CheckoutService extends BaseService {
       .get<ApiResponse<DataVoucher[]>>(API_ENDPOINTS.GET_COUPON)
       .then((res) => res.data);
   }
-  async getDataCart() {
-    return await this.http.get<ApiResponse<CartType>>(API_ENDPOINTS.CART).then((res) => res.data);
-  }
-
-  async addToCard(data: any) {
-    return await this.http
-      .post<ApiResponse<CartType>>(API_ENDPOINTS.ADD_TO_CART, data)
-      .then((res) => res.data);
-  }
-  async checkPointByPhone(phone: number) {
+  async checkPointByPhone(phone: string) {
     return await this.http
       .get<ApiResponse<number>>(API_ENDPOINTS.USER_POINT, {
         params: {
@@ -38,9 +29,14 @@ class CheckoutService extends BaseService {
       })
       .then((res) => res.data);
   }
-  async getCartNumber() {
+  async getShipInfo() {
     return await this.http
-      .get<ApiResponse<{ total: number }>>(API_ENDPOINTS.CART_NUMBER)
+      .get<ApiResponse<ResponseShippingType>>(API_ENDPOINTS.GET_SHIP)
+      .then((res) => res.data);
+  }
+  async checkout(params: any) {
+    return await this.http
+      .post<ApiResponse<any>>(API_ENDPOINTS.CHECKOUT, params)
       .then((res) => res.data);
   }
 }

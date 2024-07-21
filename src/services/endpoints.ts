@@ -29,12 +29,11 @@ const API_ENDPOINTS = {
   GE_TAG_DETAIL: '/tags/{slug}',
   PRODUCT_DETAIL: '/{cateSlug}/{slug}',
   GET_COUPON: '/get-coupon',
-  CART: '/cart',
-  ADD_TO_CART: '/add-to-cart',
   USER_POINT: 'get-customer-points',
   APPLY_COUPON: '/cart/apply-coupon',
-  CART_NUMBER: '/get-cart-number',
   GET_PRODUCTS: '/get-products',
+  GET_SHIP: '/get-ship-info',
+  CHECKOUT: '/checkout',
 };
 
 export default API_ENDPOINTS;

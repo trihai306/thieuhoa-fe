@@ -27,3 +27,14 @@ export function addProductToCart(product: CartProduct) {
   }
   localStorage.setItem('cart', JSON.stringify(cart));
 }
+export function forceUpdateCart(items: CartProduct[]) {
+  const dataCart = items.map((item) => {
+    return {
+      product_id: item.product_id,
+      color: item.color,
+      size: item.size,
+      quantity: item.quantity,
+    };
+  });
+  localStorage.setItem('cart', JSON.stringify(dataCart));
+}

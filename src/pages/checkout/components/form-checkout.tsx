@@ -1,112 +1,154 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { cloneDeep } from 'lodash';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
 import { productService } from '@/modules/product/services/product.service';
-import { ProductDetail } from '@/modules/product/types';
 import { checkoutService } from '@/services/checkout/checkout.service';
-import { DataVoucher } from '@/types/checkout';
-import { getCart } from '@/utils/cart';
+import { DataVoucher, ResponseShippingType } from '@/types/checkout';
+import { forceUpdateCart, getCart } from '@/utils/cart';
 import { formatNumber } from '@/utils/number';
 
 interface FormCheckoutProps {
   couponApi: DataVoucher[];
+  dataShip: ResponseShippingType;
 }
 interface CouponMessage {
   error: boolean;
   message: string;
 }
-interface CartItem {
-  image: string;
-  order_count: number;
-  color: string;
-  size: string;
-  quantity: number;
-  name: string;
-  price: number;
-  regularPrice: number;
-}
-export default function FormCheckout({ couponApi }: FormCheckoutProps) {
+export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps) {
   const [customerPoint, setCustomerPoint] = useState<number>(0);
+  const [customerPointApply, setCustomerPointApply] = useState<number | ''>('');
+  const [discount, setDiscount] = useState<number>(0);
   const fullNameInputRef = useRef<HTMLInputElement>(null);
-  const phoneInputNumber = useRef<HTMLInputElement>(null);
-  const addressInputNumber = useRef<HTMLInputElement>(null);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
+  const addressInputRef = useRef<HTMLInputElement>(null);
   const noteInputRef = useRef<HTMLInputElement>(null);
   const voucherInputRef = useRef<HTMLInputElement>(null);
+  const pointInputRef = useRef<HTMLInputElement>(null);
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [voucherMessage, setVoucherMessage] = useState<CouponMessage>();
+  const [voucherCode, setVoucherCode] = useState<string>('');
   useEffect(() => {
     const getCartItems = async () => {
       const dataCart = getCart();
       const productIds = dataCart.map((item) => item.product_id);
       const uniqueIds = productIds.filter((item, index) => productIds.indexOf(item) === index);
       const { data: products } = await productService.getProducts(uniqueIds);
+      console.log(products);
       setCartItems(() => {
         const productIds = dataCart.map((item) => item.product_id);
         const items = dataCart.filter((item) => productIds.includes(item.product_id));
         return items.map((item) => {
-          const product = products.find((item) => productIds.includes(item.id));
+          const product = products.find((product) => product.id === item.product_id);
           const extra = JSON.parse(`${product?.extra ?? '{}'}`);
           return {
             ...item,
             name: product?.name,
             image: extra.thumbnail,
-            price: product?.price,
-            regularPrice: product?.regular_price,
-            reviews_count: product.reviews_count,
-            order_count: product.order_count,
+            price: product?.priceMin,
+            originPrice: product?.originPriceMin,
+            reviews_count: product?.reviews_count,
+            order_count: product?.order_count,
           };
         });
       });
     };
     getCartItems();
   }, []);
-
+  useEffect(() => {
+    const userLocalStorage = localStorage.getItem('user_info');
+    if (userLocalStorage) {
+      const { address, fullName, note, phone } = JSON.parse(userLocalStorage);
+      fullNameInputRef.current!.value = fullName;
+      addressInputRef.current!.value = address;
+      phoneInputRef.current!.value = phone;
+      noteInputRef.current!.value = note;
+    }
+  }, []);
+  const totalPriceCart = useMemo(() => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  }, [cartItems]);
+  const totalOriginPriceCart = useMemo(() => {
+    return cartItems.reduce((total, item) => total + item.originPrice * item.quantity, 0);
+  }, [cartItems]);
+  const feeShip = useMemo(() => {
+    if (totalPriceCart > dataShip.min_value_for_free_ship) {
+      return {
+        isFree: true,
+        value: 0,
+      };
+    }
+    return {
+      isFree: false,
+      value: dataShip.value_ship,
+    };
+  }, [dataShip.min_value_for_free_ship, dataShip.value_ship, totalPriceCart]);
+  const totalPayment = useMemo(() => {
+    return totalPriceCart + feeShip.value - discount - +customerPointApply * 1000;
+  }, [totalPriceCart, feeShip.value, discount, customerPointApply]);
   useEffect(() => {
     const userLocalStorage = localStorage.getItem('user_info');
     const isRenderInput =
       fullNameInputRef.current &&
-      phoneInputNumber.current &&
-      addressInputNumber.current &&
+      phoneInputRef.current &&
+      addressInputRef.current &&
       noteInputRef.current;
     if (userLocalStorage && isRenderInput) {
       const userInfo = JSON.parse(userLocalStorage);
       fullNameInputRef.current.value = userInfo.fullName;
-      phoneInputNumber.current.value = userInfo.phone;
-      addressInputNumber.current.value = userInfo.address;
+      phoneInputRef.current.value = userInfo.phone;
+      addressInputRef.current.value = userInfo.address;
       noteInputRef.current.value = userInfo.note;
     }
   }, []);
   useEffect(() => {
-    const phone = phoneInputNumber.current?.value;
+    const phone = phoneInputRef.current?.value;
     if (!phone || phone?.length < 10) {
       return;
     }
     const checkPointByPhone = async () => {
-      const res = await checkoutService.checkPointByPhone(+phone);
+      const res = await checkoutService.checkPointByPhone(`${phone}`);
       setCustomerPoint(res.data);
     };
     checkPointByPhone();
   }, []);
 
   const handleAppluyVoucher = useCallback(async () => {
-    if (!voucherInputRef.current || !voucherInputRef.current.value || !phoneInputNumber.current)
+    if (!voucherInputRef.current || !voucherInputRef.current.value || !phoneInputRef.current)
       return;
     const res = await checkoutService.applyCoupon(
       voucherInputRef.current.value,
-      +phoneInputNumber.current.value,
+      +phoneInputRef.current.value,
     );
     if (res.code !== 200) {
       setVoucherMessage({
         error: true,
         message: res.message,
       });
+      setVoucherCode('');
+      setDiscount(0);
     } else {
-      setVoucherMessage({
-        error: false,
-        message: 'Mã giảm giá đã được áp dụng!',
-      });
+      const { from_value, discount } = res.data;
+      if (totalPriceCart < from_value) {
+        setVoucherMessage({
+          error: true,
+          message: `Mã giảm giá áp dụng cho đơn hàng từ ${formatNumber(
+            from_value,
+          )}đ. Mua thêm để sử dụng mã!`,
+        });
+        setVoucherCode('');
+        setDiscount(0);
+      } else {
+        setVoucherMessage({
+          error: false,
+          message: 'Mã giảm giá đã được áp dụng!',
+        });
+        setVoucherCode(voucherInputRef.current.value);
+        setDiscount(discount);
+      }
     }
-  }, []);
+  }, [totalPriceCart]);
   const handleUseVoucher = useCallback(
     (code: string) => {
       if (!voucherInputRef.current) return;
@@ -115,10 +157,14 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
     },
     [handleAppluyVoucher],
   );
+  const handleUseVoucherInput = useCallback(() => {
+    if (!voucherInputRef.current) return;
+    handleUseVoucher(voucherInputRef.current.value);
+  }, [handleUseVoucher]);
   const handleSubmit = useCallback(() => {
     const fullName = fullNameInputRef.current?.value;
-    const phone = phoneInputNumber.current?.value;
-    const address = addressInputNumber.current?.value;
+    const phone = phoneInputRef.current?.value;
+    const address = phoneInputRef.current?.value;
     const note = noteInputRef.current?.value;
     const userInfo = {
       fullName,
@@ -127,7 +173,68 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
       note,
     };
     localStorage.setItem('user_info', JSON.stringify(userInfo));
-  }, []);
+    const req = {
+      full_name: fullName,
+      phone,
+      address,
+      note,
+      input_point: customerPointApply || 0,
+      couponCode: voucherCode,
+    };
+    const checkout = async () => {
+      const res = await checkoutService.checkout(req);
+      console.log(res);
+    };
+    checkout();
+  }, [customerPointApply, voucherCode]);
+  const handleDecrease = useCallback(
+    (index: number) => {
+      const newCart = cloneDeep(cartItems);
+      if (newCart[index]) {
+        if (newCart[index].quantity <= 1) {
+          setCartItems(newCart.filter((_, indexRemove) => index !== indexRemove));
+          return;
+        }
+        newCart[index].quantity -= 1;
+        setCartItems(newCart);
+      }
+    },
+    [cartItems],
+  );
+  const handleIncrease = useCallback(
+    (index: number) => {
+      const newCart = cloneDeep(cartItems);
+      if (newCart[index]) {
+        newCart[index].quantity += 1;
+        setCartItems(newCart);
+      }
+    },
+    [cartItems],
+  );
+  const handleRemove = useCallback(
+    (index: number) => {
+      setCartItems(cartItems.filter((_, indexRemove) => index !== indexRemove));
+    },
+    [cartItems],
+  );
+  const handleInputPoint = useCallback(() => {
+    if (!pointInputRef.current) return;
+    const point = +pointInputRef.current.value;
+    const maxUse = Math.round(totalPriceCart / 1000);
+    if (isNaN(point) || point < 0) {
+      return;
+    }
+    if (point > maxUse || point > customerPoint) {
+      setCustomerPointApply(maxUse);
+      return;
+    }
+    setCustomerPointApply(point);
+  }, [customerPoint, totalPriceCart]);
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      forceUpdateCart(cartItems);
+    }
+  }, [cartItems]);
   return (
     <div className="main-content-pay">
       <div className="left-content-pay">
@@ -149,7 +256,7 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
               <div className="form-input">
                 <div>
                   <input
-                    ref={phoneInputNumber}
+                    ref={phoneInputRef}
                     type="tel"
                     name="phone"
                     className="phone"
@@ -161,7 +268,7 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
             <div className="group-input-custom">
               <div className="form-input-custom">
                 <input
-                  ref={addressInputNumber}
+                  ref={addressInputRef}
                   type="text"
                   name="address"
                   className="email"
@@ -221,9 +328,9 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
       </div>
       <div className="right-content-pay">
         <h2 className="title">Giỏ hàng</h2>
-        {cartItems.map((item) => {
+        {cartItems.map((item, index) => {
           return (
-            <div key={item.product_id} className="item-product-pay">
+            <div key={`${item.product_id}-${item.size}-${item.color}`} className="item-product-pay">
               <div className="form-group-checkbox">
                 <div className="img">
                   <img src={item.image} alt="" />
@@ -250,19 +357,27 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
                 </div>
                 <div className="amout">
                   <div className="wrapper">
-                    <span className="minus">-</span>
+                    <span className="minus" onClick={() => handleDecrease(index)}>
+                      -
+                    </span>
                     <span className="num">{item.quantity}</span>
-                    <span className="plus">+</span>
+                    <span className="plus" onClick={() => handleIncrease(index)}>
+                      +
+                    </span>
                   </div>
                 </div>
                 <div className="price-gr">
                   <div className="price-now">{formatNumber(item.price * item.quantity)}đ</div>
-                  {item.regularPrice > item.price && (
+                  {item.originPrice > item.price && (
                     <div className="old-price">
-                      {formatNumber(item.regularPrice * item.quantity)}đ
+                      {formatNumber(item.originPrice * item.quantity)}đ
                     </div>
                   )}
-                  <button type="button" className="delete-product">
+                  <button
+                    type="button"
+                    className="delete-product"
+                    onClick={() => handleRemove(index)}
+                  >
                     <img src={`${MEDIA_ENDPOINT}/v2/img/svg/gg_trash.svg`} alt="" />
                   </button>
                 </div>
@@ -388,14 +503,24 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
             ref={voucherInputRef}
             type="text"
             name="enter-voucher"
-            className="enter-voucher"
+            className="enter-voucher tw-text-sm tw-leading-none"
             placeholder="Nhập voucher"
           />
-          <button className="btn-apply">Áp dụng</button>
+          <button className="btn-apply" onClick={handleUseVoucherInput}>
+            Áp dụng
+          </button>
         </div>
         {!!customerPoint && (
           <div className="gr-apply group-point tw-my-[10px]">
-            <input type="number" name="use-point" placeholder="Sử dụng điểm" />
+            <input
+              ref={pointInputRef}
+              type="text"
+              className="tw-text-sm tw-leading-none"
+              name="use-point"
+              placeholder="Sử dụng điểm"
+              value={customerPointApply}
+              onInput={handleInputPoint}
+            />
             <span className="user-point">{customerPoint} điểm</span>
           </div>
         )}
@@ -404,35 +529,35 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
             {voucherMessage.message}
           </p>
         )}
-        {/* <div className="group-price">
+        <div className="group-price">
           <div className="left-group">Tạm tính</div>
           <div className="right-group">
             <div className="price-now">
-              {dataCart?.discountFormat}đ
-              {!!dataCart?.discountProduct && (
+              {formatNumber(totalPriceCart)}đ
+              {totalOriginPriceCart - totalPriceCart > 0 && (
                 <>
                   <br />
                   <span className="discount tw-text-[14px]">
-                    (tiết kiệm {dataCart?.discountProductFormat}đ)
+                    (tiết kiệm {formatNumber(totalOriginPriceCart - totalPriceCart)}đ)
                   </span>
                 </>
               )}
             </div>
           </div>
         </div>
-        {!!dataCart?.discount && (
+        {discount > 0 && (
           <div className="group-price ">
             <div className="left-group">Mã giảm giá</div>
             <div className="right-group discount">
-              <div className="price-now">-{dataCart.discountFormat}đ</div>
+              <div className="price-now">-{formatNumber(discount)}đ</div>
             </div>
           </div>
         )}
-        {!!dataCart?.discountPointPrice && (
+        {customerPointApply > 0 && (
           <div className="group-price">
             <div className="left-group">Điểm tích lũy mua hàng</div>
             <div className="right-group discount">
-              <div className="price-now">-dataCart.discountPointPriceFormatđ</div>
+              <div className="price-now">-{formatNumber(customerPointApply * 1000)}đ</div>
             </div>
           </div>
         )}
@@ -440,19 +565,19 @@ export default function FormCheckout({ couponApi }: FormCheckoutProps) {
         <div className="group-price">
           <div className="left-group">Phí giao hàng</div>
           <div className="right-group">
-            {dataCart?.shipFee ? (
-              <div className="price-now">{dataCart.shipFeeFormat}đ</div>
-            ) : (
+            {feeShip.isFree ? (
               <div className="price-now">Miễn phí</div>
+            ) : (
+              <div className="price-now">{formatNumber(feeShip.value)}đ</div>
             )}
           </div>
         </div>
         <div className="group-price ">
           <div className="left-group">Tổng</div>
           <div className="right-group ">
-            <div className=" total">{dataCart?.totalFormat}đ</div>
+            <div className=" total">{formatNumber(totalPayment)}đ</div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );
