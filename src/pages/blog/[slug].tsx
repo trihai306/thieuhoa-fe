@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { GetServerSideProps } from 'next';
-import Link from 'next/link';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import Swiper from 'swiper';
@@ -9,6 +8,7 @@ import { SwiperSlide } from 'swiper/react';
 
 import Image from '@/components/Image';
 import { getAppLayout } from '@/components/layouts';
+import Link from '@/components/Link';
 import BlogBanner from '@/modules/blog/components/BlogBanner';
 import BlogFeedback from '@/modules/blog/components/BlogFeedback';
 import { blogService } from '@/modules/blog/services/blog.service';
