@@ -24,7 +24,7 @@ interface CheckoutProps {
 }
 export default function Checkout({ dataVoucher, dataShip }: CheckoutProps) {
   return (
-    <div>
+    <div className="tw-pb-12">
       <Head>
         <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css" />
       </Head>

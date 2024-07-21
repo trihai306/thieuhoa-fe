@@ -35,13 +35,13 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
   useEffect(() => {
     const getCartItems = async () => {
       const dataCart = getCart();
-      const productIds = dataCart.map((item) => item.product_id);
+      const productIds = dataCart?.map((item) => item.product_id);
       const uniqueIds = productIds.filter((item, index) => productIds.indexOf(item) === index);
       const { data: products } = await productService.getProducts(uniqueIds);
       setCartItems(() => {
-        const productIds = dataCart.map((item) => item.product_id);
+        const productIds = dataCart?.map((item) => item.product_id);
         const items = dataCart.filter((item) => productIds.includes(item.product_id));
-        return items.map((item) => {
+        return items?.map((item) => {
           const product = products.find((product) => product.id === item.product_id);
           const extra = JSON.parse(`${product?.extra ?? '{}'}`);
           return {
@@ -75,7 +75,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
     return cartItems.reduce((total, item) => total + item.originPrice * item.quantity, 0);
   }, [cartItems]);
   const feeShip = useMemo(() => {
-    if (totalPriceCart > dataShip.min_value_for_free_ship) {
+    if (totalPriceCart > dataShip?.min_value_for_free_ship) {
       return {
         isFree: true,
         value: 0,
@@ -83,9 +83,9 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
     }
     return {
       isFree: false,
-      value: dataShip.value_ship,
+      value: dataShip?.value_ship,
     };
-  }, [dataShip.min_value_for_free_ship, dataShip.value_ship, totalPriceCart]);
+  }, [dataShip?.min_value_for_free_ship, dataShip?.value_ship, totalPriceCart]);
   const totalPayment = useMemo(() => {
     return totalPriceCart + feeShip.value - discount - +customerPointApply * 1000;
   }, [totalPriceCart, feeShip.value, discount, customerPointApply]);
@@ -345,7 +345,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
       </div>
       <div className="right-content-pay">
         <h2 className="title">Giỏ hàng</h2>
-        {cartItems.map((item, index) => {
+        {cartItems?.map((item, index) => {
           return (
             <div key={`${item.product_id}-${item.size}-${item.color}`} className="item-product-pay">
               <div className="form-group-checkbox">
@@ -479,7 +479,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
         </div> */}
         <div className="group-voucher">
           <div className="all-gr-voucher">
-            {couponApi.map((coupon) => (
+            {couponApi?.map((coupon) => (
               <div
                 key={coupon.id}
                 className="item-voucher active tw-cursor-pointer"
