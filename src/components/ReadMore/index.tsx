@@ -2,21 +2,20 @@ import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
-const ReadMore = ({ children, maxCharacterCount = 400 }) => {
+const ReadMore = ({ children, maxCharacterCount = 400 }: any) => {
   const text = children;
   const [isReadMoreShown, setIsReadMoreShown] = useState(false);
-
   const toggleReadMore = () => {
     setIsReadMoreShown(!isReadMoreShown);
   };
 
-  if (text?.length ?? 0 <= maxCharacterCount) {
+  if (text?.length <= maxCharacterCount) {
     return (
       <ReactMarkdown
         rehypePlugins={[rehypeRaw, remarkGfm]}
         components={{
           img: (props) => {
-            return <img src={props['data-src'] ?? props['src']} />;
+            return <img className="tw-mx-auto" src={props['data-src'] ?? props['src']} />;
           },
         }}
       >
@@ -32,7 +31,7 @@ const ReadMore = ({ children, maxCharacterCount = 400 }) => {
           rehypePlugins={[rehypeRaw, remarkGfm]}
           components={{
             img: (props) => {
-              return <img src={props['data-src'] ?? props['src']} />;
+              return <img className="tw-mx-auto" src={props['data-src'] ?? props['src']} />;
             },
           }}
         >
@@ -43,7 +42,7 @@ const ReadMore = ({ children, maxCharacterCount = 400 }) => {
           rehypePlugins={[rehypeRaw, remarkGfm]}
           components={{
             img: (props) => {
-              return <img src={props['data-src'] ?? props['src']} />;
+              return <img className="tw-mx-auto" src={props['data-src'] ?? props['src']} />;
             },
           }}
         >
