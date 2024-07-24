@@ -46,12 +46,14 @@ const ReadMore = ({ children, maxCharacterCount = 400 }: any) => {
             },
           }}
         >
-          {`${text.substring(0, maxCharacterCount)}...`}
+          {text && `${text.substring(0, maxCharacterCount)}...`}
         </ReactMarkdown>
       )}
-      <span onClick={toggleReadMore} className="more_description">
-        {isReadMoreShown ? '' : 'Xem thêm'}
-      </span>
+      {text && (
+        <span onClick={toggleReadMore} className="more_description">
+          {isReadMoreShown ? '' : 'Xem thêm'}
+        </span>
+      )}
     </div>
   );
 };

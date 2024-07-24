@@ -5,6 +5,7 @@ import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
+import ImageResize from '@/components/ImageResize';
 import { formatNumber } from '@/utils/number';
 
 export default function HomeProductSlider({ items }: any) {
@@ -43,9 +44,12 @@ export default function HomeProductSlider({ items }: any) {
             <SwiperSlide key={dataProductItem.id}>
               <div key={dataProductItem.id} className="item-new-product">
                 <Link href={`/${dataProductItem.cateSlug}/${dataProductItem.slug}`}>
-                  <img
+                  <ImageResize
+                    ratio={{ width: 485, height: 728 }}
                     src={JSON.parse(dataProductItem.extra).thumbnail}
                     alt={dataProductItem.name}
+                    unoptimized
+                    priority
                   />
                   <div className="text-new">{dataProductItem.name}</div>
                 </Link>
@@ -69,10 +73,13 @@ export default function HomeProductSlider({ items }: any) {
                         {dataProductItem.dataColor.map((dataColorItem: any) => {
                           return (
                             <div key={dataColorItem['name']} className="color-item">
-                              <img
+                              <Image
+                                width={20}
+                                height={20}
                                 src={dataColorItem['thumbnail']}
                                 className="color-img"
                                 alt={dataColorItem['name']}
+                                unoptimized
                               />
                             </div>
                           );

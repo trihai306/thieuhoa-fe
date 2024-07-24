@@ -4,6 +4,7 @@ import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
 import Image from '@/components/Image';
+import ImageResize from '@/components/ImageResize';
 
 import 'swiper/css/navigation';
 
@@ -58,7 +59,11 @@ const BlogBanner = () => {
               href={banner.href.replace('https://thieuhoa.com.vn/', '/')}
               className="tw-relative tw-inline-block tw-h-full tw-w-full"
             >
-              <Image fill src={`${MEDIA_ENDPOINT}${banner.src}`} alt={banner.alt} />
+              <ImageResize
+                ratio={{ width: 800, height: 300 }}
+                src={`${MEDIA_ENDPOINT}${banner.src}`}
+                alt={banner.alt}
+              />
             </Link>
           </SwiperSlide>
         ))}

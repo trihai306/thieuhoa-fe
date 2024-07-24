@@ -30,6 +30,12 @@ const nextConfig = {
       },
       {
         protocol: 'http',
+        hostname: 'thieuhoa-be.local',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
         hostname: 'localhost',
         port: '8080',
         pathname: '/**',

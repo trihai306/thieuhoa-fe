@@ -38,7 +38,7 @@ export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
       <Toaster />
       {loading && <Preloader />}
       <Header />
-      <main>{children}</main>
+      <main className="tw-pb-[70px]">{children}</main>
       <NoSSR>{isMobile ? <FooterMobi /> : <Footer />}</NoSSR>
       <ListIcon />
     </div>

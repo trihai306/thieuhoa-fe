@@ -12,11 +12,3 @@ export const useCouponQuery = () => {
     },
   });
 };
-
-export const useAddToCardMutation = () => {
-  return useMutation({
-    mutationFn: async (data: any) => {
-      return await checkoutService.addToCard(data);
-    },
-  });
-};

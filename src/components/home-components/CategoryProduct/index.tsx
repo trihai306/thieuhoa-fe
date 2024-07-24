@@ -1,15 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 
-import { CategoryDaum } from '@/types/home';
+import { useCategoryDataQuery } from '@/services/home/home.query';
 
 import HomeProductSlider from '../HomeProductSlider';
 
-interface CategoryProductProps {
-  categoryData: CategoryDaum[];
-}
-function CategoryProduct({ categoryData }: CategoryProductProps) {
-  return categoryData.map((categoryItem) => {
+function CategoryProduct() {
+  const { data, isLoading } = useCategoryDataQuery();
+  return data?.map((categoryItem) => {
     return (
       <div key={categoryItem.id} className="new-products">
         <div className="title">

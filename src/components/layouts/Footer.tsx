@@ -2,6 +2,7 @@ import React from 'react';
 
 import Image from '@/components/Image';
 import Link from 'next/link';
+import { MEDIA_ENDPOINT } from '@/common/constants';
 
 const Footer = () => {
   return (
@@ -15,7 +16,7 @@ const Footer = () => {
                 width="24"
                 height="24"
                 className="lozad"
-                src="/v2/img/carbon_location.png"
+                src={`${MEDIA_ENDPOINT}/v2/img/carbon_location.png`}
                 alt=""
               />
               <span>
@@ -33,7 +34,7 @@ const Footer = () => {
                 width="24"
                 height="24"
                 className="lozad"
-                src="/v2/img/fluent_call-20-regular.png"
+                src={`${MEDIA_ENDPOINT}/v2/img/fluent_call-20-regular.png`}
                 alt=""
               />
               <span>
@@ -45,7 +46,7 @@ const Footer = () => {
                 width="24"
                 height="24"
                 className="lozad"
-                src="/v2/img/fluent_mail-16-regular.png"
+                src={`${MEDIA_ENDPOINT}/v2/img/fluent_mail-16-regular.png`}
                 alt=""
               />
               <span>info@thieuhoa.com.vn</span>
@@ -55,7 +56,7 @@ const Footer = () => {
                 width="24"
                 height="24"
                 className="lozad"
-                src="/v2/img/clarity_world-line.png"
+                src={`${MEDIA_ENDPOINT}/v2/img/clarity_world-line.png`}
                 alt=""
               />
               <span>thieuhoa.com.vn</span>
@@ -65,7 +66,7 @@ const Footer = () => {
                 width="24"
                 height="24"
                 className="lozad"
-                src="/v2/img/bytesize_clock.png"
+                src={`${MEDIA_ENDPOINT}/v2/img/bytesize_clock.png`}
                 alt=""
               />
               <span>8h:00-22:00 từ Thứ Hai - Chủ Nhật</span>
@@ -75,7 +76,7 @@ const Footer = () => {
                 width="24"
                 height="24"
                 className="lozad"
-                src="/v2/img/la_clipboard-list.png"
+                src={`${MEDIA_ENDPOINT}/v2/img/la_clipboard-list.png`}
                 alt=""
               />
               <span>MST: 0316099570 - 09/01/2020</span>

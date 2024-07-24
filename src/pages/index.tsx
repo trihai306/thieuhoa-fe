@@ -30,12 +30,12 @@ const Home: NextPageWithLayout = ({ data }: HomeProps) => {
   return (
     <div id="content-homepage">
       <Meta {...data.metaData} />
-      <HomeSlider items={data.banners} isMobile={isMobile} />
+      <HomeSlider isMobile={isMobile} />
       <FormSearch />
       <Category />
-      <Voucher vouchers={data.dataVoucher} />
+      <Voucher />
       <Block blocks={data.block} />
-      <CategoryProduct categoryData={data.categoryData} />
+      <CategoryProduct />
       <BottomBanner />
     </div>
   );

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
@@ -36,7 +37,12 @@ const Category = () => {
             <Link key={category['slug']} href={`/${category['slug']}`}>
               <div className="item-list-category">
                 <div className="img">
-                  <img width="64" height="64" src={`${MEDIA_ENDPOINT}/${category['img']}`} alt="" />
+                  <Image
+                    width="64"
+                    height="64"
+                    src={`${MEDIA_ENDPOINT}/${category['img']}`}
+                    alt=""
+                  />
                 </div>
                 <div className="text-category">{category['name']}</div>
               </div>
@@ -50,7 +56,12 @@ const Category = () => {
             <Link key={category['slug']} href={`${category['slug']}`}>
               <div className="item-list-category">
                 <div className="img">
-                  <img width="33" height="33" src={`${MEDIA_ENDPOINT}/${category['img']}`} alt="" />
+                  <Image
+                    width="33"
+                    height="33"
+                    src={`${MEDIA_ENDPOINT}/${category['img']}`}
+                    alt=""
+                  />
                 </div>
                 <div className="text-category">{category['name']}</div>
               </div>
