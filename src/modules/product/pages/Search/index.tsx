@@ -27,7 +27,7 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ keyword, initialData }) =
   const [page, setPage] = useState(1);
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['search', searchQuery],
-    initialData: initialData,
+    // initialData: initialData,
     queryFn: async () => {
       return await productService.search(searchQuery);
     },

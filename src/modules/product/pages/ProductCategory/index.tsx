@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import NoSSR from 'react-no-ssr';
 import { useQuery } from '@tanstack/react-query';
@@ -24,19 +24,25 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
     slug: slug,
     page: page ?? 1,
   });
+
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: ['category', searchQuery],
-    initialData: initialData,
+    queryKey: [slug, searchQuery],
+    // initialData: initialData,
     queryFn: async () => {
       return await productService.getCategory(searchQuery);
     },
   });
-  const haveLoading = isLoading || isFetching;
+
+  const haveLoading = isLoading || (isFetching && searchQuery.page !== 1);
 
   const category = data?.data?.category;
   const parentCategory = data?.data?.parentCategory;
   const childrenCategory = data?.data?.childrenCategory;
   const products = data?.data?.products?.data;
+
+  useEffect(() => {
+    setSearchQuery((prev) => ({ slug: slug, page: 1 }));
+  }, [slug, page]);
 
   return (
     <NoSSR>
@@ -152,19 +158,21 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
                   </div>
                 ))}
             </div>
-            <Paginate
-              isMobile={isMobile}
-              value={searchQuery.page}
-              onChange={(p) => {
-                setSearchQuery({ ...searchQuery, page: p });
-              }}
-              total={data?.data?.products?.total ?? 0}
-              perPage={data?.data?.products?.per_page ?? 1}
-            />
+            {!haveLoading && (
+              <Paginate
+                isMobile={isMobile}
+                value={searchQuery.page}
+                onChange={(p) => {
+                  setSearchQuery({ ...searchQuery, page: p });
+                }}
+                total={data?.data?.products?.total ?? 0}
+                perPage={data?.data?.products?.per_page ?? 1}
+              />
+            )}
             <div className="description-product">
               <div className="group-description">
                 <div className="cate_description_sub">
-                  <ReadMore>{category?.description}</ReadMore>
+                  <ReadMore>{category?.description ?? ''}</ReadMore>
                 </div>
               </div>
             </div>

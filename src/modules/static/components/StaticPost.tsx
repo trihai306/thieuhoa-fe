@@ -15,7 +15,7 @@ export type StaticPostProps = {
 const StaticPost: React.FC<StaticPostProps> = ({ slug, initialData }) => {
   const { data, isLoading } = useQuery({
     queryKey: ['static', slug],
-    initialData: initialData,
+    // initialData: initialData,
     queryFn: async () => {
       return await postService.getPost(slug);
     },
@@ -31,7 +31,7 @@ const StaticPost: React.FC<StaticPostProps> = ({ slug, initialData }) => {
         <meta property="og:image" content={data.data.metaData.meta_og_image} />
         <meta property="og:url" content={data.data.metaData.meta_og_url} />
       </Head>
-      <div className="mx-auto max-w-screen-lg">
+      <div className="tw-mx-auto tw-max-w-[900px]">
         <div className="page-header">
           <div className="container" style={{ maxWidth: 900 }}>
             <h1 className="page-header__content">{data.data.staticPage.title}</h1>

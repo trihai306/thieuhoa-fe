@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import React from 'react';
+
+import Image from '@/components/Image';
 
 const AboutPage = () => {
   return (
@@ -119,27 +120,30 @@ const AboutPage = () => {
       </Head>
       <div className="list-icon-fix">
         <a href="tel:18009246">
-          <img
+          <Image
             className="lozad"
-            src="https://thieuhoa.com.vn/images/image-thumb-25-25.svg"
-            data-src="https://thieuhoa.com.vn/v2/img/svg/phone.svg"
+            src="https://thieuhoa.com.vn/v2/img/svg/phone.svg"
             alt="phone"
+            width={50}
+            height={50}
           />
         </a>
         <a href="https://www.messenger.com/t/1889518347796003">
-          <img
+          <Image
             className="lozad"
-            src="https://thieuhoa.com.vn/images/image-thumb-25-25.svg"
-            data-src="https://thieuhoa.com.vn/v2/img/svg/pngwing-60.svg"
+            src="https://thieuhoa.com.vn/v2/img/svg/pngwing-60.svg"
             alt="messenger"
+            width={50}
+            height={50}
           />
         </a>
         <a href="https://zalo.me/388030919384134642">
-          <img
+          <Image
             className="lozad"
-            src="https://thieuhoa.com.vn/images/image-thumb-25-25.svg"
-            data-src="https://thieuhoa.com.vn/v2/img/svg/pngwing-61.svg"
+            src="https://thieuhoa.com.vn/v2/img/svg/pngwing-61.svg"
             alt="zalo"
+            width={50}
+            height={50}
           />
         </a>
       </div>

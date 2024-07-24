@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { isEmpty, isNull } from 'lodash';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 const ReadMore = ({ children, maxCharacterCount = 400 }: any) => {
@@ -8,9 +9,8 @@ const ReadMore = ({ children, maxCharacterCount = 400 }: any) => {
   const toggleReadMore = () => {
     setIsReadMoreShown(!isReadMoreShown);
   };
-
-  if (!text) {
-    return <></>;
+  if (isEmpty(text) || text === 'null') {
+    return <p></p>;
   }
 
   if (text?.length <= maxCharacterCount) {

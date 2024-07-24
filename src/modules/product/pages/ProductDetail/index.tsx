@@ -24,10 +24,12 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
     },
   });
   const product = data?.data.product;
-
   const categoryPost = data?.data.categoryPost;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) {
+    return <div></div>;
+  }
+
   return (
     <>
       <ProductMeta product={product} />
