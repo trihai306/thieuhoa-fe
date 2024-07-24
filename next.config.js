@@ -36,6 +36,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'cmsfuture.online',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'vantrong.tailc51ac.ts.net',
         port: '',
         pathname: '/**',

@@ -9,6 +9,10 @@ const ReadMore = ({ children, maxCharacterCount = 400 }: any) => {
     setIsReadMoreShown(!isReadMoreShown);
   };
 
+  if (!text) {
+    return <></>;
+  }
+
   if (text?.length <= maxCharacterCount) {
     return (
       <ReactMarkdown
