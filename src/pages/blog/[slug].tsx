@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 import Image from '@/components/Image';
 import { getAppLayout } from '@/components/layouts';
 import Link from '@/components/Link';
+import Meta from '@/components/Meta';
 import { cn } from '@/lib/utils';
 import BlogBanner from '@/modules/blog/components/BlogBanner';
 import BlogFeedback from '@/modules/blog/components/BlogFeedback';
@@ -35,7 +36,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const res = await blogService.getBlogDetail(slug as string);
 
-  const { post, category, headlineArray, author, blogMenus, keywordRelatePosts } = res.data;
+  const { post, category, headlineArray, author, blogMenus, keywordRelatePosts, metaData } =
+    res.data;
 
   return {
     props: {
@@ -47,6 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       products: [],
       keywordRelatePosts,
       relatedPosts: [],
+      metaData,
     }, // This will be passed to the page component as props
   };
 };
@@ -60,6 +63,7 @@ const BlogDetail: NextPageWithLayout = ({
   products,
   keywordRelatePosts,
   relatedPosts,
+  metaData,
 }: any) => {
   const toggleNewscare = () => {
     console.log('Toggle newscare');
@@ -67,6 +71,8 @@ const BlogDetail: NextPageWithLayout = ({
 
   return (
     <div css={style}>
+      <Meta {...metaData} />
+
       <div id="content-detail-blog" className="tw-mx-auto tw-max-w-screen-md">
         <div className="top-content">
           <h1 className="title">{post.title}</h1>

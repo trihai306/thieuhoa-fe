@@ -19,6 +19,7 @@ import { addProductToCart, getCartTotal } from '@/utils/cart';
 import { ProductDetail } from '../types';
 
 import ProductVoucher from './ProductVoucher';
+import Image from 'next/image';
 
 export type ProductInfoDetailProps = {
   data: ProductDetail;
@@ -293,7 +294,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       </div>
       <div className="description-detail">
         <div className="go-to-store">
-          <img src={`${MEDIA_ENDPOINT}/v2/img/svg/location.svg`} alt="" />
+          <Image width={24} height={24} src={`${MEDIA_ENDPOINT}/v2/img/svg/location.svg`} alt="" />
           <Dialog modal={true}>
             <DialogTrigger>
               <div>Xem cửa hàng có sản phẩm này</div>

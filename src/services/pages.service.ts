@@ -1,9 +1,9 @@
 import { APP_API_URL } from '@/common/constants';
 import { ApiResponse } from '@/types/common';
 import { ResponseHomePageType } from '@/types/home';
-import API_ENDPOINTS from './endpoints';
 
 import { BaseService } from './base.service';
+import API_ENDPOINTS from './endpoints';
 
 class PagesService extends BaseService {
   async home() {

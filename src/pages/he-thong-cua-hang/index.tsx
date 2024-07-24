@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import ImageResize from '@/components/ImageResize';
 import { getAppLayout } from '@/components/layouts';
 import { NextPageWithLayout } from '@/types';
 
@@ -691,9 +692,10 @@ const StoreListPage: NextPageWithLayout = () => {
               <a target="_blank" href={store.map_url} className="see-way">
                 Xem đường đi
               </a>
-              <img
+              <ImageResize
+                ratio={{ width: 2, height: 1 }}
                 src={store.image ? store.image : '/v2/img/anh-cua-hang.png'}
-                alt="Ảnh cửa hàng"
+                unoptimized
               />
             </div>
           ))}

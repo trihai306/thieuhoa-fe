@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
+import ImageResize from '@/components/ImageResize';
 
 function BottomBanner() {
   return (
@@ -9,12 +10,15 @@ function BottomBanner() {
       <Link href={`/sale-off`} className="text-base">
         <div className="group-banner">
           <div className="left-group">
-            <img
-              width="40"
-              height="40"
-              src={`${MEDIA_ENDPOINT}/v2/img/svg/confirmation_number.svg`}
-              alt=""
-            />
+            <div className="tw-h-[40px] tw-w-[40px]">
+              <ImageResize
+                ratio={{
+                  width: 1,
+                  height: 1,
+                }}
+                src={`${MEDIA_ENDPOINT}/v2/img/svg/confirmation_number.svg`}
+              />
+            </div>
           </div>
           <div className="right-group">
             <p className="title">Giá tốt nhất</p>
@@ -25,12 +29,15 @@ function BottomBanner() {
       <Link href={`/vay-dam-trung-nien`} className="text-base">
         <div className="group-banner">
           <div className="left-group">
-            <img
-              width="40"
-              height="40"
-              src={`${MEDIA_ENDPOINT}/v2/img/svg/volunteer_activism.svg`}
-              alt=""
-            />
+            <div className="tw-h-[40px] tw-w-[40px]">
+              <ImageResize
+                ratio={{
+                  width: 1,
+                  height: 1,
+                }}
+                src={`${MEDIA_ENDPOINT}/v2/img/svg/volunteer_activism.svg`}
+              />
+            </div>
           </div>
           <div className="right-group">
             <p className="title">100% Made in Viet Nam</p>
@@ -41,12 +48,15 @@ function BottomBanner() {
       <Link href={`/chinh-sach-bao-hanh`} className="text-base">
         <div className="group-banner">
           <div className="left-group">
-            <img
-              width="40"
-              height="40"
-              src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user.svg`}
-              alt=""
-            />
+            <div className="tw-h-[40px] tw-w-[40px]">
+              <ImageResize
+                ratio={{
+                  width: 1,
+                  height: 1,
+                }}
+                src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user.svg`}
+              />
+            </div>
           </div>
           <div className="right-group">
             <p className="title">Cam kết 1 đổi 1</p>
@@ -57,12 +67,15 @@ function BottomBanner() {
       <Link href={`/chinh-sach-van-chuyen`} className="text-base">
         <div className="group-banner">
           <div className="left-group">
-            <img
-              width="40"
-              height="40"
-              src={`${MEDIA_ENDPOINT}/v2/img/svg/watch_later.svg`}
-              alt=""
-            />
+            <div className="tw-h-[40px] tw-w-[40px]">
+              <ImageResize
+                ratio={{
+                  width: 1,
+                  height: 1,
+                }}
+                src={`${MEDIA_ENDPOINT}/v2/img/svg/watch_later.svg`}
+              />
+            </div>
           </div>
           <div className="right-group">
             <p className="title">Giao hàng 4H</p>

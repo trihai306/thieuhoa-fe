@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
+import Meta from '@/components/Meta';
 import { ApiResponse } from '@/types';
 
 import ProductDescription from '../../components/ProductDescription';
 import ProductGallery from '../../components/ProductGallery';
 import ProductInfoDetail from '../../components/ProductInfoDetail';
-import ProductMeta from '../../components/ProductMeta';
 import { productService } from '../../services/product.service';
 import type { ProductDetail } from '../../types';
 export type ProductDetailProps = {
@@ -25,14 +25,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
   });
   const product = data?.data.product;
   const categoryPost = data?.data.categoryPost;
-
-  if (isLoading) {
-    return <div></div>;
-  }
-
+  const metaData = useMemo(() => {
+    return initialData?.data.metaData;
+  }, [initialData?.data.metaData]);
+  if (isLoading) return <div>Loading...</div>;
   return (
     <>
-      <ProductMeta product={product} />
+      <Meta {...metaData} />
       <div id="content-product-detail">
         <div className="bread-cumbs">
           <Link className="text-base" href="/">

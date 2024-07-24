@@ -35,6 +35,15 @@ const API_ENDPOINTS = {
   GET_SHIP: '/get-ship-info',
   CHECKOUT: '/checkout',
   SUCCESS: '/checkout_success',
+
+  //Home
+  HOME_VOUCHER: '/home/data-voucher',
+  HOME_POST: '/home/posts',
+  HOME_BANNER: '/home/banners',
+  HOME_LATEST_PRODUCT: '/home/latest-products',
+  HOME_BEST_SELLER: '/home/best-seller-products',
+  HOME_CATEGORY_DATA: '/home/category-data',
+  HOME_SALE_OFF: '/home/sale-off-products',
 };
 
 export default API_ENDPOINTS;

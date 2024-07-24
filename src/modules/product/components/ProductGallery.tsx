@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
+import { MEDIA_ENDPOINT } from '@/common/constants';
 import Image from '@/components/Image';
 
 import 'swiper/css/navigation';
@@ -50,13 +51,23 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ images, alt }) => {
               className="tw-absolute tw-left-0 tw-top-[calc(50%-45px/2)] tw-z-10"
               onClick={handlePrev}
             >
-              <Image src={`/v2/img/icon-left.png`} width={45} height={45} alt={''} />
+              <Image
+                src={`${MEDIA_ENDPOINT}/v2/img/icon-left.png`}
+                width={45}
+                height={45}
+                alt={''}
+              />
             </button>
             <button
               className="tw-absolute tw-right-0 tw-top-[calc(50%-45px/2)] tw-z-10"
               onClick={handleNext}
             >
-              <Image src={`/v2/img/icon-right.png`} width={45} height={45} alt={''} />
+              <Image
+                src={`${MEDIA_ENDPOINT}/v2/img/icon-right.png`}
+                width={45}
+                height={45}
+                alt={''}
+              />
             </button>
           </div>
         </div>

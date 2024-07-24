@@ -5,11 +5,14 @@ import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
+import ImageResize from '@/components/ImageResize';
+import { useBannerQuery } from '@/services/home/home.query';
 
 import 'swiper/css/navigation';
 
 import 'swiper/css';
-export default function HomeSlider({ items, isMobile }: any) {
+
+export default function HomeSlider({ isMobile }: { isMobile?: boolean }) {
   const sliderRef = useRef<SwiperRef>(null);
   const handlePrev = useCallback(() => {
     if (!sliderRef.current) return;
@@ -20,21 +23,42 @@ export default function HomeSlider({ items, isMobile }: any) {
     if (!sliderRef.current) return;
     sliderRef.current?.swiper?.slideNext();
   }, []);
-
+  const { data, isLoading } = useBannerQuery();
+  const renderSliderItem = useCallback(
+    (item: any) => {
+      const ratio = {
+        width: isMobile ? 1168 : 2048,
+        height: isMobile ? 2241 : 768,
+      };
+      if (item.url) {
+        return (
+          <Link href={item.url.replace('https://thieuhoa.com.vn/', '')}>
+            <ImageResize
+              ratio={ratio}
+              className="tw-w-full"
+              src={isMobile ? item.image_mobile : item.image_desktop}
+              unoptimized
+            />
+          </Link>
+        );
+      }
+      return (
+        <ImageResize
+          ratio={ratio}
+          className="tw-w-full"
+          src={isMobile ? item.image_mobile : item.image_desktop}
+          unoptimized
+        />
+      );
+    },
+    [isMobile],
+  );
   return (
     <div className="tw-w-full">
       <div className="tw-relative tw-w-full">
         <Swiper loop={true} ref={sliderRef} modules={[Navigation]}>
-          {items?.map((item: any) => (
-            <SwiperSlide key={item.id}>
-              {item.url ? (
-                <Link href={item.url.replace('https://thieuhoa.com.vn/', '')}>
-                  <img src={isMobile ? item.image_mobile : item.image_desktop} alt="" />
-                </Link>
-              ) : (
-                <img src={isMobile ? item.image_mobile : item.image_desktop} alt="" />
-              )}
-            </SwiperSlide>
+          {data?.map((item: any) => (
+            <SwiperSlide key={item.id}>{renderSliderItem(item)}</SwiperSlide>
           ))}
         </Swiper>
         <button
