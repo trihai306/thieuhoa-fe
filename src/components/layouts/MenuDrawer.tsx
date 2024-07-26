@@ -1,5 +1,8 @@
+import { useCallback, useEffect, useRef } from 'react';
+import { DialogTitle } from '@radix-ui/react-dialog';
 import { isEmpty } from 'lodash';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import {
   Drawer,
@@ -45,10 +48,19 @@ const MenuDrawer = ({ menu }: { menu: MenuType[] }) => {
       </div>
     );
   };
+  const router = useRouter();
+  useEffect(() => {
+    const handleRouteChangeStart = () => buttonToggleMenuRef.current?.click();
 
+    router.events.on('routeChangeStart', handleRouteChangeStart);
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChangeStart);
+    };
+  }, [router]);
+  const buttonToggleMenuRef = useRef(null);
   return (
     <Drawer direction="left">
-      <DrawerTrigger>
+      <DrawerTrigger ref={buttonToggleMenuRef}>
         <div className="category-mobi">
           <svg
             width="20"
@@ -64,7 +76,8 @@ const MenuDrawer = ({ menu }: { menu: MenuType[] }) => {
           </svg>
         </div>
       </DrawerTrigger>
-      <DrawerContent className="tw-flex tw-h-screen tw-w-[80%] tw-rounded-none ">
+      <DrawerContent className="tw-flex tw-h-screen tw-w-[80%] tw-rounded-none">
+        <DialogTitle />
         <div className="-tw-mt-6 tw-min-h-0 !tw-w-full tw-flex-1 tw-overflow-x-auto tw-bg-white">
           <div className="list-category-mobi tw-relative">
             <div className="list-main tw-h-full !tw-w-full tw-overflow-hidden tw-p-2">
