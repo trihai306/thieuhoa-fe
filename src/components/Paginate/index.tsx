@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import ReactPaginate from 'react-paginate';
-
 export interface PaginateProps {
   total: number;
   perPage: number;
@@ -8,7 +7,6 @@ export interface PaginateProps {
   onChange: (page: number) => void;
   isMobile?: boolean;
 }
-
 const Paginate: React.FC<PaginateProps> = ({ total, perPage, value, onChange, isMobile }) => {
   if (isMobile) {
     return (
@@ -44,12 +42,12 @@ const Paginate: React.FC<PaginateProps> = ({ total, perPage, value, onChange, is
     <ReactPaginate
       className="pagination"
       breakLabel="..."
-      nextLabel=">"
+      nextLabel="›"
       initialPage={value - 1}
       onPageChange={(page) => onChange?.(page.selected + 1)}
       pageRangeDisplayed={2}
       pageCount={Math.ceil(total / perPage)}
-      previousLabel="<"
+      previousLabel="‹"
       renderOnZeroPageCount={null}
       activeClassName="active"
     />

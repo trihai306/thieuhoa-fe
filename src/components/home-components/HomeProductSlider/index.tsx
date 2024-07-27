@@ -45,11 +45,10 @@ export default function HomeProductSlider({ items }: any) {
               <div key={dataProductItem.id} className="item-new-product">
                 <Link href={`/${dataProductItem.cateSlug}/${dataProductItem.slug}`}>
                   <ImageResize
-                    ratio={{ width: 485, height: 728 }}
+                    aspect={{ x: 2, y: 3 }}
                     src={JSON.parse(dataProductItem.extra).thumbnail}
                     alt={dataProductItem.name}
-                    unoptimized
-                    priority
+                    loading="lazy"
                   />
                   <div className="text-new">{dataProductItem.name}</div>
                 </Link>
@@ -79,7 +78,6 @@ export default function HomeProductSlider({ items }: any) {
                                 src={dataColorItem['thumbnail']}
                                 className="color-img"
                                 alt={dataColorItem['name']}
-                                unoptimized
                               />
                             </div>
                           );

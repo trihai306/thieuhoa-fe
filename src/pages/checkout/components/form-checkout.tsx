@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { cloneDeep } from 'lodash';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
+import ImageResize from '@/components/ImageResize';
 import { productService } from '@/modules/product/services/product.service';
 import { checkoutService } from '@/services/checkout/checkout.service';
 import { DataVoucher, ResponseShippingType } from '@/types/checkout';
@@ -197,7 +199,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
       }
     };
     checkout();
-  }, [customerPointApply, voucherCode]);
+  }, [customerPointApply, router, voucherCode]);
   const handleDecrease = useCallback(
     (index: number) => {
       const newCart = cloneDeep(cartItems);
@@ -246,9 +248,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
     setCustomerPointApply(point);
   }, [customerPoint, totalPriceCart]);
   useEffect(() => {
-    if (cartItems.length > 0) {
-      forceUpdateCart(cartItems);
-    }
+    forceUpdateCart(cartItems);
   }, [cartItems]);
   return (
     <div className="main-content-pay">
@@ -350,7 +350,14 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
             <div key={`${item.product_id}-${item.size}-${item.color}`} className="item-product-pay">
               <div className="form-group-checkbox">
                 <div className="img">
-                  <img src={item.image} alt="" />
+                  <ImageResize
+                    aspect={{
+                      x: 0.67,
+                      y: 1,
+                    }}
+                    src={item.image}
+                    alt=""
+                  />
                   <div className="new-product-img">Mới</div>
                   <div className="bottom-img-noti">x</div>
                 </div>
@@ -395,7 +402,13 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
                     className="delete-product"
                     onClick={() => handleRemove(index)}
                   >
-                    <img src={`${MEDIA_ENDPOINT}/v2/img/svg/gg_trash.svg`} alt="" />
+                    <div className="tw-h-4 tw-w-4">
+                      <ImageResize
+                        aspect={{ x: 1, y: 1 }}
+                        src={`${MEDIA_ENDPOINT}/v2/img/svg/gg_trash.svg`}
+                        alt=""
+                      />
+                    </div>
                   </button>
                 </div>
               </div>

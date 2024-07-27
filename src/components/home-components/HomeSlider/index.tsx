@@ -27,27 +27,25 @@ export default function HomeSlider({ isMobile }: { isMobile?: boolean }) {
   const renderSliderItem = useCallback(
     (item: any) => {
       const ratio = {
-        width: isMobile ? 1168 : 2048,
-        height: isMobile ? 2241 : 768,
+        x: isMobile ? 1168 : 2048,
+        y: isMobile ? 2241 : 768,
       };
       if (item.url) {
         return (
           <Link href={item.url.replace('https://thieuhoa.com.vn/', '')}>
             <ImageResize
-              ratio={ratio}
+              aspect={ratio}
               className="tw-w-full"
               src={isMobile ? item.image_mobile : item.image_desktop}
-              unoptimized
             />
           </Link>
         );
       }
       return (
         <ImageResize
-          ratio={ratio}
+          aspect={ratio}
           className="tw-w-full"
           src={isMobile ? item.image_mobile : item.image_desktop}
-          unoptimized
         />
       );
     },

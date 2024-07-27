@@ -1,17 +1,17 @@
 import React, { useMemo } from 'react';
 import Image, { ImageProps } from 'next/image';
 interface ImageResizeProps extends Omit<ImageProps, 'alt'> {
-  ratio: {
-    width: number;
-    height: number;
+  aspect: {
+    x: number;
+    y: number;
   };
   alt?: string;
 }
-function ImageResize({ ratio, alt = '', ...props }: ImageResizeProps) {
+function ImageResize({ aspect, alt = '', ...props }: ImageResizeProps) {
   const padding = useMemo(() => {
-    const { width, height } = ratio;
-    return (height / width) * 100;
-  }, [ratio]);
+    const { x, y } = aspect;
+    return (y / x) * 100;
+  }, [aspect]);
   return (
     <div className="tw-relative tw-w-full" style={{ paddingBottom: `${padding}%` }}>
       <Image {...props} alt={alt} fill />

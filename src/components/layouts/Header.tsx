@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { isMobile } from 'react-device-detect';
+import NoSSR from 'react-no-ssr';
 import Link from 'next/link';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
@@ -63,7 +65,7 @@ const Header = () => {
                 </div>
               </div>
             </Link>
-            <MenuDrawer menu={menu} />
+            <NoSSR>{isMobile && <MenuDrawer menu={menu} />}</NoSSR>
           </div>
           <div className="logo">
             <Link href={'/'}>

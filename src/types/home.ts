@@ -1,14 +1,9 @@
+import { SchemaDataType } from './seo-schema-type';
+
 export interface ResponseHomePageType {
   metaData: MetaData;
-  banners: Banner[];
-  latestProducts: LatestProduct[];
-  posts: Post[];
-  bestsellerProducts: BestsellerProduct[];
-  schemaData: SchemaData;
-  block: any;
-  dataVoucher: DataVoucher[];
-  categoryData: CategoryDaum[];
-  saleOffProducts: SaleOffProduct[];
+  schemaData: Record<string, SchemaDataType>;
+  block?: any;
 }
 
 export interface MetaData {

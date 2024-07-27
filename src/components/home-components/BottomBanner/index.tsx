@@ -12,9 +12,9 @@ function BottomBanner() {
           <div className="left-group">
             <div className="tw-h-[40px] tw-w-[40px]">
               <ImageResize
-                ratio={{
-                  width: 1,
-                  height: 1,
+                aspect={{
+                  x: 1,
+                  y: 1,
                 }}
                 src={`${MEDIA_ENDPOINT}/v2/img/svg/confirmation_number.svg`}
               />
@@ -31,9 +31,9 @@ function BottomBanner() {
           <div className="left-group">
             <div className="tw-h-[40px] tw-w-[40px]">
               <ImageResize
-                ratio={{
-                  width: 1,
-                  height: 1,
+                aspect={{
+                  x: 1,
+                  y: 1,
                 }}
                 src={`${MEDIA_ENDPOINT}/v2/img/svg/volunteer_activism.svg`}
               />
@@ -50,9 +50,9 @@ function BottomBanner() {
           <div className="left-group">
             <div className="tw-h-[40px] tw-w-[40px]">
               <ImageResize
-                ratio={{
-                  width: 1,
-                  height: 1,
+                aspect={{
+                  x: 1,
+                  y: 1,
                 }}
                 src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user.svg`}
               />
@@ -69,9 +69,9 @@ function BottomBanner() {
           <div className="left-group">
             <div className="tw-h-[40px] tw-w-[40px]">
               <ImageResize
-                ratio={{
-                  width: 1,
-                  height: 1,
+                aspect={{
+                  x: 1,
+                  y: 1,
                 }}
                 src={`${MEDIA_ENDPOINT}/v2/img/svg/watch_later.svg`}
               />

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { DialogTitle } from '@radix-ui/react-dialog';
 import { isEmpty } from 'lodash';
 import Link from 'next/link';
@@ -50,17 +50,17 @@ const MenuDrawer = ({ menu }: { menu: MenuType[] }) => {
   };
   const router = useRouter();
   useEffect(() => {
-    const handleRouteChangeStart = () => buttonToggleMenuRef.current?.click();
+    const handleRouteChangeStart = () => buttonCloseMenuRef.current?.click?.();
 
     router.events.on('routeChangeStart', handleRouteChangeStart);
     return () => {
       router.events.off('routeChangeStart', handleRouteChangeStart);
     };
   }, [router]);
-  const buttonToggleMenuRef = useRef(null);
+  const buttonCloseMenuRef = useRef<HTMLButtonElement>(null);
   return (
     <Drawer direction="left">
-      <DrawerTrigger ref={buttonToggleMenuRef}>
+      <DrawerTrigger>
         <div className="category-mobi">
           <svg
             width="20"
@@ -132,7 +132,7 @@ const MenuDrawer = ({ menu }: { menu: MenuType[] }) => {
         </div>
 
         <DrawerFooter>
-          <DrawerClose>
+          <DrawerClose ref={buttonCloseMenuRef}>
             <Button variant="outline" className="tw-bg-red-500">
               <svg
                 color="#222222"

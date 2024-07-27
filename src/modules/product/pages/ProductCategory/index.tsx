@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import NoSSR from 'react-no-ssr';
 import { useQuery } from '@tanstack/react-query';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
+import ImageResize from '@/components/ImageResize';
 import Paginate from '@/components/Paginate';
 import ReadMore from '@/components/ReadMore';
 import { ApiResponse } from '@/types';
@@ -34,19 +37,31 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
   });
 
   const haveLoading = isLoading || (isFetching && searchQuery.page !== 1);
-
+  const router = useRouter();
   const category = data?.data?.category;
   const parentCategory = data?.data?.parentCategory;
   const childrenCategory = data?.data?.childrenCategory;
   const products = data?.data?.products?.data;
-
+  const pageRef = useRef<HTMLDivElement>(null);
+  const handleChangePage = useCallback(
+    (pageActive: number) => {
+      setSearchQuery({ ...searchQuery, page: pageActive });
+      pageRef.current?.scrollIntoView({ behavior: 'smooth' });
+      const query = {
+        ...router.query,
+        page: pageActive,
+      };
+      router.push({ query });
+    },
+    [router, searchQuery],
+  );
   useEffect(() => {
     setSearchQuery((prev) => ({ slug: slug, page: 1 }));
   }, [slug, page]);
 
   return (
     <NoSSR>
-      <div id="content-product">
+      <div id="content-product" ref={pageRef}>
         <div className="top-content">
           <div className="bread-cumbs">
             <Link className="text-base" href="/">
@@ -106,9 +121,13 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
                   <div className="item-list-product" key={product.slug}>
                     <div className="group-img">
                       <Link href={`/${product.cateSlug}/${product.slug}`}>
-                        <img
-                          className="img-product lozad"
-                          src={JSON.parse(product.extra)['thumbnail']}
+                        <ImageResize
+                          aspect={{
+                            x: 2,
+                            y: 3,
+                          }}
+                          className="img-product"
+                          src={JSON.parse(`${product.extra}`)?.['thumbnail'] || ''}
                           alt={product.name}
                         />
                       </Link>
@@ -137,20 +156,28 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
                       {product.originPriceMin && product.originPriceMin > product.priceMin && (
                         <span className="price-old">{formatNumber(product.originPriceMin)}đ</span>
                       )}
-                      {JSON.parse(product.extra)['data_color'].length > 0 && (
+                      {JSON.parse(`${product.extra}`)?.['data_color'].length > 0 && (
                         <div className="list-color">
                           <div className="color">
-                            {JSON.parse(product.extra)['data_color'].map((dataColorItem) => (
-                              <div className="color-item" key={dataColorItem.name}>
-                                <img
-                                  src={dataColorItem.thumbnail}
-                                  className="color-img"
-                                  height="20"
-                                  width="20"
-                                  alt={dataColorItem.name}
-                                />
-                              </div>
-                            ))}
+                            {JSON.parse(`${product.extra}`)?.['data_color'].map(
+                              (dataColorItem: any) => (
+                                <div className="color-item" key={dataColorItem.name}>
+                                  <div className="tw-h-5 tw-w-5">
+                                    {dataColorItem.thumbnail && (
+                                      <ImageResize
+                                        aspect={{
+                                          x: 1,
+                                          y: 1,
+                                        }}
+                                        src={dataColorItem.thumbnail}
+                                        className="color-img"
+                                        alt={dataColorItem.name}
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                              ),
+                            )}
                           </div>
                         </div>
                       )}
@@ -162,9 +189,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
               <Paginate
                 isMobile={isMobile}
                 value={searchQuery.page}
-                onChange={(p) => {
-                  setSearchQuery({ ...searchQuery, page: p });
-                }}
+                onChange={handleChangePage}
                 total={data?.data?.products?.total ?? 0}
                 perPage={data?.data?.products?.per_page ?? 1}
               />

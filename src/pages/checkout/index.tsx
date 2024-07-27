@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
@@ -6,6 +6,7 @@ import { getAppLayout } from '@/components/layouts';
 import { checkoutService } from '@/services/checkout/checkout.service';
 import { ResponseShippingType } from '@/types/checkout';
 import { DataVoucher } from '@/types/home';
+import { getCartTotal } from '@/utils/cart';
 
 import FormCheckout from './components/form-checkout';
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -23,6 +24,20 @@ interface CheckoutProps {
   dataShip: ResponseShippingType;
 }
 export default function Checkout({ dataVoucher, dataShip }: CheckoutProps) {
+  const [isCartEmpty, setIsCartEmpty] = useState<boolean>(true);
+  useEffect(() => {
+    const total = getCartTotal();
+    if (total > 0) {
+      setIsCartEmpty(false);
+    }
+  }, []);
+  if (isCartEmpty) {
+    return (
+      <div className="tw-flex tw-justify-center tw-pt-10">
+        <span className="tw-text-xl tw-font-bold">Chưa có sản phẩm nào trong giỏ hàng!</span>
+      </div>
+    );
+  }
   return (
     <div className="tw-pb-12">
       <Head>

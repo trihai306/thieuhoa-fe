@@ -1,15 +1,18 @@
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 import { getAppLayout } from '@/components/layouts';
+import Meta from '@/components/Meta';
 import ProductCategory from '@/modules/product/pages/ProductCategory';
 import StaticPost from '@/modules/static/components/StaticPost';
 import { postService } from '@/modules/static/services/post/post.service';
 import { NextPageWithLayout } from '@/types';
-import Head from 'next/head';
-import Meta from '@/components/Meta';
 
-export const getServerSideProps: GetServerSideProps = async (context: any) => {
-  const { slug, page } = context.params;
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext,
+) => {
+  const { params, query } = context;
+  const slug = params?.slug ?? '';
+  const page = query?.page ?? 1;
   const res = await postService.getPost(slug as string);
   if (Object.keys(res.data).includes('staticPage')) {
     return {
@@ -30,10 +33,10 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
 };
 
 const BlogDetail: NextPageWithLayout = ({ slug, productCategory, staticPage, page }) => {
-  const { metaData } = productCategory.data;
+  const { metaData, schemaData } = productCategory.data;
   return (
     <div>
-      <Meta {...metaData} />
+      <Meta {...metaData} schemaData={schemaData} />
       {productCategory && <ProductCategory slug={slug} initialData={productCategory} page={page} />}
       {staticPage && <StaticPost slug={slug} initialData={staticPage} />}
     </div>

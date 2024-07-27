@@ -693,9 +693,8 @@ const StoreListPage: NextPageWithLayout = () => {
                 Xem đường đi
               </a>
               <ImageResize
-                ratio={{ width: 2, height: 1 }}
+                aspect={{ x: 2, y: 1 }}
                 src={store.image ? store.image : '/v2/img/anh-cua-hang.png'}
-                unoptimized
               />
             </div>
           ))}

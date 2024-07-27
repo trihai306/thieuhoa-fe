@@ -60,7 +60,7 @@ const BlogBanner = () => {
               className="tw-relative tw-inline-block tw-h-full tw-w-full"
             >
               <ImageResize
-                ratio={{ width: 800, height: 300 }}
+                aspect={{ x: 2.67, y: 1 }}
                 src={`${MEDIA_ENDPOINT}${banner.src}`}
                 alt={banner.alt}
               />

@@ -29,7 +29,7 @@ interface HomeProps {
 const Home: NextPageWithLayout = ({ data }: HomeProps) => {
   return (
     <div id="content-homepage">
-      <Meta {...data.metaData} />
+      <Meta {...data.metaData} schemaData={data.schemaData} />
       <HomeSlider isMobile={isMobile} />
       <FormSearch />
       <Category />
