@@ -7824,8 +7824,8 @@
 
       .group-banner {
         padding: 5px;
-        justify-content: center;
-        flex-direction: column;
+        justify-content: center !important;
+        flex-direction: column !important;
         border-radius: 5px;
         border-right: none;
         height: 100%;
