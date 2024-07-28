@@ -14,7 +14,7 @@ function ImageResize({ aspect, alt = '', ...props }: ImageResizeProps) {
   }, [aspect]);
   return (
     <div className="tw-relative tw-w-full" style={{ paddingBottom: `${padding}%` }}>
-      <Image {...props} alt={alt} fill />
+      <Image {...props} alt={alt} fill objectFit="cover" />
     </div>
   );
 }
