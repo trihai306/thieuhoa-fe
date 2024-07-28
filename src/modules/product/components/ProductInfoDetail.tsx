@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { map } from 'lodash';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
+import ImageResize from '@/components/ImageResize';
 import {
   Dialog,
   DialogContent,
@@ -14,18 +18,36 @@ import {
 } from '@/components/ui/dialog';
 import { useAppDispatch } from '@/redux';
 import { setCartCount } from '@/redux/features/cart';
-import { addProductToCart, getCartTotal } from '@/utils/cart';
+import { checkoutService } from '@/services/checkout/checkout.service';
+import { addProductToCart, forceUpdateCart, getCart, getCartTotal } from '@/utils/cart';
 
 import { ProductDetail } from '../types';
 
 import ProductVoucher from './ProductVoucher';
-import Image from 'next/image';
 
 export type ProductInfoDetailProps = {
   data: ProductDetail;
 };
-
+type FormValues = {
+  fullName: string;
+  phone: string;
+  address: string;
+};
 const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+  const registerFullName = register('fullName', { required: 'Họ tên là bắt buộc' });
+  const registerPhone = register('phone', {
+    required: 'Số điện thoại là bắt buộc',
+    pattern: {
+      value: /^(?:\+84|0)(?:3[2-9]|5[25689]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$/,
+      message: 'Số điện thoại chưa đúng định dạng',
+    },
+  });
+  const registerAddress = register('address');
   const product = data.product;
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
@@ -36,7 +58,44 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       (stock) => stock.color === selectedColor && stock.size === selectedSize,
     )?.stock;
   }, [product, selectedColor, selectedSize]);
-
+  const router = useRouter();
+  const onSubmit = useCallback<SubmitHandler<FormValues>>(
+    (formData) => {
+      const variation = product.variations.find(
+        (item) => item.color === selectedColor && item.size === selectedSize,
+      );
+      forceUpdateCart([]);
+      addProductToCart({
+        product_id: product.id,
+        color: selectedColor,
+        size: selectedSize,
+        quantity: quantity,
+        variation_id: variation?.id ?? 0,
+      });
+      const { fullName, phone, address } = formData;
+      const dataCart = getCart();
+      const req = {
+        full_name: fullName,
+        phone,
+        address,
+        note: '',
+        dataCart,
+      };
+      const checkout = async () => {
+        const res = await checkoutService.checkout(req);
+        if (res.code === 200) {
+          forceUpdateCart([]);
+          dispatch(setCartCount(0));
+          router.push(res.data.redirect);
+        } else {
+          toast.error('Đã có lỗi xảy ra.');
+          console.log(res);
+        }
+      };
+      checkout();
+    },
+    [dispatch, product.id, product.variations, quantity, router, selectedColor, selectedSize],
+  );
   const handleAddCart = () => {
     const variation = product.variations.find(
       (item) => item.color === selectedColor && item.size === selectedSize,
@@ -46,7 +105,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       color: selectedColor,
       size: selectedSize,
       quantity: quantity,
-      variation_id: variation.id,
+      variation_id: variation?.id ?? 0,
     });
     const count = getCartTotal();
     dispatch(setCartCount(count));
@@ -80,11 +139,17 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
                 onClick={() => setSelectedColor(colorItem.color)}
                 key={key}
                 data-property={colorItem.color}
-                className={`color-item select-product-color ${
+                className={`color-item select-product-color tw-flex tw-items-center tw-justify-center ${
                   colorItem.color === selectedColor ? 'active' : ''
                 }`}
               >
-                <img className="lozad" src={colorItem.thumbnail} alt={colorItem.color} />
+                <div className="tw-h-[30px] tw-w-[30px]">
+                  <ImageResize
+                    aspect={{ x: 1, y: 1 }}
+                    src={colorItem.thumbnail}
+                    alt={colorItem.color}
+                  />
+                </div>
               </button>
             ))}
           </div>
@@ -218,11 +283,17 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
                           />
                         </svg>
                       </div>
-                      <img
-                        src="https://thieuhoa.com.vn/wp-content/uploads/2022/10/2x3QUR9StS6JBFRM5eu03g1cLAud07pBjc3lnvvB.webp"
-                        alt=""
-                        style={{ maxWidth: '100%' }}
-                      />
+                      <div className="tw-max-h-[1100px tw-max-w-[1100px]">
+                        <ImageResize
+                          aspect={{
+                            x: 1,
+                            y: 1,
+                          }}
+                          src="https://thieuhoa.com.vn/wp-content/uploads/2022/10/2x3QUR9StS6JBFRM5eu03g1cLAud07pBjc3lnvvB.webp"
+                          alt="choose size"
+                          style={{ maxWidth: '100%' }}
+                        />
+                      </div>
                     </div>
                   </DialogDescription>
                 </DialogHeader>
@@ -415,7 +486,13 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             href="https://www.facebook.com/sharer.php?u=https://thieuhoa.com.vn/vay-dam-trung-nien/dam-du-tiec-thiet-ke-DD4L0329"
             target="_blank"
           >
-            <img src="https://thieuhoa.com.vn/v2/img/svg/face-icon.svg" alt="" />
+            <div className="tw-h-[30px] tw-w-[30x]">
+              <ImageResize
+                aspect={{ x: 1, y: 1 }}
+                src="https://thieuhoa.com.vn/v2/img/svg/face-icon.svg"
+                alt=""
+              />
+            </div>
           </Link>
         </div>
       </div>
@@ -425,27 +502,40 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
           <span>
             <div className="form-input">
               <span>
-                <input type="text" name="phone" placeholder="Số điện thoại" />
-                <p className="error-custom" />
+                <input {...registerPhone} type="text" placeholder="Số điện thoại" />
+                {errors.phone && <p className="error-custom">{errors.phone.message}</p>}
               </span>
             </div>
             <div className="form-input">
               <span>
-                <input type="text" name="full_name" placeholder="Họ và tên" />
-                <p className="error-custom" />
+                <input {...registerFullName} type="text" placeholder="Họ và tên" />
+                {errors.fullName && <p className="error-custom">{errors.fullName.message}</p>}
               </span>
             </div>
             <div className="form-input">
-              <input type="text" name="address" placeholder="Địa chỉ nhận hàng" />
+              <input
+                {...registerAddress}
+                type="text"
+                name="address"
+                placeholder="Địa chỉ nhận hàng"
+              />
             </div>
           </span>
           <div className="form-input">
-            <button id="btn-quick-checkout">Đặt hàng nhanh</button>
+            <button id="btn-quick-checkout" onClick={handleSubmit(onSubmit)}>
+              Đặt hàng nhanh
+            </button>
           </div>
           <div className="top-banner">
             <div className="group-banner">
               <div className="left-group">
-                <img src={`${MEDIA_ENDPOINT}/v2/img/svg/volunteer_activism1.svg`} alt="" />
+                <div className="tw-h-[40px] tw-w-[40px]">
+                  <ImageResize
+                    aspect={{ x: 1, y: 1 }}
+                    src={`${MEDIA_ENDPOINT}/v2/img/svg/volunteer_activism1.svg`}
+                    alt=""
+                  />
+                </div>
               </div>
               <div className="right-group">
                 <p className="title text-base">100% Made in Viet Nam</p>
@@ -454,7 +544,13 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             </div>
             <div className="group-banner">
               <div className="left-group">
-                <img src={`${MEDIA_ENDPOINT}/v2/img/svg/cargo-truck-1.svg`} alt="" />
+                <div className="tw-w-[40px] tw-h-[40px]">
+                  <ImageResize
+                    aspect={{ x: 1, y: 1 }}
+                    src={`${MEDIA_ENDPOINT}/v2/img/svg/cargo-truck-1.svg`}
+                    alt=""
+                  />
+                </div>
               </div>
               <div className="right-group">
                 <p className="title text-base">Miễn phí vận chuyển </p>
@@ -463,7 +559,13 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             </div>
             <div className="group-banner">
               <div className="left-group">
-                <img src={`${MEDIA_ENDPOINT}/v2/img/svg/cash-on-delivery1.svg`} alt="" />
+                <div className="tw-w-[40px] tw-h-[40px]">
+                  <ImageResize
+                    aspect={{ x: 1, y: 1 }}
+                    src={`${MEDIA_ENDPOINT}/v2/img/svg/cash-on-delivery1.svg`}
+                    alt=""
+                  />
+                </div>
               </div>
               <div className="right-group">
                 <p className="title text-base">Kiểm hàng - Thanh toán tại nhà</p>
@@ -472,7 +574,13 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             </div>
             <div className="group-banner">
               <div className="left-group">
-                <img src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user1.svg`} alt="" />
+                <div className="tw-w-[40px] tw-h-[40px]">
+                  <ImageResize
+                    aspect={{ x: 1, y: 1 }}
+                    src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user1.svg`}
+                    alt=""
+                  />
+                </div>
               </div>
               <div className="right-group">
                 <p className="title text-base">Cam kết 1 đổi 1 trong 7 ngày</p>

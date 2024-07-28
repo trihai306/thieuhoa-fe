@@ -28,7 +28,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
   const metaData = useMemo(() => {
     return initialData?.data.metaData;
   }, [initialData?.data.metaData]);
-  console.log(initialData);
   if (isLoading) return <div>Loading...</div>;
   return (
     <>
