@@ -11,6 +11,8 @@ import { layoutService } from '@/services/layout.service';
 import { MenuType } from '@/types/layout';
 import { getCartTotal } from '@/utils/cart';
 
+import ImageResize from '../ImageResize';
+
 import MenuDrawer from './MenuDrawer';
 
 const Header = () => {
@@ -42,23 +44,32 @@ const Header = () => {
           <div className="left-content">
             <Link rel="nofollow" href={`/he-thong-cua-hang`}>
               <div className="item-store item">
-                <Image
-                  width={24}
-                  height={24}
-                  src={`${MEDIA_ENDPOINT}/v2/img/svg/location.svg`}
-                  alt="store"
-                />
+                <div className="tw-h-[24px] tw-w-[24px]">
+                  <ImageResize
+                    aspect={{
+                      x: 1,
+                      y: 1,
+                    }}
+                    src={`${MEDIA_ENDPOINT}/v2/img/svg/location.svg`}
+                    alt="store"
+                  />
+                </div>
+
                 <span>Cửa hàng</span>
               </div>
             </Link>
             <Link href="tel:18009246">
               <div className="hotline item">
-                <Image
-                  width={24}
-                  height={24}
-                  src={`${MEDIA_ENDPOINT}/v2/img/svg/Hotline.svg`}
-                  alt="hotline"
-                />
+                <div className="tw-h-[24px] tw-w-[24px]">
+                  <ImageResize
+                    aspect={{
+                      x: 1,
+                      y: 1,
+                    }}
+                    src={`${MEDIA_ENDPOINT}/v2/img/svg/Hotline.svg`}
+                    alt="hotline"
+                  />
+                </div>
                 <div className="group-text">
                   <p>1800.9246</p>
                   <p className="free-hotline">(Miễn Phí)</p>
@@ -80,12 +91,16 @@ const Header = () => {
           <div className="right-content">
             <Link rel="nofollow" href={`/dang-nhap`}>
               <div className="user-icon icon">
-                <Image
-                  width={29}
-                  height={29}
-                  src={`${MEDIA_ENDPOINT}/v2/img/svg/user.svg`}
-                  alt="user"
-                />
+                <div className="tw-h-[29px] tw-w-[29px]">
+                  <ImageResize
+                    aspect={{
+                      x: 1,
+                      y: 1,
+                    }}
+                    src={`${MEDIA_ENDPOINT}/v2/img/svg/user.svg`}
+                    alt="user"
+                  />
+                </div>
                 <p>Tài khoản</p>
               </div>
             </Link>

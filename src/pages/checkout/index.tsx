@@ -3,10 +3,11 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 
 import { getAppLayout } from '@/components/layouts';
+import { useAppSelector } from '@/redux';
 import { checkoutService } from '@/services/checkout/checkout.service';
 import { ResponseShippingType } from '@/types/checkout';
 import { DataVoucher } from '@/types/home';
-import { getCartTotal } from '@/utils/cart';
+import { forceUpdateCart } from '@/utils/cart';
 
 import FormCheckout from './components/form-checkout';
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -24,14 +25,13 @@ interface CheckoutProps {
   dataShip: ResponseShippingType;
 }
 export default function Checkout({ dataVoucher, dataShip }: CheckoutProps) {
-  const [isCartEmpty, setIsCartEmpty] = useState<boolean>(true);
+  const cartCount = useAppSelector((state) => state.cart.count);
   useEffect(() => {
-    const total = getCartTotal();
-    if (total > 0) {
-      setIsCartEmpty(false);
+    if (cartCount <= 0) {
+      forceUpdateCart([]);
     }
-  }, []);
-  if (isCartEmpty) {
+  }, [cartCount]);
+  if (cartCount <= 0) {
     return (
       <div className="tw-flex tw-justify-center tw-pt-10">
         <span className="tw-text-xl tw-font-bold">Chưa có sản phẩm nào trong giỏ hàng!</span>
@@ -40,9 +40,6 @@ export default function Checkout({ dataVoucher, dataShip }: CheckoutProps) {
   }
   return (
     <div className="tw-pb-12">
-      <Head>
-        <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css" />
-      </Head>
       <div id="main-pay">
         <div id="content-pay">
           <div className="top-content">

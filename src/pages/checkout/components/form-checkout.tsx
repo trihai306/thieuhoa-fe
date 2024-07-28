@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { MEDIA_ENDPOINT } from '@/common/constants';
 import ImageResize from '@/components/ImageResize';
 import { productService } from '@/modules/product/services/product.service';
+import { useAppDispatch } from '@/redux';
+import { setCartCount } from '@/redux/features/cart';
 import { checkoutService } from '@/services/checkout/checkout.service';
 import { DataVoucher, ResponseShippingType } from '@/types/checkout';
 import { forceUpdateCart, getCart } from '@/utils/cart';
@@ -43,6 +45,8 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
   const [voucherCode, setVoucherCode] = useState<string>('');
   const router = useRouter();
   const [checkoutErrorMsg, setCheckoutErrorMsg] = useState<string>('');
+  const dispatch = useAppDispatch();
+  const isLoadedCart = useRef<boolean>(false);
   useEffect(() => {
     const getCartItems = async () => {
       const dataCart = getCart();
@@ -66,6 +70,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
           };
         });
       });
+      isLoadedCart.current = true;
     };
     getCartItems();
   }, []);
@@ -175,6 +180,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
         if (res.code === 200) {
           setCheckoutErrorMsg('');
           forceUpdateCart([]);
+          dispatch(setCartCount(0));
           router.push(res.data.redirect);
         } else {
           setCheckoutErrorMsg('Đã có lỗi xảy ra.');
@@ -183,7 +189,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
       };
       checkout();
     },
-    [customerPointApply, router, voucherCode],
+    [customerPointApply, router, voucherCode, dispatch],
   );
   const handleDecrease = useCallback(
     (index: number) => {
@@ -191,13 +197,14 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
       if (newCart[index]) {
         if (newCart[index].quantity <= 1) {
           setCartItems(newCart.filter((_, indexRemove) => index !== indexRemove));
+          dispatch(setCartCount(newCart.length - 1));
           return;
         }
         newCart[index].quantity -= 1;
         setCartItems(newCart);
       }
     },
-    [cartItems],
+    [cartItems, dispatch],
   );
   const handleIncrease = useCallback(
     (index: number) => {
@@ -211,9 +218,10 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
   );
   const handleRemove = useCallback(
     (index: number) => {
-      setCartItems(cartItems.filter((_, indexRemove) => index !== indexRemove));
+      setCartItems((pre) => pre.filter((_, indexRemove) => index !== indexRemove));
+      dispatch(setCartCount(cartItems.length - 1));
     },
-    [cartItems],
+    [cartItems, dispatch],
   );
   const handleInputPoint = useCallback(() => {
     if (!pointInputRef.current) return;
@@ -233,7 +241,9 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
     setCustomerPointApply(point);
   }, [customerPoint, totalPriceCart]);
   useEffect(() => {
-    forceUpdateCart(cartItems);
+    if (isLoadedCart.current) {
+      forceUpdateCart(cartItems);
+    }
   }, [cartItems]);
   const registerFullName = register('fullName', { required: 'Họ tên là bắt buộc' });
   const registerPhone = register('phone', {
