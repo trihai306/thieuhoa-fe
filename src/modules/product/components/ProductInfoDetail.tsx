@@ -94,7 +94,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       };
       checkout();
     },
-    [dispatch, product.id, product.variations, quantity, router, selectedColor, selectedSize],
+    [dispatch, product?.id, product?.variations, quantity, router, selectedColor, selectedSize],
   );
   const handleAddCart = () => {
     const variation = product.variations.find(
@@ -113,11 +113,11 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
   };
 
   const storeOffline = useMemo(() => {
-    return map(data.dataStock.offline, (value) => value);
+    return map(data.dataStock?.offline, (value) => value);
   }, [data]);
 
   const storeOnline = useMemo(() => {
-    return map(data.dataStock.online, (value) => value);
+    return map(data.dataStock?.online, (value) => value);
   }, [data]);
 
   useEffect(() => {
@@ -180,7 +180,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
         </div>
       );
     }
-  }, [product.arrayColor, product.colors, selectedColor]);
+  }, [product?.arrayColor, product?.colors, selectedColor]);
   if (!product) return null;
 
   return (

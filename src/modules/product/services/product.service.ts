@@ -2,11 +2,13 @@ import { cloneDeepWith, isString } from 'lodash';
 
 import { BaseService } from '@/services/base.service';
 import API_ENDPOINTS from '@/services/endpoints';
+import requestCart from '@/services/request-cart';
 import { ApiResponse } from '@/types';
 
-import { Product, ProductCategory, ProductDetail } from '../types';
+import { Product, ProductCategory, ProductDetail, ReviewQuery, ReviewReponse } from '../types';
 
 class ProductService extends BaseService {
+  httpCart = requestCart;
   async getCategory(data: { slug: string; page?: number }) {
     return await this.http
       .get<ApiResponse<ProductCategory>>(data.slug, {
@@ -42,6 +44,13 @@ class ProductService extends BaseService {
     return await this.http
       .post<ApiResponse<Product[]>>(API_ENDPOINTS.GET_PRODUCTS, {
         ids,
+      })
+      .then((res) => res.data);
+  }
+  async getReview(params: ReviewQuery) {
+    return await this.httpCart
+      .get<ApiResponse<ReviewReponse>>(API_ENDPOINTS.PRODUCT_REVIEW, {
+        params,
       })
       .then((res) => res.data);
   }

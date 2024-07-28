@@ -587,3 +587,46 @@ export interface DataVoucher {
   web_status: number;
   text_title: string;
 }
+
+export interface ReviewResponse {
+  reviews: ReviewData;
+}
+export interface ReviewData {
+  current_page: number;
+  data: Review[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  next_page_url: string;
+  path: string;
+  per_page: number;
+  prev_page_url: string;
+  to: number;
+  total: number;
+}
+
+export interface Review {
+  id: number;
+  product_id: number;
+  source_id: number;
+  resource: number;
+  content: string;
+  rating_time: number;
+  rate: number;
+  user_name: string;
+  user_image: string;
+  images: string;
+  videos: string;
+  created_at: string;
+  updated_at: string;
+  htmlStar: string;
+  human_time: string;
+  normal_time: string;
+}
+export interface ReviewQuery {
+  page: number;
+  product_id: number;
+  limit: number;
+  type: number;
+}

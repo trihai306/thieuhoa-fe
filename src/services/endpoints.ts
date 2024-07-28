@@ -44,6 +44,9 @@ const API_ENDPOINTS = {
   HOME_BEST_SELLER: '/home/best-seller-products',
   HOME_CATEGORY_DATA: '/home/category-data',
   HOME_SALE_OFF: '/home/sale-off-products',
+
+  //PRODUCT REVIEW
+  PRODUCT_REVIEW: 'product/reviews',
 };
 
 export default API_ENDPOINTS;

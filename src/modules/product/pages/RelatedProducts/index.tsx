@@ -38,7 +38,7 @@ function RelatedProducts({ products }: RelatedProductProps) {
       </div>
       <div className="all-product-watched">
         <div className="group-new-product" data-item-count="{{ $relateItems->count() }}">
-          {products.map((product) => {
+          {products?.map((product) => {
             return (
               <div key={product.slug} className="item-new-product">
                 <div className="group-img">
