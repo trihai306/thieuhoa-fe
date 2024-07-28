@@ -10,6 +10,7 @@ import ProductGallery from '../../components/ProductGallery';
 import ProductInfoDetail from '../../components/ProductInfoDetail';
 import { productService } from '../../services/product.service';
 import type { ProductDetail } from '../../types';
+import RelatedProducts from '../RelatedProducts';
 export type ProductDetailProps = {
   slug: string;
   initialData?: ApiResponse<ProductDetail>;
@@ -55,6 +56,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
           {data?.data && <ProductInfoDetail data={data?.data}></ProductInfoDetail>}
         </div>
         <ProductDescription data={data?.data} />
+        <RelatedProducts products={data.data.relateItems} />
       </div>
     </>
   );

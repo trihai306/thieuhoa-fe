@@ -337,6 +337,7 @@ export interface RelateItem {
   id: number;
   name: string;
   slug: string;
+  colors: Color[];
   full_path: string;
   sku: string;
   excerpt: string;
@@ -355,7 +356,7 @@ export interface RelateItem {
   auto_sale: number;
   display: number;
   publish_date: string;
-  extra: string;
+  extra: any;
   stock: number;
   order_count: number;
   cateSlug: string;

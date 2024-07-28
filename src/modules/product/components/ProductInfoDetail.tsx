@@ -544,7 +544,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             </div>
             <div className="group-banner">
               <div className="left-group">
-                <div className="tw-w-[40px] tw-h-[40px]">
+                <div className="tw-h-[40px] tw-w-[40px]">
                   <ImageResize
                     aspect={{ x: 1, y: 1 }}
                     src={`${MEDIA_ENDPOINT}/v2/img/svg/cargo-truck-1.svg`}
@@ -559,7 +559,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             </div>
             <div className="group-banner">
               <div className="left-group">
-                <div className="tw-w-[40px] tw-h-[40px]">
+                <div className="tw-h-[40px] tw-w-[40px]">
                   <ImageResize
                     aspect={{ x: 1, y: 1 }}
                     src={`${MEDIA_ENDPOINT}/v2/img/svg/cash-on-delivery1.svg`}
@@ -574,7 +574,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             </div>
             <div className="group-banner">
               <div className="left-group">
-                <div className="tw-w-[40px] tw-h-[40px]">
+                <div className="tw-h-[40px] tw-w-[40px]">
                   <ImageResize
                     aspect={{ x: 1, y: 1 }}
                     src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user1.svg`}

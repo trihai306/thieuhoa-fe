@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
-import Head from 'next/head';
 
 import { getAppLayout } from '@/components/layouts';
 import Meta from '@/components/Meta';
