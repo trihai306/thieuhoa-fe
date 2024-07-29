@@ -9,11 +9,12 @@ import { Product, ProductCategory, ProductDetail, ReviewQuery, ReviewReponse } f
 
 class ProductService extends BaseService {
   httpCart = requestCart;
-  async getCategory(data: { slug: string; page?: number }) {
+  async getCategory(slug: string, { page, ...query }: { page?: number }) {
     return await this.http
-      .get<ApiResponse<ProductCategory>>(data.slug, {
+      .get<ApiResponse<ProductCategory>>(slug, {
         params: {
-          page: data.page,
+          page: page,
+          ...query,
         },
       })
       .then((res) => res.data);

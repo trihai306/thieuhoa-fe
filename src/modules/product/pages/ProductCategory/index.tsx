@@ -2,17 +2,18 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import NoSSR from 'react-no-ssr';
 import { useQuery } from '@tanstack/react-query';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Url } from 'url';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
 import ImageResize from '@/components/ImageResize';
 import Paginate from '@/components/Paginate';
 import ReadMore from '@/components/ReadMore';
-import { ApiResponse } from '@/types';
+import { ApiResponse, SearchQueryType } from '@/types';
 import { formatNumber } from '@/utils/number';
 
+import ProductFilter from '../../components/ProductFilter';
 import ProductLoadingCard from '../../components/ProductLoadingCard';
 import { productService } from '../../services/product.service';
 import { ProductCategory as ProductCategoryType } from '../../types';
@@ -21,18 +22,15 @@ export type ProductCategoryProps = {
   initialData?: ApiResponse<ProductCategoryType>;
   page?: number;
 };
-
 const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, page }) => {
-  const [searchQuery, setSearchQuery] = useState({
-    slug: slug,
+  const [searchQuery, setSearchQuery] = useState<SearchQueryType>({
     page: page ?? 1,
   });
-
   const { data, isLoading, isFetching } = useQuery({
     queryKey: [slug, searchQuery],
     // initialData: initialData,
     queryFn: async () => {
-      return await productService.getCategory(searchQuery);
+      return await productService.getCategory(slug, searchQuery);
     },
   });
 
@@ -56,9 +54,19 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
     [router, searchQuery],
   );
   useEffect(() => {
-    setSearchQuery((prev) => ({ slug: slug, page: 1 }));
-  }, [slug, page]);
-
+    setSearchQuery({ ...router.query });
+  }, []);
+  const handleApplyFilter = useCallback(
+    (searchQuery: SearchQueryType) => {
+      router.push({
+        query: {
+          ...router.query,
+          ...searchQuery,
+        },
+      });
+    },
+    [router],
+  );
   return (
     <NoSSR>
       <div id="content-product" ref={pageRef}>
@@ -110,6 +118,12 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
           <div className="dropdown-filter"></div>
         </div>
         <div className="main-content">
+          <ProductFilter
+            from={initialData?.data.products.from ?? 0}
+            to={initialData?.data.products.to ?? 0}
+            total={initialData?.data.products.total ?? 0}
+            onSearch={handleApplyFilter}
+          />
           <div className="right-product">
             <div className="group-list-product">
               {haveLoading &&
@@ -188,7 +202,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
             {!haveLoading && (
               <Paginate
                 isMobile={isMobile}
-                value={searchQuery.page}
+                value={searchQuery.page ?? 1}
                 onChange={handleChangePage}
                 total={data?.data?.products?.total ?? 0}
                 perPage={data?.data?.products?.per_page ?? 1}

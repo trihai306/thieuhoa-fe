@@ -65,7 +65,11 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ keyword, initialData }) =
         <div className="dropdown-filter"></div>
       </div>
       <div className="main-content">
-        <ProductFilter data={data} />
+        <ProductFilter
+          from={data?.data.products.from ?? 0}
+          to={data?.data.products.to ?? 0}
+          total={data?.data.products.total ?? 0}
+        />
 
         <div className="right-product">
           <div className="group-list-product">

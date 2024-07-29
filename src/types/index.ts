@@ -14,3 +14,10 @@ export interface ApiResponse<Data> {
   message: string;
   code: number;
 }
+export interface SearchQueryType {
+  page?: number;
+  sort?: string;
+  color?: number;
+  size?: number;
+  price?: number;
+}
