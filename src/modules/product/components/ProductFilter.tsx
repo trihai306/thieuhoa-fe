@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { isMobile } from 'react-device-detect';
+import { useRouter } from 'next/router';
 
 import ClickOutside from '@/components/ClickOutside';
+import { Dialog, DialogContent, DialogDescription, DialogHeader } from '@/components/ui/dialog';
 type DropdownStatus = {
   size: boolean;
   color: boolean;
   price: boolean;
 };
-import { isMobile } from 'react-device-detect';
-import { useRouter } from 'next/router';
 
 import { SearchQueryType } from '@/types';
 interface ProductFilterProps {
@@ -22,6 +23,7 @@ const ProductFilter = ({ from, to, total, onSearch }: ProductFilterProps) => {
     color: false,
     price: false,
   });
+
   const router = useRouter();
 
   const [price, setPrice] = useState(router.query.price);
@@ -42,6 +44,7 @@ const ProductFilter = ({ from, to, total, onSearch }: ProductFilterProps) => {
     });
   };
   const closeDropdown = () => {
+    if (isMobile) return;
     setOpenDropdown({
       size: false,
       color: false,
@@ -49,7 +52,6 @@ const ProductFilter = ({ from, to, total, onSearch }: ProductFilterProps) => {
     });
   };
   const handleShowFilterMobile = (isShow: boolean) => {
-    document.body.classList.toggle('br-popup', isShow);
     setShowFilter(isShow);
   };
   const handleApplyFilter = (filter: Record<string, string | number>) => {
@@ -73,6 +75,7 @@ const ProductFilter = ({ from, to, total, onSearch }: ProductFilterProps) => {
   };
 
   const handleApplyFilterMobile = () => {
+    setShowFilter(false);
     handleApplyFilter({
       price: `${price}`,
       color: `${color}`,
@@ -379,299 +382,322 @@ const ProductFilter = ({ from, to, total, onSearch }: ProductFilterProps) => {
           </ClickOutside>
         </div>
       </div>
-      {isMobile && (
-        <div className="list-sortby" style={{ display: showFilter ? undefined : 'none' }}>
-          <div className="form-mobile-filter">
-            <div className="top-list">
-              <div className="close-popup" onClick={() => handleShowFilterMobile(false)}>
-                <svg
-                  width={24}
-                  height={24}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g opacity="0.8">
-                    <path
-                      d="M18 6L6 18"
-                      stroke="#222222"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M6 6L18 18"
-                      stroke="#222222"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </g>
-                </svg>
-              </div>
-              <div className="title">Bộ Lọc</div>
-            </div>
-            <div className="group-list-sort">
-              <div className="item">
-                <div className="top-list-sort" onClick={() => handleToggleDropdown('size')}>
-                  <div className="title">Size</div>
-                  <div className="down">
-                    <svg
-                      width={16}
-                      height={16}
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+
+      <Dialog
+        modal={true}
+        open={showFilter}
+        defaultOpen={showFilter}
+        onOpenChange={(open) => {
+          handleShowFilterMobile(open);
+        }}
+      >
+        <DialogContent className="tw-h-[500px]">
+          <DialogHeader>
+            <DialogDescription className="tw-max-h-96 tw-overflow-x-auto">
+              <div
+                className="list-sortby"
+                style={{
+                  top: 0,
+                }}
+              >
+                <div className="form-mobile-filter">
+                  <div className="top-list">
+                    <div
+                      className="close-popup"
+                      hidden
+                      onClick={() => handleShowFilterMobile(false)}
                     >
-                      <path
-                        d="M4 6L8 10L12 6"
-                        stroke="#222222"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
+                      <svg
+                        width={24}
+                        height={24}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g opacity="0.8">
+                          <path
+                            d="M18 6L6 18"
+                            stroke="#222222"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M6 6L18 18"
+                            stroke="#222222"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </g>
+                      </svg>
+                    </div>
+                    <div className="title">Bộ Lọc</div>
                   </div>
-                </div>
-                <div
-                  className="checkboxes"
-                  style={{ display: openDropdown.size ? undefined : 'none' }}
-                >
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="one2"
-                      checked={size === 'S'}
-                      onClick={() => setSize('S')}
-                    />
-                    S
-                    <label htmlFor="one2" />
+                  <div className="group-list-sort">
+                    <div className="item">
+                      <div className="top-list-sort" onClick={() => handleToggleDropdown('size')}>
+                        <div className="title">Size</div>
+                        <div className="down">
+                          <svg
+                            width={16}
+                            height={16}
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M4 6L8 10L12 6"
+                              stroke="#222222"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        className="checkboxes"
+                        style={{ display: openDropdown.size ? undefined : 'none' }}
+                      >
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="one2"
+                            checked={size === 'S'}
+                            onClick={() => setSize('S')}
+                          />
+                          S
+                          <label htmlFor="one2" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="two2"
+                            checked={size === 'M'}
+                            onClick={() => setSize('M')}
+                          />
+                          M
+                          <label htmlFor="two2" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="three2"
+                            checked={size === 'L'}
+                            onClick={() => setSize('L')}
+                          />
+                          L
+                          <label htmlFor="three2" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="four2"
+                            checked={size === 'XL'}
+                            onClick={() => setSize('XL')}
+                          />
+                          XL
+                          <label htmlFor="four2" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="five"
+                            checked={size === '2XL'}
+                            onClick={() => setSize('2XL')}
+                          />
+                          2XL
+                          <label htmlFor="five" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="six"
+                            checked={size === '3XL'}
+                            onClick={() => setSize('3XL')}
+                          />
+                          3XL
+                          <label htmlFor="six" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="item">
+                      <div className="top-list-sort" onClick={() => handleToggleDropdown('color')}>
+                        <div className="title">Màu sắc</div>
+                        <div className="down">
+                          <svg
+                            width={16}
+                            height={16}
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M4 6L8 10L12 6"
+                              stroke="#222222"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        className="checkboxes"
+                        style={{ display: openDropdown.color ? undefined : 'none' }}
+                      >
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="color1"
+                            checked={color === '1'}
+                            onClick={() => setColor('1')}
+                          />
+                          Trắng
+                          <label htmlFor="color1" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="color2"
+                            checked={color === '2'}
+                            onClick={() => setColor('2')}
+                          />
+                          Đỏ
+                          <label htmlFor="color2" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="color3"
+                            checked={color === '3'}
+                            onClick={() => setColor('3')}
+                          />
+                          Xanh
+                          <label htmlFor="color3" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="color4"
+                            checked={color === '4'}
+                            onClick={() => setColor('4')}
+                          />
+                          Đen
+                          <label htmlFor="color4" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="color5"
+                            checked={color === '5'}
+                            onClick={() => setColor('5')}
+                          />
+                          Vàng
+                          <label htmlFor="color5" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="color6"
+                            checked={color === '6'}
+                            onClick={() => setColor('6')}
+                          />
+                          Be
+                          <label htmlFor="color6" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="item">
+                      <div className="top-list-sort" onClick={() => handleToggleDropdown('price')}>
+                        <div className="title">Giá</div>
+                        <div className="down">
+                          <svg
+                            width={16}
+                            height={16}
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M4 6L8 10L12 6"
+                              stroke="#222222"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div
+                        className={`checkboxes price`}
+                        style={{ display: openDropdown.price ? undefined : 'none' }}
+                      >
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="price"
+                            checked={price === '1'}
+                            onClick={() => setPrice('1')}
+                          />
+                          Dưới 100.000đ
+                          <label htmlFor="price" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="price1"
+                            checked={price === '2'}
+                            onClick={() => setPrice('2')}
+                          />
+                          Từ 100.000đ - 200.000đ
+                          <label htmlFor="price1" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="price2"
+                            checked={price === '3'}
+                            onClick={() => setPrice('3')}
+                          />
+                          Từ 200.000đ - 300.000đ
+                          <label htmlFor="price2" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="price3"
+                            checked={price === '4'}
+                            onClick={() => setPrice('4')}
+                          />
+                          Từ 300.000đ - 500.000đ
+                          <label htmlFor="price3" />
+                        </div>
+                        <div className="item-checkbox">
+                          <input
+                            type="checkbox"
+                            id="price4"
+                            checked={price === '5'}
+                            onClick={() => setPrice('5')}
+                          />
+                          Trên 500.000đ
+                          <label htmlFor="price4" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="two2"
-                      checked={size === 'M'}
-                      onClick={() => setSize('M')}
-                    />
-                    M
-                    <label htmlFor="two2" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="three2"
-                      checked={size === 'L'}
-                      onClick={() => setSize('L')}
-                    />
-                    L
-                    <label htmlFor="three2" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="four2"
-                      checked={size === 'XL'}
-                      onClick={() => setSize('XL')}
-                    />
-                    XL
-                    <label htmlFor="four2" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="five"
-                      checked={size === '2XL'}
-                      onClick={() => setSize('2XL')}
-                    />
-                    2XL
-                    <label htmlFor="five" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="six"
-                      checked={size === '3XL'}
-                      onClick={() => setSize('3XL')}
-                    />
-                    3XL
-                    <label htmlFor="six" />
+                  <div className="save-sort">
+                    <button type="button" onClick={handleApplyFilterMobile}>
+                      Xong
+                    </button>
                   </div>
                 </div>
               </div>
-              <div className="item">
-                <div className="top-list-sort" onClick={() => handleToggleDropdown('color')}>
-                  <div className="title">Màu sắc</div>
-                  <div className="down">
-                    <svg
-                      width={16}
-                      height={16}
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4 6L8 10L12 6"
-                        stroke="#222222"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  className="checkboxes"
-                  style={{ display: openDropdown.color ? undefined : 'none' }}
-                >
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="color1"
-                      checked={color === '1'}
-                      onClick={() => setColor('1')}
-                    />
-                    Trắng
-                    <label htmlFor="color1" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="color2"
-                      checked={color === '2'}
-                      onClick={() => setColor('2')}
-                    />
-                    Đỏ
-                    <label htmlFor="color2" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="color3"
-                      checked={color === '3'}
-                      onClick={() => setColor('3')}
-                    />
-                    Xanh
-                    <label htmlFor="color3" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="color4"
-                      checked={color === '4'}
-                      onClick={() => setColor('4')}
-                    />
-                    Đen
-                    <label htmlFor="color4" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="color5"
-                      checked={color === '5'}
-                      onClick={() => setColor('5')}
-                    />
-                    Vàng
-                    <label htmlFor="color5" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="color6"
-                      checked={color === '6'}
-                      onClick={() => setColor('6')}
-                    />
-                    Be
-                    <label htmlFor="color6" />
-                  </div>
-                </div>
-              </div>
-              <div className="item">
-                <div className="top-list-sort" onClick={() => handleToggleDropdown('price')}>
-                  <div className="title">Giá</div>
-                  <div className="down">
-                    <svg
-                      width={16}
-                      height={16}
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M4 6L8 10L12 6"
-                        stroke="#222222"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div
-                  className={`checkboxes price`}
-                  style={{ display: openDropdown.price ? undefined : 'none' }}
-                >
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="price"
-                      checked={price === '1'}
-                      onClick={() => setPrice('1')}
-                    />
-                    Dưới 100.000đ
-                    <label htmlFor="price" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="price1"
-                      checked={price === '2'}
-                      onClick={() => setPrice('2')}
-                    />
-                    Từ 100.000đ - 200.000đ
-                    <label htmlFor="price1" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="price2"
-                      checked={price === '3'}
-                      onClick={() => setPrice('3')}
-                    />
-                    Từ 200.000đ - 300.000đ
-                    <label htmlFor="price2" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="price3"
-                      checked={price === '4'}
-                      onClick={() => setPrice('4')}
-                    />
-                    Từ 300.000đ - 500.000đ
-                    <label htmlFor="price3" />
-                  </div>
-                  <div className="item-checkbox">
-                    <input
-                      type="checkbox"
-                      id="price4"
-                      checked={price === '5'}
-                      onClick={() => setPrice('5')}
-                    />
-                    Trên 500.000đ
-                    <label htmlFor="price4" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="save-sort">
-              <button type="button" onClick={handleApplyFilterMobile}>
-                Xong
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
