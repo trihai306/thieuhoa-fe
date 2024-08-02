@@ -115,12 +115,9 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
   }, [getValues]);
 
   const handleAppluyVoucher = useCallback(async () => {
-    if (!voucherInputRef.current || !voucherInputRef.current.value || !phoneInputRef.current)
-      return;
-    const res = await checkoutService.applyCoupon(
-      voucherInputRef.current.value,
-      +phoneInputRef.current.value,
-    );
+    const phoneData = getValues('phone');
+    if (!voucherInputRef.current || !voucherInputRef.current.value || !phoneData) return;
+    const res = await checkoutService.applyCoupon(voucherInputRef.current.value, +phoneData);
     if (res.code !== 200) {
       setVoucherMessage({
         error: true,
