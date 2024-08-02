@@ -324,6 +324,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
         </span>
         sản phẩm
       </span>
+
       <div className="amout">
         <div className="wrapper">
           <span className="minus" onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}>
@@ -418,173 +419,175 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
           </Dialog>
         </div>
       </div>
-      <div className="description-detail">
-        <div className="salient-features">
-          <div className="item-salient-features">
-            <div className="header">
-              <span>Hướng dẫn bảo quản</span> <span className="icon-open">-</span>
-              <span className="icon-close">+</span>
+      <div className="tw-flex tw-flex-col">
+        <div className="description-detail tw-order-last lg:tw-order-first">
+          <div className="salient-features">
+            <div className="item-salient-features">
+              <div className="header">
+                <span>Hướng dẫn bảo quản</span> <span className="icon-open">-</span>
+                <span className="icon-close">+</span>
+              </div>
+              <div className="gr-text">
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>Giặt riêng trong 1-2 nước đầu tiên</span>
+                </div>
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>Không ngâm trong nước/xà phòng quá 1 giờ</span>
+                </div>
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>Ủi với nhiệt độ thích hợp, không ủi lên hình in/thêu</span>
+                </div>
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>Giặt riêng với áo khác màu</span>
+                </div>
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>Tránh phơi dưới nắng gắt</span>
+                </div>
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>Hạn chế giặt và sấy khô quần áo bằng máy</span>
+                </div>
+              </div>
             </div>
-            <div className="gr-text">
-              <div className="text-salient">
-                <span className="title" />
-                <span>Giặt riêng trong 1-2 nước đầu tiên</span>
+            <div className="item-salient-features">
+              <div className="header">
+                <span>Quy định đổi hàng</span> <span className="icon-open">-</span>
+                <span className="icon-close">+</span>
               </div>
-              <div className="text-salient">
-                <span className="title" />
-                <span>Không ngâm trong nước/xà phòng quá 1 giờ</span>
-              </div>
-              <div className="text-salient">
-                <span className="title" />
-                <span>Ủi với nhiệt độ thích hợp, không ủi lên hình in/thêu</span>
-              </div>
-              <div className="text-salient">
-                <span className="title" />
-                <span>Giặt riêng với áo khác màu</span>
-              </div>
-              <div className="text-salient">
-                <span className="title" />
-                <span>Tránh phơi dưới nắng gắt</span>
-              </div>
-              <div className="text-salient">
-                <span className="title" />
-                <span>Hạn chế giặt và sấy khô quần áo bằng máy</span>
+              <div className="gr-text hidden">
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>
+                    Hàng còn nguyên tem mác, hóa đơn, không bị dơ bẩn, hư hỏng, chưa qua sử dụng
+                    hoặc sửa chữa, giặt tẩy...
+                  </span>
+                </div>
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>Sản phẩm đã nhận không quá 7 ngày.</span>
+                </div>
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>Chi tiết chính sách đổi hàng: thieuhoa.com.vn/chinh-sach-doi-tra-hang</span>
+                </div>
+                <div className="text-salient">
+                  <span className="title" />
+                  <span>Hotline hỗ trợ miễn phí: 18009246</span>
+                </div>
               </div>
             </div>
           </div>
-          <div className="item-salient-features">
-            <div className="header">
-              <span>Quy định đổi hàng</span> <span className="icon-open">-</span>
-              <span className="icon-close">+</span>
-            </div>
-            <div className="gr-text hidden">
-              <div className="text-salient">
-                <span className="title" />
+          <div className="gr-icon-share">
+            <span>Chia sẻ</span>
+            <Link
+              href="https://www.facebook.com/sharer.php?u=https://thieuhoa.com.vn/vay-dam-trung-nien/dam-du-tiec-thiet-ke-DD4L0329"
+              target="_blank"
+            >
+              <div className="tw-h-[30px] tw-w-[30px]">
+                <ImageResize
+                  aspect={{ x: 1, y: 1 }}
+                  src={`${MEDIA_ENDPOINT}/v2/img/svg/face-icon.svg`}
+                  alt=""
+                />
+              </div>
+            </Link>
+          </div>
+        </div>
+        <div className="form-quick-checkout">
+          <div className="title-q">Thông tin giao hàng nhanh</div>
+          <div className="body">
+            <span>
+              <div className="form-input">
                 <span>
-                  Hàng còn nguyên tem mác, hóa đơn, không bị dơ bẩn, hư hỏng, chưa qua sử dụng hoặc
-                  sửa chữa, giặt tẩy...
+                  <input {...registerPhone} type="text" placeholder="Số điện thoại" />
+                  {errors.phone && <p className="error-custom">{errors.phone.message}</p>}
                 </span>
               </div>
-              <div className="text-salient">
-                <span className="title" />
-                <span>Sản phẩm đã nhận không quá 7 ngày.</span>
+              <div className="form-input">
+                <span>
+                  <input {...registerFullName} type="text" placeholder="Họ và tên" />
+                  {errors.fullName && <p className="error-custom">{errors.fullName.message}</p>}
+                </span>
               </div>
-              <div className="text-salient">
-                <span className="title" />
-                <span>Chi tiết chính sách đổi hàng: thieuhoa.com.vn/chinh-sach-doi-tra-hang</span>
+              <div className="form-input">
+                <input
+                  {...registerAddress}
+                  type="text"
+                  name="address"
+                  placeholder="Địa chỉ nhận hàng"
+                />
               </div>
-              <div className="text-salient">
-                <span className="title" />
-                <span>Hotline hỗ trợ miễn phí: 18009246</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="gr-icon-share">
-          <span>Chia sẻ</span>
-          <Link
-            href="https://www.facebook.com/sharer.php?u=https://thieuhoa.com.vn/vay-dam-trung-nien/dam-du-tiec-thiet-ke-DD4L0329"
-            target="_blank"
-          >
-            <div className="tw-h-[30px] tw-w-[30x]">
-              <ImageResize
-                aspect={{ x: 1, y: 1 }}
-                src="https://thieuhoa.com.vn/v2/img/svg/face-icon.svg"
-                alt=""
-              />
-            </div>
-          </Link>
-        </div>
-      </div>
-      <div className="form-quick-checkout">
-        <div className="title-q">Thông tin giao hàng nhanh</div>
-        <div className="body">
-          <span>
+            </span>
             <div className="form-input">
-              <span>
-                <input {...registerPhone} type="text" placeholder="Số điện thoại" />
-                {errors.phone && <p className="error-custom">{errors.phone.message}</p>}
-              </span>
+              <button id="btn-quick-checkout" onClick={handleSubmit(onSubmit)}>
+                Đặt hàng nhanh
+              </button>
             </div>
-            <div className="form-input">
-              <span>
-                <input {...registerFullName} type="text" placeholder="Họ và tên" />
-                {errors.fullName && <p className="error-custom">{errors.fullName.message}</p>}
-              </span>
-            </div>
-            <div className="form-input">
-              <input
-                {...registerAddress}
-                type="text"
-                name="address"
-                placeholder="Địa chỉ nhận hàng"
-              />
-            </div>
-          </span>
-          <div className="form-input">
-            <button id="btn-quick-checkout" onClick={handleSubmit(onSubmit)}>
-              Đặt hàng nhanh
-            </button>
-          </div>
-          <div className="top-banner">
-            <div className="group-banner">
-              <div className="left-group">
-                <div className="tw-h-[40px] tw-w-[40px]">
-                  <ImageResize
-                    aspect={{ x: 1, y: 1 }}
-                    src={`${MEDIA_ENDPOINT}/v2/img/svg/volunteer_activism1.svg`}
-                    alt=""
-                  />
+            <div className="top-banner">
+              <div className="group-banner">
+                <div className="left-group">
+                  <div className="tw-h-[40px] tw-w-[40px]">
+                    <ImageResize
+                      aspect={{ x: 1, y: 1 }}
+                      src={`${MEDIA_ENDPOINT}/v2/img/svg/volunteer_activism1.svg`}
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="right-group">
+                  <p className="title text-base">100% Made in Viet Nam</p>
+                  <p className="text">Thiết kế độc quyền - tiêu chuẩn xuất khẩu</p>
                 </div>
               </div>
-              <div className="right-group">
-                <p className="title text-base">100% Made in Viet Nam</p>
-                <p className="text">Thiết kế độc quyền - tiêu chuẩn xuất khẩu</p>
-              </div>
-            </div>
-            <div className="group-banner">
-              <div className="left-group">
-                <div className="tw-h-[40px] tw-w-[40px]">
-                  <ImageResize
-                    aspect={{ x: 1, y: 1 }}
-                    src={`${MEDIA_ENDPOINT}/v2/img/svg/cargo-truck-1.svg`}
-                    alt=""
-                  />
+              <div className="group-banner">
+                <div className="left-group">
+                  <div className="tw-h-[40px] tw-w-[40px]">
+                    <ImageResize
+                      aspect={{ x: 1, y: 1 }}
+                      src={`${MEDIA_ENDPOINT}/v2/img/svg/cargo-truck-1.svg`}
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="right-group">
+                  <p className="title text-base">Miễn phí vận chuyển </p>
+                  <p className="text">Áp dụng đơn hàng từ 200k</p>
                 </div>
               </div>
-              <div className="right-group">
-                <p className="title text-base">Miễn phí vận chuyển </p>
-                <p className="text">Áp dụng đơn hàng từ 200k</p>
-              </div>
-            </div>
-            <div className="group-banner">
-              <div className="left-group">
-                <div className="tw-h-[40px] tw-w-[40px]">
-                  <ImageResize
-                    aspect={{ x: 1, y: 1 }}
-                    src={`${MEDIA_ENDPOINT}/v2/img/svg/cash-on-delivery1.svg`}
-                    alt=""
-                  />
+              <div className="group-banner">
+                <div className="left-group">
+                  <div className="tw-h-[40px] tw-w-[40px]">
+                    <ImageResize
+                      aspect={{ x: 1, y: 1 }}
+                      src={`${MEDIA_ENDPOINT}/v2/img/svg/cash-on-delivery1.svg`}
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div className="right-group">
+                  <p className="title text-base">Kiểm hàng - Thanh toán tại nhà</p>
+                  <p className="text">Dễ dàng kiểm tra hàng trước khi thanh toán </p>
                 </div>
               </div>
-              <div className="right-group">
-                <p className="title text-base">Kiểm hàng - Thanh toán tại nhà</p>
-                <p className="text">Dễ dàng kiểm tra hàng trước khi thanh toán </p>
-              </div>
-            </div>
-            <div className="group-banner">
-              <div className="left-group">
-                <div className="tw-h-[40px] tw-w-[40px]">
-                  <ImageResize
-                    aspect={{ x: 1, y: 1 }}
-                    src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user1.svg`}
-                    alt=""
-                  />
+              <div className="group-banner">
+                <div className="left-group">
+                  <div className="tw-h-[40px] tw-w-[40px]">
+                    <ImageResize
+                      aspect={{ x: 1, y: 1 }}
+                      src={`${MEDIA_ENDPOINT}/v2/img/svg/verified_user1.svg`}
+                      alt=""
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="right-group">
-                <p className="title text-base">Cam kết 1 đổi 1 trong 7 ngày</p>
-                <p className="text">Đổi hàng dễ dàng - thuận tiện</p>
+                <div className="right-group">
+                  <p className="title text-base">Cam kết 1 đổi 1 trong 7 ngày</p>
+                  <p className="text">Đổi hàng dễ dàng - thuận tiện</p>
+                </div>
               </div>
             </div>
           </div>
