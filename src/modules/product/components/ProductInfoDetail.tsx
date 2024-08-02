@@ -5,6 +5,7 @@ import { map } from 'lodash';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { setPriority } from 'os';
 
 import { MEDIA_ENDPOINT } from '@/common/constants';
 import ImageResize from '@/components/ImageResize';
@@ -120,12 +121,13 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
     return map(data.dataStock?.online, (value) => value);
   }, [data]);
 
+  const [showInstruct, setShowInstruct] = useState<boolean>(true);
+  const [showPolicy, setShowPolicy] = useState<boolean>(true);
   useEffect(() => {
     if (!product) return;
     setSelectedColor(product?.colors[0]?.color ?? product.arrayColor[0]);
     setSelectedSize(product.arraySize[0]);
   }, [product]);
-
   const renderColor = useCallback(() => {
     if (product.colors.length) {
       return (
@@ -423,11 +425,15 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
         <div className="description-detail tw-order-last lg:tw-order-first">
           <div className="salient-features">
             <div className="item-salient-features">
-              <div className="header">
-                <span>Hướng dẫn bảo quản</span> <span className="icon-open">-</span>
+              <div
+                className={`header ${showInstruct ? 'active' : ''}`}
+                onClick={() => setShowInstruct((pre) => !pre)}
+              >
+                <span>Hướng dẫn bảo quản</span>
+                <span className="icon-open">-</span>
                 <span className="icon-close">+</span>
               </div>
-              <div className="gr-text">
+              <div className="gr-text" style={{ display: showInstruct ? 'block' : 'none' }}>
                 <div className="text-salient">
                   <span className="title" />
                   <span>Giặt riêng trong 1-2 nước đầu tiên</span>
@@ -455,11 +461,14 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
               </div>
             </div>
             <div className="item-salient-features">
-              <div className="header">
+              <div
+                className={`header ${showPolicy ? 'active' : ''}`}
+                onClick={() => setShowPolicy((pre) => !pre)}
+              >
                 <span>Quy định đổi hàng</span> <span className="icon-open">-</span>
                 <span className="icon-close">+</span>
               </div>
-              <div className="gr-text hidden">
+              <div className="gr-text" style={{ display: showPolicy ? 'block' : 'none' }}>
                 <div className="text-salient">
                   <span className="title" />
                   <span>
@@ -485,7 +494,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
           <div className="gr-icon-share">
             <span>Chia sẻ</span>
             <Link
-              href="https://www.facebook.com/sharer.php?u=https://thieuhoa.com.vn/vay-dam-trung-nien/dam-du-tiec-thiet-ke-DD4L0329"
+              href={`https://www.facebook.com/sharer.php?u=${window.location.href}`}
               target="_blank"
             >
               <div className="tw-h-[30px] tw-w-[30px]">

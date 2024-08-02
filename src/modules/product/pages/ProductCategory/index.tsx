@@ -208,6 +208,7 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
                 perPage={data?.data?.products?.per_page ?? 1}
               />
             )}
+            <div style={{ clear: 'both' }}></div>
             <div className="description-product">
               <div className="group-description">
                 <div className="cate_description_sub">
