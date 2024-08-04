@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 import Meta from '@/components/Meta';
 import { ApiResponse } from '@/types';
+import { productWatched } from '@/utils/product-watched';
 
 import ProductDescription from '../../components/ProductDescription';
 import ProductGallery from '../../components/ProductGallery';
@@ -11,6 +12,7 @@ import ProductInfoDetail from '../../components/ProductInfoDetail';
 import ProductReview from '../../components/ProductReview';
 import { productService } from '../../services/product.service';
 import type { ProductDetail } from '../../types';
+import ProductWatched from '../ProductWatched';
 import RelatedProducts from '../RelatedProducts';
 
 export type ProductDetailProps = {
@@ -27,11 +29,13 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
     },
   });
   const product = data?.data.product;
+  useEffect(() => {
+    productWatched.push(product.id);
+  }, [product]);
   const categoryPost = data?.data.categoryPost;
   const metaData = useMemo(() => {
     return initialData?.data.metaData;
   }, [initialData?.data.metaData]);
-  console.log(initialData);
   if (isLoading) return <div>Loading...</div>;
   return (
     <>
@@ -61,6 +65,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
         <ProductDescription data={data?.data} />
         <ProductReview product={product} />
         <RelatedProducts products={data.data.relateItems} />
+        <ProductWatched />
       </div>
     </>
   );

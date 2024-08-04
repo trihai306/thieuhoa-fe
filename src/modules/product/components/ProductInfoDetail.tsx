@@ -183,6 +183,10 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
       );
     }
   }, [product?.arrayColor, product?.colors, selectedColor]);
+  const [currentUrl, setCurrentUrl] = useState<string>('');
+  useEffect(() => {
+    setCurrentUrl(window.location.href);
+  }, []);
   if (!product) return null;
 
   return (
@@ -493,10 +497,7 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
           </div>
           <div className="gr-icon-share">
             <span>Chia sẻ</span>
-            <Link
-              href={`https://www.facebook.com/sharer.php?u=${window.location.href}`}
-              target="_blank"
-            >
+            <Link href={`https://www.facebook.com/sharer.php?u=${currentUrl}`} target="_blank">
               <div className="tw-h-[30px] tw-w-[30px]">
                 <ImageResize
                   aspect={{ x: 1, y: 1 }}

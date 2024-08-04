@@ -1,4 +1,5 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Navigation } from 'swiper/modules';
@@ -7,13 +8,35 @@ import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { MEDIA_ENDPOINT } from '@/common/constants';
 import ImageResize from '@/components/ImageResize';
 import { formatNumber } from '@/utils/number';
+import { productWatched } from '@/utils/product-watched';
 
-import { Color, RelateItem } from '../../types';
+import { productService } from '../../services/product.service';
+import { Color, Product, RelateItem } from '../../types';
 
-interface RelatedProductProps {
-  products: RelateItem[];
-}
-function RelatedProducts({ products }: RelatedProductProps) {
+function ProductWatched() {
+  const [productIds, setProductIds] = useState<number[]>([]);
+  const { data, isLoading } = useQuery({
+    queryKey: ['productWatched'],
+    queryFn: async () => {
+      return await productService.getProducts(productIds);
+    },
+    enabled: !!productIds.length,
+  });
+  const products = useMemo(() => {
+    const productSort = data?.data ?? [];
+    let sorted: Product[] = [];
+    productIds.forEach((id) => {
+      const product = productSort.find((item) => item.id === id);
+      if (product) {
+        sorted = [...sorted, product];
+      }
+    });
+    return sorted;
+  }, [data?.data, productIds]);
+  useEffect(() => {
+    const ids = productWatched.getAll();
+    setProductIds(ids);
+  }, []);
   const renderColors = useCallback((colors: Color[]) => {
     if (!colors?.length) return null;
     return (
@@ -56,7 +79,7 @@ function RelatedProducts({ products }: RelatedProductProps) {
             <Link href={`/${product.full_path}`}>
               <ImageResize
                 aspect={{ x: 2, y: 3 }}
-                src={product.extra.thumbnail}
+                src={JSON.parse(product.extra).thumbnail}
                 alt={product.name}
               />
             </Link>
@@ -77,15 +100,15 @@ function RelatedProducts({ products }: RelatedProductProps) {
     },
     [renderColors],
   );
+  if (!products.length) return null;
   return (
     <div className="product-watched ">
       <div className="title">
-        <span>SẢN PHẨM TƯƠNG TỰ</span>
+        <span>SẢN PHẨM ĐÃ XEM</span>
       </div>
       <div className="tw-w-full">
         <div className="tw-relative tw-w-full">
           <Swiper
-            loop={true}
             ref={sliderRef}
             modules={[Navigation]}
             spaceBetween={10}
@@ -102,7 +125,7 @@ function RelatedProducts({ products }: RelatedProductProps) {
               },
             }}
           >
-            {products?.map((product) => (
+            {products.map((product) => (
               <SwiperSlide key={product.id}>{renderSliderItem(product)}</SwiperSlide>
             ))}
           </Swiper>
@@ -129,4 +152,4 @@ function RelatedProducts({ products }: RelatedProductProps) {
   );
 }
 
-export default RelatedProducts;
+export default ProductWatched;
