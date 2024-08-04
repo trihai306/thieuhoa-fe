@@ -1,9 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { DialogTitle } from '@radix-ui/react-dialog';
-import { isEmpty } from 'lodash';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import {
   Drawer,
   DrawerClose,
@@ -11,43 +16,69 @@ import {
   DrawerFooter,
   DrawerTrigger,
 } from '@/components/ui/drawer';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MenuType } from '@/types/layout';
 
 import { Button } from '../ui/button';
 
 const MenuDrawer = ({ menu }: { menu: MenuType[] }) => {
-  const mapMenu = (menu: MenuType, level = 1) => {
-    if (isEmpty(menu.children)) {
+  const renderTabs = useCallback(() => {
+    return menu.map((item) => {
       return (
-        <div
-          key={menu.id}
-          className={`tw-w-full hover:tw-bg-yellow-500 ${level === 1 ? 'title' : 0}`}
-          style={{
-            marginLeft: `${level * 10}px`,
-          }}
-        >
-          <Link href={menu.url ? menu.url.replace('https://thieuhoa.com.vn', '') : '#'}>
-            {menu ? menu.text : ''}
-          </Link>
-        </div>
+        <TabsTrigger key={item.id} value={`menu-${item.id}`}>
+          {item.children?.length ? (
+            item.text
+          ) : (
+            <Link href={`/${item.url || '#'}`.replace('https://thieuhoa.com.vn', '')}>
+              {item.text}
+            </Link>
+          )}
+        </TabsTrigger>
       );
-    }
-
-    return (
-      <div key={menu.id}>
-        <div>
-          <Link href={menu.url ? menu.url.replace('https://thieuhoa.com.vn', '') : '#'}>
-            {menu ? menu.text : ''}
-          </Link>
-        </div>
-        <div>
-          {menu.children?.map((item) => {
-            return mapMenu(item, level + 1);
-          })}
-        </div>
-      </div>
-    );
-  };
+    });
+  }, [menu]);
+  const renderContentTabs = useCallback(() => {
+    return menu.map((item) => (
+      <TabsContent key={item.id} value={`menu-${item.id}`}>
+        <Accordion type="single" collapsible>
+          {item.children
+            ? item?.children?.map((itemSub) => {
+                return (
+                  <AccordionItem
+                    key={itemSub.id}
+                    value={`item-${itemSub.id}`}
+                    disabled={!itemSub?.children?.length}
+                  >
+                    <AccordionTrigger hideChevron={!itemSub?.children?.length}>
+                      <Link href={`/${itemSub.url || '#'}`.replace('https://thieuhoa.com.vn', '')}>
+                        {itemSub.text}
+                      </Link>
+                    </AccordionTrigger>
+                    <AccordionContent className="tw-pl-5">
+                      {!!itemSub?.children?.length &&
+                        itemSub.children.map((itemSubChild) => {
+                          return (
+                            <Link
+                              className="tw-block tw-py-2 tw-font-medium"
+                              key={itemSubChild.id}
+                              href={`/${itemSubChild.url || '#'}`.replace(
+                                'https://thieuhoa.com.vn',
+                                '',
+                              )}
+                            >
+                              {itemSubChild.text}
+                            </Link>
+                          );
+                        })}
+                    </AccordionContent>
+                  </AccordionItem>
+                );
+              })
+            : null}
+        </Accordion>
+      </TabsContent>
+    ));
+  }, [menu]);
   const router = useRouter();
   useEffect(() => {
     const handleRouteChangeStart = () => buttonCloseMenuRef.current?.click?.();
@@ -110,23 +141,12 @@ const MenuDrawer = ({ menu }: { menu: MenuType[] }) => {
                   </button>
                 </form>
               </div>
-              <div>
-                {/* <TabsList className="tw-h-[56px]">
-                  {menu.map((item) => (
-                    <TabsTrigger key={item.id} value={`${item.id}`}>
-                      {item.text}
-                    </TabsTrigger>
-                  ))}
-                </TabsList> */}
-
-                {menu.map((item) => {
-                  return (
-                    <div key={item.id} className="tw-flex tw-h-full tw-flex-1 tw-flex-col">
-                      {mapMenu(item)}
-                    </div>
-                  );
-                })}
-              </div>
+              <Tabs defaultValue="menu-387" className="tw-w-full" data-vaul-no-drag>
+                <TabsList className="scrollbar-hide tw-w-full tw-justify-between tw-overflow-x-auto">
+                  {renderTabs()}
+                </TabsList>
+                {renderContentTabs()}
+              </Tabs>
             </div>
           </div>
         </div>

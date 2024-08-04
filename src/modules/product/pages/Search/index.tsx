@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
+import NoSSR from 'react-no-ssr';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -50,7 +51,7 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ keyword, initialData }) =
   const products = data?.data?.products?.data;
 
   return (
-    <div id="content-product">
+    <div id="content-product" className="tw-pb-10">
       <div className="top-content">
         <div className="bread-cumbs">
           <Link className="text-base" href="/">
@@ -135,15 +136,17 @@ const ProductSearch: React.FC<ProductSearchProps> = ({ keyword, initialData }) =
               ))}
           </div>
 
-          <Paginate
-            isMobile={isMobile}
-            value={searchQuery.page}
-            onChange={(p) => {
-              setSearchQuery({ ...searchQuery, page: p });
-            }}
-            total={data?.data?.products?.total ?? 0}
-            perPage={data?.data?.products?.per_page ?? 1}
-          />
+          <NoSSR>
+            <Paginate
+              isMobile={isMobile}
+              value={searchQuery.page}
+              onChange={(p) => {
+                setSearchQuery({ ...searchQuery, page: p });
+              }}
+              total={data?.data?.products?.total ?? 0}
+              perPage={data?.data?.products?.per_page ?? 1}
+            />
+          </NoSSR>
         </div>
       </div>
     </div>

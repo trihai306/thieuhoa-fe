@@ -119,9 +119,9 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
         </div>
         <div className="main-content">
           <ProductFilter
-            from={initialData?.data.products.from ?? 0}
-            to={initialData?.data.products.to ?? 0}
-            total={initialData?.data.products.total ?? 0}
+            from={initialData?.data.products?.from ?? 0}
+            to={initialData?.data.products?.to ?? 0}
+            total={initialData?.data.products?.total ?? 0}
             onSearch={handleApplyFilter}
           />
           <div className="right-product">
