@@ -7127,10 +7127,9 @@
       }
 
       .option-filter {
-        width: 1000px;
         overflow: scroll !important;
         margin-bottom: 0;
-        justify-content: left;
+        justify-content: center;
 
         .item-filter {
           font-size: 14px;
@@ -7318,6 +7317,7 @@
                 line-height: 18px;
                 text-decoration-line: line-through;
                 color: #B6B6B6;
+                display: inline-block;
               }
             }
           }

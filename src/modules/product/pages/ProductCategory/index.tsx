@@ -160,6 +160,29 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
                         </div>
                       )}
                     </div>
+                    {JSON.parse(`${product.extra}`)?.['data_color'].length > 0 && (
+                      <div className="list-color">
+                        {JSON.parse(`${product.extra}`)?.['data_color'].map(
+                          (dataColorItem: any) => (
+                            <div className="color-item" key={dataColorItem.name}>
+                              <div className="tw-h-5 tw-w-5">
+                                {dataColorItem.thumbnail && (
+                                  <ImageResize
+                                    aspect={{
+                                      x: 1,
+                                      y: 1,
+                                    }}
+                                    src={dataColorItem.thumbnail}
+                                    className="color-img"
+                                    alt={dataColorItem.name}
+                                  />
+                                )}
+                              </div>
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    )}
                     <h2 className="name-product">
                       <Link className="text-base" href={`/${product.slug}/${product.cateSlug}`}>
                         {product.name}
@@ -169,31 +192,6 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ slug, initialData, pa
                       <span className="price-now">{formatNumber(product.priceMin)}đ</span>
                       {product.originPriceMin && product.originPriceMin > product.priceMin && (
                         <span className="price-old">{formatNumber(product.originPriceMin)}đ</span>
-                      )}
-                      {JSON.parse(`${product.extra}`)?.['data_color'].length > 0 && (
-                        <div className="list-color">
-                          <div className="color">
-                            {JSON.parse(`${product.extra}`)?.['data_color'].map(
-                              (dataColorItem: any) => (
-                                <div className="color-item" key={dataColorItem.name}>
-                                  <div className="tw-h-5 tw-w-5">
-                                    {dataColorItem.thumbnail && (
-                                      <ImageResize
-                                        aspect={{
-                                          x: 1,
-                                          y: 1,
-                                        }}
-                                        src={dataColorItem.thumbnail}
-                                        className="color-img"
-                                        alt={dataColorItem.name}
-                                      />
-                                    )}
-                                  </div>
-                                </div>
-                              ),
-                            )}
-                          </div>
-                        </div>
                       )}
                     </div>
                   </div>

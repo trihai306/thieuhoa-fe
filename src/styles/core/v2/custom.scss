@@ -1150,16 +1150,14 @@ h1 {
 }
 
 .list-color {
-  display: inline-block;
-  float: right;
-
-  .color {
-    .color-item {
-      .color-img {
-        width: 20px !important;
-        height: 20px !important;
-        border-radius: 50%;
-      }
+  display: flex;
+  margin-top: 8px;
+  column-gap: 4px;
+  .color-item {
+    .color-img {
+      width: 20px !important;
+      height: 20px !important;
+      border-radius: 50%;
     }
   }
 }
