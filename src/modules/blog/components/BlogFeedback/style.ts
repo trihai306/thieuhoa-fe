@@ -20,7 +20,7 @@ export const style = css`
     border-width: 0px;
     box-sizing: border-box;
     color: #222222;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 15px auto;
     padding: 10px 30px;
@@ -30,7 +30,7 @@ export const style = css`
     box-sizing: border-box;
     color: #222222;
     display: flex;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
   }
@@ -41,7 +41,7 @@ export const style = css`
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     justify-content: center;
     line-height: 22px;
     margin: 0px;
@@ -53,7 +53,7 @@ export const style = css`
     bottom: 0px;
     box-sizing: border-box;
     cursor: pointer;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     left: 0px;
     line-height: 22px;
     margin: 0px;
@@ -80,7 +80,7 @@ export const style = css`
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     justify-content: center;
     left: 0px;
     line-height: 22px;
@@ -96,7 +96,7 @@ export const style = css`
     color: #222222;
     cursor: pointer;
     display: block;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     overflow: hidden;
@@ -107,7 +107,7 @@ export const style = css`
     box-sizing: border-box;
     color: #222222;
     cursor: pointer;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     text-align: center;
@@ -117,7 +117,7 @@ export const style = css`
     box-sizing: border-box;
     color: #222222;
     cursor: pointer;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     text-align: center;
@@ -128,7 +128,7 @@ export const style = css`
     box-sizing: border-box;
     color: #222222;
     cursor: pointer;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     text-align: center;
@@ -139,7 +139,7 @@ export const style = css`
     color: #222222;
     cursor: pointer;
     display: block;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     text-align: center;
@@ -155,7 +155,7 @@ export const style = css`
     bottom: 0px;
     box-sizing: border-box;
     cursor: pointer;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     left: 0px;
     line-height: 22px;
     margin: 0px;
@@ -195,7 +195,7 @@ export const style = css`
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     justify-content: center;
     left: 0px;
     line-height: 22px;
@@ -211,7 +211,7 @@ export const style = css`
     color: #222222;
     cursor: pointer;
     display: block;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     overflow: hidden;
@@ -223,7 +223,7 @@ export const style = css`
     box-sizing: border-box;
     color: #222222;
     cursor: pointer;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     text-align: center;
@@ -233,7 +233,7 @@ export const style = css`
     box-sizing: border-box;
     color: #222222;
     cursor: pointer;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     text-align: center;
@@ -244,7 +244,7 @@ export const style = css`
     box-sizing: border-box;
     color: #222222;
     cursor: pointer;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     text-align: center;
@@ -263,7 +263,7 @@ export const style = css`
     color: #222222;
     cursor: pointer;
     display: block;
-    font-family: Montserrat, sans-serif;
+    font-family: Roboto, sans-serif;
     line-height: 22px;
     margin: 0px;
     text-align: center;

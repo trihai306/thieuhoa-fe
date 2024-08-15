@@ -74,7 +74,7 @@
 @layer components {
   .page-header__content {
     @apply tw-m-0 tw-my-5 tw-box-border tw-p-0 tw-leading-[1.5em] tw-text-[#222] tw-text-[2em];
-    font-family: 'Montserrat', sans-serif !important;
+    font-family: 'Roboto', sans-serif !important;
   }
 }
 
@@ -399,20 +399,20 @@ div.left-item li {
 
 /* font chữ */
 * {
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 a {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 a,
 body {
-  font-family: 'Montserrat', sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 #header .bottom-header .left-content .group-category .item-category a {
