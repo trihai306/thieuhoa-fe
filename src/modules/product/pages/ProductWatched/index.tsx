@@ -16,7 +16,7 @@ import { Color, Product, RelateItem } from '../../types';
 function ProductWatched() {
   const [productIds, setProductIds] = useState<number[]>([]);
   const { data, isLoading } = useQuery({
-    queryKey: ['productWatched'],
+    queryKey: ['productWatched', productIds],
     queryFn: async () => {
       return await productService.getProducts(productIds);
     },

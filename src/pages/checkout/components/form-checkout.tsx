@@ -145,7 +145,7 @@ export default function FormCheckout({ couponApi, dataShip }: FormCheckoutProps)
         setDiscount(discount);
       }
     }
-  }, [totalPriceCart]);
+  }, [getValues, totalPriceCart]);
   const handleUseVoucher = useCallback(
     (code: string) => {
       if (!voucherInputRef.current) return;
