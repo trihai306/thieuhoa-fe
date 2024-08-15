@@ -377,21 +377,24 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
             <DialogTrigger>
               <div>Xem cửa hàng có sản phẩm này</div>
             </DialogTrigger>
-            <DialogContent className="tw-h-[500px]">
+            <DialogContent className="tw-h-[60vh] tw-max-w-full tw-w-[960px] tw-overflow-auto">
               <DialogHeader>
-                <DialogTitle>Xem cửa hàng có sản phẩm này</DialogTitle>
-                <DialogDescription className="tw-max-h-96 tw-overflow-x-auto">
+                <DialogTitle></DialogTitle>
+                <DialogDescription className="tw-h-[52vh]">
                   <div className="">
                     <div className="gr-store">
                       {!!storeOffline &&
                         storeOffline.map((item) => (
-                          <div key={item.id} className="item-store !tw-block ">
+                          <div key={item.id} className="tw-flex tw-items-center tw-justify-between tw-pb-5 tw-mb-5" style={{
+                            borderBottom: '1px solid hsla(0,0%,40%,.2)'
+                          }}>
                             <div className="left-item">
-                              <div className="name-store">Thiều Hoa - {item.name}</div>
-                              <div className="address-store">{item.address}</div>
+                              <div className="tw-text-lg tw-font-bold tw-mb-4 tw-text-[#222]">Thiều Hoa - {item.name}</div>
+                              <div className="tw-font-normal tw-text-base tw-text-[#222] tw-mb-4">{item.address}</div>
                               <div className="phone-store">
                                 <Link
-                                  href="https://maps.app.goo.gl/vnA95nuu7juz4kfC6"
+                                  href={item.map_url}
+                                  className="tw-font-normal tw-text-base"
                                   style={{
                                     color: 'rgb(34, 34, 34)',
                                     textDecoration: 'underline',
@@ -402,18 +405,18 @@ const ProductInfoDetail: React.FC<ProductInfoDetailProps> = ({ data }) => {
                               </div>
                             </div>
                             <div className="right-item">
-                              <span>Còn hàng</span>
+                              <span className="tw-font-normal tw-text-base tw-text-[#af2522]">Còn hàng</span>
                             </div>
                           </div>
                         ))}
 
                       {storeOnline && (
-                        <div className="item-store">
+                        <div className="tw-flex tw-items-center tw-justify-between tw-pb-5">
                           <div className="left-item">
-                            <div className="name-store">Thiều Hoa - Kho Online</div>
+                            <div className="tw-text-lg tw-font-bold tw-mb-4 tw-text-[#222]">Thiều Hoa - Kho Online</div>
                           </div>
                           <div className="right-item">
-                            <span>Còn hàng</span>
+                            <span class="tw-font-normal tw-text-base tw-text-[#af2522]">Còn hàng</span>
                           </div>
                         </div>
                       )}
