@@ -10,6 +10,8 @@ export const useVoucherQuery = () => {
     queryFn: async () => {
       return await homeService.getVoucherList();
     },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    cacheTime: 1000 * 60 * 10, // 10 minutes
   });
 };
 
@@ -20,8 +22,11 @@ export const useCategoryDataQuery = () => {
       const res = await homeService.getCategoryData();
       return res.data;
     },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    cacheTime: 1000 * 60 * 10, // 10 minutes
   });
 };
+
 
 export const useBannerQuery = () => {
   return useQuery({
@@ -30,5 +35,7 @@ export const useBannerQuery = () => {
       const res = await homeService.getBanners();
       return res.data;
     },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    cacheTime: 1000 * 60 * 10, // 10 minutes
   });
 };

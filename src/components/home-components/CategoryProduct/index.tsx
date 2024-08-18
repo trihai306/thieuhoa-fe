@@ -11,14 +11,14 @@ function CategoryProduct() {
     return (
       <div key={categoryItem.id} className="new-products">
         <div className="title">
-          <Link className="text-base" href={`/${categoryItem.slug}`}>
+          <Link className="text-base" prefetch href={`/${categoryItem.slug}`}>
             <h2>{categoryItem.name}</h2>
           </Link>
         </div>
         <HomeProductSlider items={categoryItem.dataProduct} />
         <div className="load-more tw-mt-[20px]">
           <div className="btn-load-more">
-            <Link className="xem_them tw-flex tw-items-center" href={`/${categoryItem.slug}`}>
+            <Link className="xem_them tw-flex tw-items-center" prefetch href={`/${categoryItem.slug}`}>
               <span>XEM THÊM</span>
               <svg
                 width="11"
