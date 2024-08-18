@@ -14,6 +14,7 @@ import { productService } from '../../services/product.service';
 import type { ProductDetail } from '../../types';
 import ProductWatched from '../ProductWatched';
 import RelatedProducts from '../RelatedProducts';
+import NoSSR from "react-no-ssr";
 
 export type ProductDetailProps = {
   slug: string;
@@ -31,7 +32,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
   const product = data?.data.product;
   useEffect(() => {
     productWatched.push(product.id);
-  }, [product]);
+  }, [product.id]);
   const categoryPost = data?.data.categoryPost;
   const metaData = useMemo(() => {
     return initialData?.data.metaData;
@@ -65,7 +66,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ slug, initialData }) => {
         <ProductDescription data={data?.data} />
         <ProductReview product={product} />
         <RelatedProducts products={data.data.relateItems} />
-        <ProductWatched />
+       <NoSSR>
+         <ProductWatched />
+       </NoSSR>
       </div>
     </>
   );

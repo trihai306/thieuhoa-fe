@@ -53,7 +53,7 @@ const Category = () => {
       <div className="group-item-list mobi">
         {MOBILE_CATEGORIES.map((category) => {
           return (
-            <Link key={category['slug']} href={`${category['slug']}`}>
+            <Link prefetch={true} key={category['slug']} href={`${category['slug']}`}>
               <div className="item-list-category">
                 <div className="img">
                   <Image
